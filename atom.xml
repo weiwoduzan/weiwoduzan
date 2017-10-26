@@ -6,7 +6,7 @@
   <link href="/blog/atom.xml" rel="self"/>
   
   <link href="https://gitee.com/ndynMo/blog/"/>
-  <updated>2017-10-26T08:41:14.445Z</updated>
+  <updated>2017-10-26T09:52:07.445Z</updated>
   <id>https://gitee.com/ndynMo/blog/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://gitee.com/ndynMo/blog/2017/10/25/Mo/"/>
     <id>https://gitee.com/ndynMo/blog/2017/10/25/Mo/</id>
     <published>2017-10-25T03:56:41.088Z</published>
-    <updated>2017-10-26T08:41:14.445Z</updated>
+    <updated>2017-10-26T09:52:07.445Z</updated>
     
     <content type="html"><![CDATA[<pre><code>我的第一篇个人博客</code></pre><p>欢迎来到我的个人小屋</p>]]></content>
     
@@ -36,10 +36,10 @@
     
     </summary>
     
-      <category term="/categories" scheme="https://gitee.com/ndynMo/blog/categories/categories/"/>
+      <category term="杂谈" scheme="https://gitee.com/ndynMo/blog/categories/%E6%9D%82%E8%B0%88/"/>
     
     
-      <category term="/tags" scheme="https://gitee.com/ndynMo/blog/tags/tags/"/>
+      <category term="死肥宅" scheme="https://gitee.com/ndynMo/blog/tags/%E6%AD%BB%E8%82%A5%E5%AE%85/"/>
     
   </entry>
   
