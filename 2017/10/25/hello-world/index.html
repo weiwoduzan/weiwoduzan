@@ -119,7 +119,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://gitee.com/ndynMo/blog/2017/10/25/hello-world/" data-id="cj99c6qz70001vgokel7ika08" class="article-share-link">分享</a>
+      <a data-url="https://gitee.com/ndynMo/blog/2017/10/25/hello-world/" data-id="cj99d56j6000260okn3nnvp1q" class="article-share-link">分享</a>
       
       
     </footer>
@@ -238,8 +238,23 @@
   </div>
 </footer>
     </div>
-    
-
+    {% if page.comments %}
+  <div class="comments" id="comments"></div>
+    {% if (theme.valine and theme.valine.enable)%}
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src='/lib/Valine.min.js'></script>
+    <script>
+        new Valine({
+            av: AV,
+            el: '.comments' ,
+            verify: true,
+            app_id: '{{ theme.valine.appId }}',
+            app_key: '{{ theme.valine.appKey }}',
+            placeholder: 'ヾ?≧?≦)o来啊，快活啊!'
+        });
+    </script>
+    {% endif %}
+{% endif %}
 <script src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="//apps.bdimg.com/libs/wow/0.1.6/wow.min.js"></script>
 <script>
