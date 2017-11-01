@@ -6,7 +6,7 @@
   <link href="/blog/atom.xml" rel="self"/>
   
   <link href="https://gitee.com/ndynMo/blog/"/>
-  <updated>2017-11-01T07:51:47.472Z</updated>
+  <updated>2017-11-01T07:54:04.481Z</updated>
   <id>https://gitee.com/ndynMo/blog/</id>
   
   <author>
@@ -21,16 +21,13 @@
     <link href="https://gitee.com/ndynMo/blog/2017/11/01/Nodejs%E5%AE%89%E8%A3%85/"/>
     <id>https://gitee.com/ndynMo/blog/2017/11/01/Nodejs安装/</id>
     <published>2017-11-01T07:33:26.099Z</published>
-    <updated>2017-11-01T07:51:47.472Z</updated>
+    <updated>2017-11-01T07:54:04.481Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="Node-js简介"><a href="#Node-js简介" class="headerlink" title="Node.js简介"></a>Node.js简介</h3><p>简单的说 Node.js 就是运行在服务端的 JavaScript。Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境。Node.js 使用了一个事件驱动、非阻塞式 I/O 的模型，使其轻量又高效。Node.js 的包管理器 npm，是全球最大的开源库生态系统。</p><h3 id="下载Node-js"><a href="#下载Node-js" class="headerlink" title="下载Node.js"></a>下载Node.js</h3><p>打开官网下载链接:<a href="https://nodejs.org/en/download/" target="_blank" rel="external">https://nodejs.org/en/download/</a><br><img src="https://i.imgur.com/2YWZz1q.png" alt=""></p><h3 id="开始安装"><a href="#开始安装" class="headerlink" title="开始安装"></a>开始安装</h3><p>1、下载完成后，双击“node-v6.9.2-x64.msi”，开始安装Node.js<br><img src="https://i.imgur.com/CdBixyY.png" alt=""><br>2、点击Next按钮<br><img src="https://i.imgur.com/iFdaq6p.png" alt=""><br>3、勾选复选框，点击【Next】按钮<br><img src="https://i.imgur.com/NBpoDyf.png" alt=""><br>4、修改好目录后，点击【Next】按钮<br><img src="https://i.imgur.com/BFvWQwF.png" alt=""><br><img src="https://i.imgur.com/JlV4gQH.png" alt=""><br>5、安装完后点击【Finish】按钮完成安装<br><img src="https://i.imgur.com/U4Ufq9j.png" alt=""><br>6、至此Node.js已经安装完成，可以先进行下简单的测试安装是否成功了，后面还要进行环境配置<br>在键盘按下【win+R】键，输入cmd，然后回车，打开cmd窗口<br><img src="https://i.imgur.com/PccF3DO.png" alt=""></p>]]></content>
+    <content type="html"><![CDATA[<h3 id="Node-js简介"><a href="#Node-js简介" class="headerlink" title="Node.js简介"></a>Node.js简介</h3><p>简单的说 Node.js 就是运行在服务端的 JavaScript。Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境。Node.js 使用了一个事件驱动、非阻塞式 I/O 的模型，使其轻量又高效。Node.js 的包管理器 npm，是全球最大的开源库生态系统。<br><a id="more"></a></p><h3 id="下载Node-js"><a href="#下载Node-js" class="headerlink" title="下载Node.js"></a>下载Node.js</h3><p>打开官网下载链接:<a href="https://nodejs.org/en/download/" target="_blank" rel="external">https://nodejs.org/en/download/</a><br><img src="https://i.imgur.com/2YWZz1q.png" alt=""></p><h3 id="开始安装"><a href="#开始安装" class="headerlink" title="开始安装"></a>开始安装</h3><p>1、下载完成后，双击“node-v6.9.2-x64.msi”，开始安装Node.js<br><img src="https://i.imgur.com/CdBixyY.png" alt=""><br>2、点击Next按钮<br><img src="https://i.imgur.com/iFdaq6p.png" alt=""><br>3、勾选复选框，点击【Next】按钮<br><img src="https://i.imgur.com/NBpoDyf.png" alt=""><br>4、修改好目录后，点击【Next】按钮<br><img src="https://i.imgur.com/BFvWQwF.png" alt=""><br><img src="https://i.imgur.com/JlV4gQH.png" alt=""><br>5、安装完后点击【Finish】按钮完成安装<br><img src="https://i.imgur.com/U4Ufq9j.png" alt=""><br>6、至此Node.js已经安装完成，可以先进行下简单的测试安装是否成功了，后面还要进行环境配置<br>在键盘按下【win+R】键，输入cmd，然后回车，打开cmd窗口<br><img src="https://i.imgur.com/PccF3DO.png" alt=""></p>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;h3 id=&quot;Node-js简介&quot;&gt;&lt;a href=&quot;#Node-js简介&quot; class=&quot;headerlink&quot; title=&quot;Node.js简介&quot;&gt;&lt;/a&gt;Node.js简介&lt;/h3&gt;&lt;p&gt;简单的说 Node.js 就是运行在服务端的 JavaScript。Node.js 
-      
+      &lt;h3 id=&quot;Node-js简介&quot;&gt;&lt;a href=&quot;#Node-js简介&quot; class=&quot;headerlink&quot; title=&quot;Node.js简介&quot;&gt;&lt;/a&gt;Node.js简介&lt;/h3&gt;&lt;p&gt;简单的说 Node.js 就是运行在服务端的 JavaScript。Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境。Node.js 使用了一个事件驱动、非阻塞式 I/O 的模型，使其轻量又高效。Node.js 的包管理器 npm，是全球最大的开源库生态系统。&lt;br&gt;
     
     </summary>
     
