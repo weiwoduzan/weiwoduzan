@@ -5,9 +5,9 @@
   
   <link href="/atom.xml" rel="self"/>
   
-  <link href="https://github.com/weiwoduzan/weiwoduzan.github.io/"/>
+  <link href="http://www.juedigulang.com/"/>
   <updated>2017-11-01T07:54:04.481Z</updated>
-  <id>https://github.com/weiwoduzan/weiwoduzan.github.io/</id>
+  <id>http://www.juedigulang.com/</id>
   
   <author>
     <name>Mo</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>Node.js安装</title>
-    <link href="https://github.com/weiwoduzan/weiwoduzan.github.io/2017/11/02/Nodejs%E5%AE%89%E8%A3%85/"/>
-    <id>https://github.com/weiwoduzan/weiwoduzan.github.io/2017/11/02/Nodejs安装/</id>
+    <link href="http://www.juedigulang.com/2017/11/02/Nodejs%E5%AE%89%E8%A3%85/"/>
+    <id>http://www.juedigulang.com/2017/11/02/Nodejs安装/</id>
     <published>2017-11-02T08:03:22.927Z</published>
     <updated>2017-11-01T07:54:04.481Z</updated>
     
@@ -31,17 +31,17 @@
     
     </summary>
     
-      <category term="hexo" scheme="https://github.com/weiwoduzan/weiwoduzan.github.io/categories/hexo/"/>
+      <category term="hexo" scheme="http://www.juedigulang.com/categories/hexo/"/>
     
     
-      <category term="hexo、node.js" scheme="https://github.com/weiwoduzan/weiwoduzan.github.io/tags/hexo%E3%80%81node-js/"/>
+      <category term="hexo、node.js" scheme="http://www.juedigulang.com/tags/hexo%E3%80%81node-js/"/>
     
   </entry>
   
   <entry>
     <title>个人博客</title>
-    <link href="https://github.com/weiwoduzan/weiwoduzan.github.io/2017/11/02/Mo/"/>
-    <id>https://github.com/weiwoduzan/weiwoduzan.github.io/2017/11/02/Mo/</id>
+    <link href="http://www.juedigulang.com/2017/11/02/Mo/"/>
+    <id>http://www.juedigulang.com/2017/11/02/Mo/</id>
     <published>2017-11-02T08:03:22.927Z</published>
     <updated>2017-10-26T09:52:07.445Z</updated>
     
@@ -58,17 +58,17 @@
     
     </summary>
     
-      <category term="杂谈" scheme="https://github.com/weiwoduzan/weiwoduzan.github.io/categories/%E6%9D%82%E8%B0%88/"/>
+      <category term="杂谈" scheme="http://www.juedigulang.com/categories/%E6%9D%82%E8%B0%88/"/>
     
     
-      <category term="死肥宅" scheme="https://github.com/weiwoduzan/weiwoduzan.github.io/tags/%E6%AD%BB%E8%82%A5%E5%AE%85/"/>
+      <category term="死肥宅" scheme="http://www.juedigulang.com/tags/%E6%AD%BB%E8%82%A5%E5%AE%85/"/>
     
   </entry>
   
   <entry>
     <title>Hello World</title>
-    <link href="https://github.com/weiwoduzan/weiwoduzan.github.io/2017/11/02/hello-world/"/>
-    <id>https://github.com/weiwoduzan/weiwoduzan.github.io/2017/11/02/hello-world/</id>
+    <link href="http://www.juedigulang.com/2017/11/02/hello-world/"/>
+    <id>http://www.juedigulang.com/2017/11/02/hello-world/</id>
     <published>2017-11-02T08:03:22.911Z</published>
     <updated>2017-10-27T08:08:10.515Z</updated>
     
@@ -89,8 +89,8 @@
   
   <entry>
     <title>使用hexo+码云搭建个人博客</title>
-    <link href="https://github.com/weiwoduzan/weiwoduzan.github.io/2017/11/02/hexo%E5%AE%89%E8%A3%85/"/>
-    <id>https://github.com/weiwoduzan/weiwoduzan.github.io/2017/11/02/hexo安装/</id>
+    <link href="http://www.juedigulang.com/2017/11/02/hexo%E5%AE%89%E8%A3%85/"/>
+    <id>http://www.juedigulang.com/2017/11/02/hexo安装/</id>
     <published>2017-11-02T08:03:22.911Z</published>
     <updated>2017-11-01T07:35:30.174Z</updated>
     
@@ -103,10 +103,10 @@
     
     </summary>
     
-      <category term="hexo" scheme="https://github.com/weiwoduzan/weiwoduzan.github.io/categories/hexo/"/>
+      <category term="hexo" scheme="http://www.juedigulang.com/categories/hexo/"/>
     
     
-      <category term="hexo" scheme="https://github.com/weiwoduzan/weiwoduzan.github.io/tags/hexo/"/>
+      <category term="hexo" scheme="http://www.juedigulang.com/tags/hexo/"/>
     
   </entry>
   
