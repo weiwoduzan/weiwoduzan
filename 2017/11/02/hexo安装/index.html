@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>使用hexo+码云搭建个人博客 | Mo的个人博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="使用工具介绍1、码云 Pages：码云 Pages 是一个免费的静态网页托管服务，您可以使用码云 Pages 托管博客、项目官网等静态网页。这样就不用购买服务器和域名了，如果您使用过 Github Pages 那么您会很快上手使用码云的Pages服务。这里使用码云上的Pages 而不是用Github Pages，主要原因就是在国内没有VPN的话。。。你懂得！还有就是支持国产！链接：https://">
+<meta name="keywords" content="hexo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用hexo+码云搭建个人博客">
+<meta property="og:url" content="https://gitee.com/ndynMo/blog/2017/11/02/hexo安装/index.html">
+<meta property="og:site_name" content="Mo的个人博客">
+<meta property="og:description" content="使用工具介绍1、码云 Pages：码云 Pages 是一个免费的静态网页托管服务，您可以使用码云 Pages 托管博客、项目官网等静态网页。这样就不用购买服务器和域名了，如果您使用过 Github Pages 那么您会很快上手使用码云的Pages服务。这里使用码云上的Pages 而不是用Github Pages，主要原因就是在国内没有VPN的话。。。你懂得！还有就是支持国产！链接：https://">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.imgur.com/knj5ef9.png">
+<meta property="og:image" content="https://i.imgur.com/TxNmAPZ.png">
+<meta property="og:image" content="https://i.imgur.com/0orsKgO.png">
+<meta property="og:image" content="https://i.imgur.com/9prhX8U.png">
+<meta property="og:image" content="https://i.imgur.com/Owv5y5K.png">
+<meta property="og:image" content="https://i.imgur.com/oUoij99.png">
+<meta property="og:image" content="https://i.imgur.com/1PYd8n8.png">
+<meta property="og:image" content="https://i.imgur.com/r3ofBm7.png">
+<meta property="og:image" content="https://i.imgur.com/oo9ylK4.png">
+<meta property="og:image" content="https://i.imgur.com/pvFwdCT.png">
+<meta property="og:image" content="https://i.imgur.com/Pye8eMq.png">
+<meta property="og:image" content="https://i.imgur.com/5pFYcZR.png">
+<meta property="og:image" content="https://i.imgur.com/Os6lpWc.png">
+<meta property="og:updated_time" content="2017-11-01T07:35:30.174Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用hexo+码云搭建个人博客">
+<meta name="twitter:description" content="使用工具介绍1、码云 Pages：码云 Pages 是一个免费的静态网页托管服务，您可以使用码云 Pages 托管博客、项目官网等静态网页。这样就不用购买服务器和域名了，如果您使用过 Github Pages 那么您会很快上手使用码云的Pages服务。这里使用码云上的Pages 而不是用Github Pages，主要原因就是在国内没有VPN的话。。。你懂得！还有就是支持国产！链接：https://">
+<meta name="twitter:image" content="https://i.imgur.com/knj5ef9.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/blog/css/style.css">
+  <link rel="stylesheet" href="/blog/plugin/bganimation/bg.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <div class="widget-wrap mobile-header">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <img class="avatar" src="https://avatars0.githubusercontent.com/u/20333903?v=3&amp;s=460">
+    <h2 class="author">Mo</h2>
+    <h3 class="description">精彩不是顺着风直达，而逆风却刻服了害怕</h3>
+    <div class="count-box">
+      <a href="/archives"><div><strong>4</strong><br>文章</div></a>
+      <a href="/categories"><div><strong>2</strong><br>分类</div></a>
+      <a href="/tags"><div><strong>3</strong><br>标签</div></a>
+    </div>
+    <ul class="blog-link">
+     
+          <a href="/blog" title="Home">
+            <li>主页</li>
+          </a>
+        
+          <a href="/blog/archives" title="Archives">
+            <li>归档</li>
+          </a>
+        
+          <a href="/blog/categories" title="Categories">
+            <li>分类</li>
+          </a>
+        
+          <a href="/blog/tags" title="Tags">
+            <li>标签</li>
+          </a>
+        
+          <a href="/blog/about" title="about">
+            <li>about</li>
+          </a>
+        
+          <a href="/blog/atom.xml" title="rss">
+            <li>rss</li>
+          </a>
+        
+    </ul>
+  </div>
+</div>
+
+        <section id="main"><article id="post-hexo安装" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/2017/11/02/hexo安装/" class="article-date">
+  <time class="post-time" datetime="2017-11-02T08:03:22.911Z" itemprop="datePublished">
+    <span class="post-month">11月</span><br/>
+    <span class="post-day">02</span>
+  </time>
+</a>
+   
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      使用hexo+码云搭建个人博客
+    </h1>
+  
+
+        <div>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/blog/categories/hexo/">hexo</a>
+  </div>
+
+          
+              
+  &nbsp; | &nbsp;
+  <div class="view-box">
+    <span id="/blog/2017/11/02/hexo安装/" class="leancloud_visitors" data-flag-title="使用hexo+码云搭建个人博客">
+      &nbsp;阅读次数<span class="leancloud-visitors-count"></span>
+    </span>
+  </div>
+
+
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="使用工具介绍"><a href="#使用工具介绍" class="headerlink" title="使用工具介绍"></a>使用工具介绍</h3><p>1、码云 Pages：码云 Pages 是一个免费的静态网页托管服务，您可以使用码云 Pages 托管博客、项目官网等静态网页。这样就不用购买服务器和域名了，如果您使用过 Github Pages 那么您会很快上手使用码云的Pages服务。这里使用码云上的Pages 而不是用Github Pages，主要原因就是在国内没有VPN的话。。。你懂得！还有就是支持国产！链接：<a href="https://git.oschina.net/" target="_blank" rel="external">https://git.oschina.net/</a></p>
+<p>2、Hexo：Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。使用者只需要专注于写博客而不需要关注网站是如何生成的。而且还有丰富的博客主题可以选择！链接：<a href="https://hexo.io/zh-cn/（ps：这是国外网站，翻墙吧少年，需要自由门" target="_blank" rel="external">https://hexo.io/zh-cn/（ps：这是国外网站，翻墙吧少年，需要自由门</a> 翻墙软件可以在博客中联系我哦）<br><a id="more"></a></p>
+<h3 id="搭建环境"><a href="#搭建环境" class="headerlink" title="搭建环境"></a>搭建环境</h3><p>Node.js安装</p>
+<blockquote>
+<p>参考：<a href="http://www.runoob.com/nodejs/nodejs-install-setup.html（ps：如果没有VPN的用户最好切换一下npm的源，不然后续的步骤可能会让你想砸电脑，安装完后，在命令窗口执行下面代码）" target="_blank" rel="external">http://www.runoob.com/nodejs/nodejs-install-setup.html（ps：如果没有VPN的用户最好切换一下npm的源，不然后续的步骤可能会让你想砸电脑，安装完后，在命令窗口执行下面代码）</a></p>
+</blockquote>
+<pre><code>npm config set registry http://registry.cnpmjs.org #切换npm为淘宝镜像
+</code></pre><p>Git安装</p>
+<blockquote>
+<p>参考<a href="http://www.runoob.com/git/git-install-setup.html" target="_blank" rel="external">http://www.runoob.com/git/git-install-setup.html</a></p>
+</blockquote>
+<p>Hexo安装。（ ps：安装完Node.js和Git之后不需要配置些什么，只需要安装成功就是了，如果想明白原理的话可以深入的学习。）</p>
+<p>如果您的电脑中已经安装上述必备程序，那么恭喜您！接下来只需要使用 npm 即可完成 Hexo 的安装。打开命令窗口输入下面代码：</p>
+<pre><code>npm install -g hexo-cli
+</code></pre><p>安装成功后输入hexo 如果得到下面这个结果，恭喜你！安装成功！<br><img src="https://i.imgur.com/knj5ef9.png" alt=""></p>
+<p>Hexo的常用命令说明：</p>
+<blockquote>
+<p>参考：<a href="https://hexo.io/zh-cn/docs/commands.html" target="_blank" rel="external">https://hexo.io/zh-cn/docs/commands.html</a></p>
+</blockquote>
+<h3 id="本地运行Hexo"><a href="#本地运行Hexo" class="headerlink" title="本地运行Hexo"></a>本地运行Hexo</h3><p>安装 Hexo 完成后，请依次执行下列命令，Hexo 将会在指定文件夹中新建所需要的文件。将<folder> 替换成项目存放的文件夹目录，</folder></p>
+<pre><code>hexo init &lt;folder&gt;
+cd &lt;folder&gt;
+npm install
+hexo generate   
+</code></pre><p>新建完成后，指定文件夹的目录如下：</p>
+<p><img src="https://i.imgur.com/TxNmAPZ.png" alt=""></p>
+<p>进行到这步后就可以先在本地运行下，看看效果了。执行下面命令：</p>
+<pre><code>cd &lt;folder&gt; #切换到项目目录下
+npm install       #install before start blogging
+hexo server #运行本地服务
+</code></pre><p>浏览器输入<a href="http://localhost:4000就可以看到效果。如下：" target="_blank" rel="external">http://localhost:4000就可以看到效果。如下：</a></p>
+<p><img src="https://i.imgur.com/0orsKgO.png" alt=""></p>
+<h3 id="修改Hexo的主题"><a href="#修改Hexo的主题" class="headerlink" title="修改Hexo的主题"></a>修改Hexo的主题</h3><p>当然，上面运行的只是Hexo官方默认的主题配置效果，想要个性一点？，下面我们就将他改造成自己想要的个性主题。</p>
+<p>Hexo的主题都是一些前端民间高手写的模版，可以在官方收录的主题中去挑选：<a href="https://hexo.io/themes/" target="_blank" rel="external">https://hexo.io/themes/</a></p>
+<p>看上一个主题后点击下图位置，进入下载主题文件。如下图：</p>
+<p><img src="https://i.imgur.com/9prhX8U.png" alt=""></p>
+<p>主题下载完成后，将主题文件解压到Hexo项目的thems文件夹下面（ps:我这里的项目目录是在桌面的Hexo文件夹里面。）</p>
+<p><img src="https://i.imgur.com/Owv5y5K.png" alt=""></p>
+<p>接下来就是修改Hexo的配置文件_config.yml，将里面theme 对应的值改为之前下载的主题的文件夹名字，本文里面下载的主题文件夹名字为hexo-theme-smackdown-master。</p>
+<p><img src="https://i.imgur.com/oUoij99.png" alt=""></p>
+<p>注意：这里“：”后面必须要有一个空格，而且这个空格要在英文输入法下，不然会报一些稀奇古怪的错。</p>
+<p>按照之前步骤本地重新运行后，如下图：</p>
+<p><img src="https://i.imgur.com/1PYd8n8.png" alt=""></p>
+<p>关于Hexo中_config.yml 文件的其他配置，大家可以参考官方的文档，这里就不多赘述了：</p>
+<pre><code>文档链接 https://hexo.io/zh-cn/docs/configuration.html
+</code></pre><p>下载的每个主题中，有一个配置文件，名字也叫_config.yml，这里大家千万不要和之前Hexo根目录下的_config.yml搞混淆了，这里面配置的主要是些与主题相关的东西，比如一些文章阅读量，多说插件，cnzz站长工具等等的配置信息。一般里面也都有注释，这里就不赘述了，不懂得可以在我的博客问我。</p>
+<p>一些主题在GitHub上面也都有主题安装的一些文档，写的都很详细。推荐一个主题的文档，结合官方的文档看完之后，基本上也就明白了。</p>
+<pre><code>推荐一个主题的文档https://github.com/yscoder/hexo-theme-indigo/wiki
+</code></pre><h3 id="编写博客文章"><a href="#编写博客文章" class="headerlink" title="编写博客文章"></a>编写博客文章</h3><p>如果你使用过MarkDown 来写博客文章的话，接下来就简单多了，没使用过也没关系，推荐大家一个编辑工具马克飞象 链接：<a href="https://maxiang.io/，在编辑器里面写好文章后，复制或另存为.md文件" target="_blank" rel="external">https://maxiang.io/，在编辑器里面写好文章后，复制或另存为.md文件</a>, 与普通的.md文件不同 要在文件开头添加下面代码</p>
+<pre><code>title: #文章标题
+date: #文章日期
+tags: #文章标签
+categories: #文章分类
+---
+</code></pre><p>在.md文件的开头添加上面代码，是为了让Hexo框架在生成网页的时候，设置相应的参数。例如下图所示：<br><img src="https://i.imgur.com/r3ofBm7.png" alt=""></p>
+<p>将写好的.md文件放入Hexo项目的source 目录下的_posts 文件夹中，可以看到里面有个hello-world.md 文件，这就是默认的文章。</p>
+<p>重新在本地启动项目，访问就可以看到之前添加的文章。</p>
+<h3 id="生成静态Html文件"><a href="#生成静态Html文件" class="headerlink" title="生成静态Html文件"></a>生成静态Html文件</h3><p>现在只能在本地启动项目然后通过本地地址访问博客网站，下面我们就可以利用Hexo生成静态Html，很简单，只需要在命令窗口执行下面代码：</p>
+<pre><code>cd &lt;folder&gt; #切换到项目目录下
+hexo generate   #生成静态文件到项目根目录的public文件夹中
+</code></pre><p>发布静态Html文件到码云 Pages上</p>
+<p>注册一个码云帐号，并创建一个项目。如下图：<br><img src="https://i.imgur.com/oo9ylK4.png" alt=""></p>
+<p>创建完项目后得到项目的Https的地址后面要用。地址获取如下图<br><img src="https://i.imgur.com/pvFwdCT.png" alt=""></p>
+<p>这里借用一个插件来帮助我们完成代码上传的工作，安装 hexo-deployer-git。安装代码如下</p>
+<pre><code>npm install hexo-deployer-git --save#把public里面生成的文件推上到码云上。
+</code></pre><p>配置项目根目录_config.yml 文件，修改deploy 的值，如下图：</p>
+<p><img src="https://i.imgur.com/Pye8eMq.png" alt=""></p>
+<p>修改完后在命令窗口执行下面命令：<br>    cd <folder> #切换到项目目录下<br>    hexo deploy #一键部署功能</folder></p>
+<p>之后会弹出一个对话框，输入码云的帐号密码。</p>
+<p>部署成功之后，登录码云，查看之前创建的项目中出现了本地项目中public 文件夹中的文件，这时候代表之前的部署是成功的。</p>
+<p>然后如下图，启动码云的pages功能：<br><img src="https://i.imgur.com/5pFYcZR.png" alt=""></p>
+<p>访问链接<br><img src="https://i.imgur.com/Os6lpWc.png" alt=""></p>
+<p>这时候就看到之前和本地启动一样的效果了。博客部署完成，在这之后，只需要每次用马克飞象写好文章后，放入Hexo项目的source 目录下的_posts 文件夹中，在按照之前步骤更新博客就OK了。还可以随时切换博客的主题哦！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://gitee.com/ndynMo/blog/2017/11/02/hexo安装/" data-id="cj9i6rchw0007xgokbl6bev1b" class="article-share-link">分享</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/blog/tags/hexo/">hexo</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/blog/2017/11/02/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          Hello World
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <h1 class="blog-title">Mo的个人博客</h1>
+    <h2 class="blog-subtitle"></h2>
+    <ul class="blog-link">
+     
+          <a href="/blog" title="Home">
+            <li>主页</li>
+          </a>
+        
+          <a href="/blog/archives" title="Archives">
+            <li>归档</li>
+          </a>
+        
+          <a href="/blog/categories" title="Categories">
+            <li>分类</li>
+          </a>
+        
+          <a href="/blog/tags" title="Tags">
+            <li>标签</li>
+          </a>
+        
+          <a href="/blog/about" title="about">
+            <li>about</li>
+          </a>
+        
+          <a href="/blog/atom.xml" title="rss">
+            <li>rss</li>
+          </a>
+        
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <img class="avatar" src="https://avatars0.githubusercontent.com/u/20333903?v=3&amp;s=460">
+    <h2 class="author">Mo</h2>
+    <h3 class="description">精彩不是顺着风直达，而逆风却刻服了害怕</h3>
+    <div class="count-box">
+      <a href="/blog/archives"><div><strong>4</strong><br>文章</div></a>
+      <a href="/blog/categories"><div><strong>2</strong><br>分类</div></a>
+      <a href="/blog/tags"><div><strong>3</strong><br>标签</div></a>
+    </div>
+
+
+
+    <div class="social-link">
+      
+        <a class="hvr-bounce-in" href="http://github.com/ShanaMaid" target="_blank" title="Github">
+          Github
+        </a>
+      
+    </div>
+
+    <div class="friend-link">
+      <h2>友情链接</h2>
+      
+        <a class="hvr-bounce-in" href="http://blog.sina.com.cn/u/2953388753" target="_blank" title="新浪博客">
+          新浪博客
+        </a>
+      
+    </div>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy;2016 - 2017 Mo<br>
+      由<a href="http://hexo.io/" target="_blank">Hexo</a>强力驱动 | 
+      主题-<a href="https://github.com/ShanaMaid/hexo-theme-shana">Shana</a>
+      
+	  <i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+<script src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="//apps.bdimg.com/libs/wow/0.1.6/wow.min.js"></script>
+<script>
+new WOW().init();
+</script>   
+
+
+  <link rel="stylesheet" href="/blog/plugin/fancybox/jquery.fancybox.css">
+  <script src="/blog/plugin/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+  <link rel="stylesheet" href="/blog/plugin/galmenu/GalMenu.css">
+  <script src="/blog/plugin/galmenu/GalMenu.js"></script>
+  <div class="GalMenu GalDropDown">
+      <div class="circle" id="gal">
+        <div class="ring">
+          
+            <a href="/blog/" title="" class="menuItem">首页</a>
+          
+            <a href="/blog/tags" title="" class="menuItem">标签</a>
+          
+            <a href="/blog/archives" title="" class="menuItem">分类</a>
+          
+            <a href="/blog/categories" title="" class="menuItem">归档</a>
+          
+            <a href="/blog/about" title="" class="menuItem">关于我</a>
+          
+            <a href="/blog/blog/atom.xml" title="" class="menuItem">rss</a>
+          
+        </div>
+        
+          <audio id="audio" src="#"></audio>
+        
+      </div> 
+</div>
+<div id="overlay" style="opacity: 1; cursor: pointer;"></div>
+  <script type="text/javascript">var items = document.querySelectorAll('.menuItem');
+    for (var i = 0,
+    l = items.length; i < l; i++) {
+      items[i].style.left = (50 - 35 * Math.cos( - 0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
+      items[i].style.top = (50 + 35 * Math.sin( - 0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%"
+    }</script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('body').GalMenu({
+      'menu': 'GalDropDown'
+    })
+  });
+</script>
+
+  <section class="hidden-xs"> 
+  <ul class="cb-slideshow"> 
+    <li><span>苟利</span></li> 
+    <li><span>国家</span></li> 
+    <li><span>生死以</span></li> 
+    <li><span>岂能</span></li> 
+    <li><span>祸福</span></li> 
+    <li><span>趋避之</span></li> 
+  </ul>
+</section>
+<script src="/blog/js/script.js"></script>
+
+
+
+
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("6Cl1oPEl3c4iSTfuYhWSG65n-gzGzoHsz", "JrWDh6iQeKQs1BVxD2u54pVA");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.article-title').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?20d1ce54b975b19479b82f518336315c";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+  </div>
+</body>
+</html>
