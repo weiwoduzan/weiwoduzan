@@ -118,68 +118,16 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="乱码工具类代码如下："><a href="#乱码工具类代码如下：" class="headerlink" title="乱码工具类代码如下："></a>乱码工具类代码如下：</h3><pre><code>import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-/** 
- * @author 
- * @version 
- * 说明 判断中文字符串是否乱码
- */
-&lt;!--more--&gt; 
-public class ChineseUtil {
-/**
-  * @author mo 
-  * @version 
-  * 说明 判断是否是中文
- */
-private static boolean isChinese(char c) {  
-Character.UnicodeBlock ub = Character.UnicodeBlock.of(c);  
-if (ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS  
-|| ub == Character.UnicodeBlock.CJK_COMPATIBILITY_IDEOGRAPHS  
-|| ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A
-|| ub == Character.UnicodeBlock.GENERAL_PUNCTUATION  
-|| ub == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION  
-|| ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS) {  
-return true;  
-}  
-return false;  
-}  
-/**
-  * @author mo 
-  * @version 
-  * 说明 判断是否乱码
- */
-public static boolean isMessyCode(String strName) {  
-Pattern p = Pattern.compile(&quot;\\s*|\t*|\r*|\n*&quot;);  
-Matcher m = p.matcher(strName);  
-String after = m.replaceAll(&quot;&quot;);  
-String temp = after.replaceAll(&quot;\\p{P}&quot;, &quot;&quot;);  
-char[] ch = temp.trim().toCharArray();  
-float chLength = 0 ;  
-float count = 0;  
-for (int i = 0; i &lt; ch.length; i++) {  
-char c = ch[i];  
-if (!Character.isLetterOrDigit(c)) {  
-if (!isChinese(c)) {  
-count = count + 1;  
-}  
-chLength++;   
-}  
-}  
-float result = count / chLength ;  
-if (result &gt; 0.4) {  
-return true;  
-} else {  
-return false;  
-}  
-}
-}
-</code></pre>
+        <p>乱码，指的是“由于本地计算机在用文本编辑器打开源文件时，使用了不相应字符集而造成部分或所有字符无法被阅读的一系列字符。”，造成其结果的原因是多种多样的。<br>
+        
+          <p class="article-more-link">
+            <a href="/2017/11/03/乱码工具类/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.juedigulang.com/2017/11/03/乱码工具类/" data-id="cj9jnpfha000ddkokg92du8az" class="article-share-link">分享</a>
+      <a data-url="http://www.juedigulang.com/2017/11/03/乱码工具类/" data-id="cj9jo3gd300085kok4pxwkeyi" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/乱码/">乱码</a></li></ul>
@@ -244,7 +192,7 @@ return false;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.juedigulang.com/2017/11/03/码云公钥配置/" data-id="cj9jnpfh60009dkokx4foompa" class="article-share-link">分享</a>
+      <a data-url="http://www.juedigulang.com/2017/11/03/码云公钥配置/" data-id="cj9jo3gd700095kokuyjklzun" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh公钥/">ssh公钥</a></li></ul>
@@ -306,7 +254,7 @@ return false;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.juedigulang.com/2017/11/02/Mo/" data-id="cj9jnpfg70000dkoktj5p6yk2" class="article-share-link">分享</a>
+      <a data-url="http://www.juedigulang.com/2017/11/02/Mo/" data-id="cj9jo3gc300005kokrg3w3ou8" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/死肥宅/">死肥宅</a></li></ul>
@@ -371,11 +319,69 @@ return false;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.juedigulang.com/2017/11/02/Nodejs安装/" data-id="cj9jnpfgh0002dkok2ogu1cs5" class="article-share-link">分享</a>
+      <a data-url="http://www.juedigulang.com/2017/11/02/Nodejs安装/" data-id="cj9jo3gcz00065kokxuzod36n" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo、node-js/">hexo、node.js</a></li></ul>
 
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-hello-world" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/11/02/hello-world/" class="article-date">
+  <time class="post-time" datetime="2017-11-02T08:03:22.911Z" itemprop="datePublished">
+    <span class="post-month">11月</span><br/>
+    <span class="post-day">02</span>
+  </time>
+</a>
+   
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/02/hello-world/">Hello World</a>
+    </h1>
+  
+
+        <div>
+          
+          
+              
+  &nbsp; | &nbsp;
+  <div class="view-box">
+    <span id="/2017/11/02/hello-world/" class="leancloud_visitors" data-flag-title="Hello World">
+      &nbsp;阅读次数<span class="leancloud-visitors-count"></span>
+    </span>
+  </div>
+
+
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="创建一个文件"><a href="#创建一个文件" class="headerlink" title="创建一个文件"></a>创建一个文件</h3><p>$ hexo new “My New Post”</p>
+<h3 id="运行本地服务"><a href="#运行本地服务" class="headerlink" title="运行本地服务"></a>运行本地服务</h3><p>$ hexo server</p>
+<h3 id="生成静态文件"><a href="#生成静态文件" class="headerlink" title="生成静态文件"></a>生成静态文件</h3><p>$ hexo generate</p>
+<h3 id="部署到服务器"><a href="#部署到服务器" class="headerlink" title="部署到服务器"></a>部署到服务器</h3><p>$ hexo deploy</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.juedigulang.com/2017/11/02/hello-world/" data-id="cj9jo3gcd00025kokcq754gwh" class="article-share-link">分享</a>
+      
+      
     </footer>
   </div>
   
@@ -437,69 +443,11 @@ return false;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.juedigulang.com/2017/11/02/hexo安装/" data-id="cj9jnpfgw0006dkokbago6yjy" class="article-share-link">分享</a>
+      <a data-url="http://www.juedigulang.com/2017/11/02/hexo安装/" data-id="cj9jo3gdb000d5koke55nr1f3" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li></ul>
 
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-hello-world" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/11/02/hello-world/" class="article-date">
-  <time class="post-time" datetime="2017-11-02T08:03:22.911Z" itemprop="datePublished">
-    <span class="post-month">11月</span><br/>
-    <span class="post-day">02</span>
-  </time>
-</a>
-   
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/02/hello-world/">Hello World</a>
-    </h1>
-  
-
-        <div>
-          
-          
-              
-  &nbsp; | &nbsp;
-  <div class="view-box">
-    <span id="/2017/11/02/hello-world/" class="leancloud_visitors" data-flag-title="Hello World">
-      &nbsp;阅读次数<span class="leancloud-visitors-count"></span>
-    </span>
-  </div>
-
-
-          
-        </div>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="创建一个文件"><a href="#创建一个文件" class="headerlink" title="创建一个文件"></a>创建一个文件</h3><p>$ hexo new “My New Post”</p>
-<h3 id="运行本地服务"><a href="#运行本地服务" class="headerlink" title="运行本地服务"></a>运行本地服务</h3><p>$ hexo server</p>
-<h3 id="生成静态文件"><a href="#生成静态文件" class="headerlink" title="生成静态文件"></a>生成静态文件</h3><p>$ hexo generate</p>
-<h3 id="部署到服务器"><a href="#部署到服务器" class="headerlink" title="部署到服务器"></a>部署到服务器</h3><p>$ hexo deploy</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.juedigulang.com/2017/11/02/hello-world/" data-id="cj9jnpfgz0008dkokd674zmkd" class="article-share-link">分享</a>
-      
-      
     </footer>
   </div>
   
