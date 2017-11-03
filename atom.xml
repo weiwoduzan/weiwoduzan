@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.juedigulang.com/"/>
-  <updated>2017-11-03T08:44:59.626Z</updated>
+  <updated>2017-11-03T08:46:51.314Z</updated>
   <id>http://www.juedigulang.com/</id>
   
   <author>
@@ -21,17 +21,15 @@
     <link href="http://www.juedigulang.com/2017/11/03/%E4%B9%B1%E7%A0%81%E5%B7%A5%E5%85%B7%E7%B1%BB/"/>
     <id>http://www.juedigulang.com/2017/11/03/乱码工具类/</id>
     <published>2017-11-03T08:37:11.000Z</published>
-    <updated>2017-11-03T08:44:59.626Z</updated>
+    <updated>2017-11-03T08:46:51.314Z</updated>
     
-    <content type="html"><![CDATA[<a id="more"></a><p>乱码判断</p><h3 id="乱码工具类代码如下："><a href="#乱码工具类代码如下：" class="headerlink" title="乱码工具类代码如下："></a>乱码工具类代码如下：</h3><pre><code>import java.util.regex.Matcher;import java.util.regex.Pattern;/**  * @author zhucy  * @version 2017年6月28日 下午5:52:45  * 说明 判断中文字符串是否乱码 */public class ChineseUtil {/**  * @author mo   * @version   * 说明 判断是否是中文 */private static boolean isChinese(char c) {  Character.UnicodeBlock ub = Character.UnicodeBlock.of(c);  if (ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS  || ub == Character.UnicodeBlock.CJK_COMPATIBILITY_IDEOGRAPHS  || ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A|| ub == Character.UnicodeBlock.GENERAL_PUNCTUATION  || ub == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION  || ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS) {  return true;  }  return false;  }  /**  * @author mo   * @version   * 说明 判断是否乱码 */public static boolean isMessyCode(String strName) {  Pattern p = Pattern.compile(&quot;\\s*|\t*|\r*|\n*&quot;);  Matcher m = p.matcher(strName);  String after = m.replaceAll(&quot;&quot;);  String temp = after.replaceAll(&quot;\\p{P}&quot;, &quot;&quot;);  char[] ch = temp.trim().toCharArray();  float chLength = 0 ;  float count = 0;  for (int i = 0; i &lt; ch.length; i++) {  char c = ch[i];  if (!Character.isLetterOrDigit(c)) {  if (!isChinese(c)) {  count = count + 1;  }  chLength++;   }  }  float result = count / chLength ;  if (result &gt; 0.4) {  return true;  } else {  return false;  }  }}</code></pre>]]></content>
+    <content type="html"><![CDATA[<h3 id="乱码工具类代码如下："><a href="#乱码工具类代码如下：" class="headerlink" title="乱码工具类代码如下："></a>乱码工具类代码如下：</h3><pre><code>import java.util.regex.Matcher;import java.util.regex.Pattern;/**  * @author  * @version  * 说明 判断中文字符串是否乱码 */&lt;!--more--&gt; public class ChineseUtil {/**  * @author mo   * @version   * 说明 判断是否是中文 */private static boolean isChinese(char c) {  Character.UnicodeBlock ub = Character.UnicodeBlock.of(c);  if (ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS  || ub == Character.UnicodeBlock.CJK_COMPATIBILITY_IDEOGRAPHS  || ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A|| ub == Character.UnicodeBlock.GENERAL_PUNCTUATION  || ub == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION  || ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS) {  return true;  }  return false;  }  /**  * @author mo   * @version   * 说明 判断是否乱码 */public static boolean isMessyCode(String strName) {  Pattern p = Pattern.compile(&quot;\\s*|\t*|\r*|\n*&quot;);  Matcher m = p.matcher(strName);  String after = m.replaceAll(&quot;&quot;);  String temp = after.replaceAll(&quot;\\p{P}&quot;, &quot;&quot;);  char[] ch = temp.trim().toCharArray();  float chLength = 0 ;  float count = 0;  for (int i = 0; i &lt; ch.length; i++) {  char c = ch[i];  if (!Character.isLetterOrDigit(c)) {  if (!isChinese(c)) {  count = count + 1;  }  chLength++;   }  }  float result = count / chLength ;  if (result &gt; 0.4) {  return true;  } else {  return false;  }  }}</code></pre>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;p&gt;乱码判断&lt;/p&gt;
-&lt;h3 id=&quot;乱码工具类代码如下：&quot;&gt;&lt;a href=&quot;#乱码工具类代码如下：&quot; class=&quot;headerlink&quot; title=&quot;乱码工具类代码如下：&quot;&gt;&lt;/a&gt;乱码工具类代码如下：&lt;/h3&gt;&lt;pre&gt;&lt;code&gt;
+        &lt;h3 id=&quot;乱码工具类代码如下：&quot;&gt;&lt;a href=&quot;#乱码工具类代码如下：&quot; class=&quot;headerlink&quot; title=&quot;乱码工具类代码如下：&quot;&gt;&lt;/a&gt;乱码工具类代码如下：&lt;/h3&gt;&lt;pre&gt;&lt;code&gt;import java.util.regex.Matcher
       
     
     </summary>
@@ -115,28 +113,6 @@
   </entry>
   
   <entry>
-    <title>Hello World</title>
-    <link href="http://www.juedigulang.com/2017/11/02/hello-world/"/>
-    <id>http://www.juedigulang.com/2017/11/02/hello-world/</id>
-    <published>2017-11-02T08:03:22.911Z</published>
-    <updated>2017-10-27T08:08:10.515Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="创建一个文件"><a href="#创建一个文件" class="headerlink" title="创建一个文件"></a>创建一个文件</h3><p>$ hexo new “My New Post”</p><h3 id="运行本地服务"><a href="#运行本地服务" class="headerlink" title="运行本地服务"></a>运行本地服务</h3><p>$ hexo server</p><h3 id="生成静态文件"><a href="#生成静态文件" class="headerlink" title="生成静态文件"></a>生成静态文件</h3><p>$ hexo generate</p><h3 id="部署到服务器"><a href="#部署到服务器" class="headerlink" title="部署到服务器"></a>部署到服务器</h3><p>$ hexo deploy</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;创建一个文件&quot;&gt;&lt;a href=&quot;#创建一个文件&quot; class=&quot;headerlink&quot; title=&quot;创建一个文件&quot;&gt;&lt;/a&gt;创建一个文件&lt;/h3&gt;&lt;p&gt;$ hexo new “My New Post”&lt;/p&gt;
-&lt;h3 id=&quot;运行本地服务&quot;&gt;&lt;a href=&quot;
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
     <title>使用hexo+码云搭建个人博客</title>
     <link href="http://www.juedigulang.com/2017/11/02/hexo%E5%AE%89%E8%A3%85/"/>
     <id>http://www.juedigulang.com/2017/11/02/hexo安装/</id>
@@ -156,6 +132,28 @@
     
     
       <category term="hexo" scheme="http://www.juedigulang.com/tags/hexo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="http://www.juedigulang.com/2017/11/02/hello-world/"/>
+    <id>http://www.juedigulang.com/2017/11/02/hello-world/</id>
+    <published>2017-11-02T08:03:22.911Z</published>
+    <updated>2017-10-27T08:08:10.515Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="创建一个文件"><a href="#创建一个文件" class="headerlink" title="创建一个文件"></a>创建一个文件</h3><p>$ hexo new “My New Post”</p><h3 id="运行本地服务"><a href="#运行本地服务" class="headerlink" title="运行本地服务"></a>运行本地服务</h3><p>$ hexo server</p><h3 id="生成静态文件"><a href="#生成静态文件" class="headerlink" title="生成静态文件"></a>生成静态文件</h3><p>$ hexo generate</p><h3 id="部署到服务器"><a href="#部署到服务器" class="headerlink" title="部署到服务器"></a>部署到服务器</h3><p>$ hexo deploy</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;创建一个文件&quot;&gt;&lt;a href=&quot;#创建一个文件&quot; class=&quot;headerlink&quot; title=&quot;创建一个文件&quot;&gt;&lt;/a&gt;创建一个文件&lt;/h3&gt;&lt;p&gt;$ hexo new “My New Post”&lt;/p&gt;
+&lt;h3 id=&quot;运行本地服务&quot;&gt;&lt;a href=&quot;
+      
+    
+    </summary>
+    
     
   </entry>
   
