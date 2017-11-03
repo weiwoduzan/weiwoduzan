@@ -110,28 +110,6 @@
   </entry>
   
   <entry>
-    <title>Hello World</title>
-    <link href="http://www.juedigulang.com/2017/11/02/hello-world/"/>
-    <id>http://www.juedigulang.com/2017/11/02/hello-world/</id>
-    <published>2017-11-02T08:03:22.911Z</published>
-    <updated>2017-10-27T08:08:10.515Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="创建一个文件"><a href="#创建一个文件" class="headerlink" title="创建一个文件"></a>创建一个文件</h3><p>$ hexo new “My New Post”</p><h3 id="运行本地服务"><a href="#运行本地服务" class="headerlink" title="运行本地服务"></a>运行本地服务</h3><p>$ hexo server</p><h3 id="生成静态文件"><a href="#生成静态文件" class="headerlink" title="生成静态文件"></a>生成静态文件</h3><p>$ hexo generate</p><h3 id="部署到服务器"><a href="#部署到服务器" class="headerlink" title="部署到服务器"></a>部署到服务器</h3><p>$ hexo deploy</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;创建一个文件&quot;&gt;&lt;a href=&quot;#创建一个文件&quot; class=&quot;headerlink&quot; title=&quot;创建一个文件&quot;&gt;&lt;/a&gt;创建一个文件&lt;/h3&gt;&lt;p&gt;$ hexo new “My New Post”&lt;/p&gt;
-&lt;h3 id=&quot;运行本地服务&quot;&gt;&lt;a href=&quot;
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
     <title>使用hexo+码云搭建个人博客</title>
     <link href="http://www.juedigulang.com/2017/11/02/hexo%E5%AE%89%E8%A3%85/"/>
     <id>http://www.juedigulang.com/2017/11/02/hexo安装/</id>
@@ -151,6 +129,28 @@
     
     
       <category term="hexo" scheme="http://www.juedigulang.com/tags/hexo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="http://www.juedigulang.com/2017/11/02/hello-world/"/>
+    <id>http://www.juedigulang.com/2017/11/02/hello-world/</id>
+    <published>2017-11-02T08:03:22.911Z</published>
+    <updated>2017-10-27T08:08:10.515Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="创建一个文件"><a href="#创建一个文件" class="headerlink" title="创建一个文件"></a>创建一个文件</h3><p>$ hexo new “My New Post”</p><h3 id="运行本地服务"><a href="#运行本地服务" class="headerlink" title="运行本地服务"></a>运行本地服务</h3><p>$ hexo server</p><h3 id="生成静态文件"><a href="#生成静态文件" class="headerlink" title="生成静态文件"></a>生成静态文件</h3><p>$ hexo generate</p><h3 id="部署到服务器"><a href="#部署到服务器" class="headerlink" title="部署到服务器"></a>部署到服务器</h3><p>$ hexo deploy</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;创建一个文件&quot;&gt;&lt;a href=&quot;#创建一个文件&quot; class=&quot;headerlink&quot; title=&quot;创建一个文件&quot;&gt;&lt;/a&gt;创建一个文件&lt;/h3&gt;&lt;p&gt;$ hexo new “My New Post”&lt;/p&gt;
+&lt;h3 id=&quot;运行本地服务&quot;&gt;&lt;a href=&quot;
+      
+    
+    </summary>
+    
     
   </entry>
   
