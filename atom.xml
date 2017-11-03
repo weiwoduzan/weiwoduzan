@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.juedigulang.com/"/>
-  <updated>2017-11-03T08:15:25.606Z</updated>
+  <updated>2017-11-03T08:18:38.521Z</updated>
   <id>http://www.juedigulang.com/</id>
   
   <author>
@@ -21,13 +21,13 @@
     <link href="http://www.juedigulang.com/2017/11/03/%E7%A0%81%E4%BA%91%E5%85%AC%E9%92%A5%E9%85%8D%E7%BD%AE/"/>
     <id>http://www.juedigulang.com/2017/11/03/码云公钥配置/</id>
     <published>2017-11-03T07:56:49.233Z</published>
-    <updated>2017-11-03T08:15:25.606Z</updated>
+    <updated>2017-11-03T08:18:38.521Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="用户名和邮箱地址的使用"><a href="#用户名和邮箱地址的使用" class="headerlink" title="用户名和邮箱地址的使用"></a>用户名和邮箱地址的使用</h3><p>用户名和邮箱地址是本地git客户端的一个变量，不随git库而改变。<br>每次commit都会用用户名和邮箱纪录。<br>github的contributions统计就是按邮箱来统计的<br><a id="more"></a></p><h3 id="查看用户名和邮箱的地址"><a href="#查看用户名和邮箱的地址" class="headerlink" title="查看用户名和邮箱的地址"></a>查看用户名和邮箱的地址</h3><pre><code>$ git config user.name$ git config user.email</code></pre><h3 id="设置用户名和邮箱地址"><a href="#设置用户名和邮箱地址" class="headerlink" title="设置用户名和邮箱地址"></a>设置用户名和邮箱地址</h3><pre><code>$ git config --global user.name &quot;username&quot;$ git config --global user.email &quot;email&quot;</code></pre><h3 id="生成sshKey"><a href="#生成sshKey" class="headerlink" title="生成sshKey"></a>生成sshKey</h3><p>在git命令行中，输入命令： cd ~/.ssh，来检测是否生成过key,没有生成过key，会有相关信息提示；然后输入命令： ssh-keygen -t rsa -C “邮箱地址”，按下回车键；然后根据返回的信息，找到.ssh目录下的两个文件；</p><pre><code>cat ~/.ssh/id_rsa.pub# ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6eNtGpNGwstc....</code></pre><h3 id="添加后在终端中输入"><a href="#添加后在终端中输入" class="headerlink" title="添加后在终端中输入"></a>添加后在终端中输入</h3><pre><code>ssh -T git@gitee.com</code></pre><p>若返回<br>    Welcome to Gitee.com, yourname!</p><p>则代表添加成功</p><h3 id="github添加是同样的流程"><a href="#github添加是同样的流程" class="headerlink" title="github添加是同样的流程"></a>github添加是同样的流程</h3>]]></content>
+    <content type="html"><![CDATA[<h3 id="用户名和邮箱地址的使用"><a href="#用户名和邮箱地址的使用" class="headerlink" title="用户名和邮箱地址的使用"></a>用户名和邮箱地址的使用</h3><p>用户名和邮箱地址是本地git客户端的一个变量，不随git库而改变。<br>每次commit都会用用户名和邮箱纪录。<br>github的contributions统计就是按邮箱来统计的</p><a id="more"></a><h3 id="查看用户名和邮箱的地址"><a href="#查看用户名和邮箱的地址" class="headerlink" title="查看用户名和邮箱的地址"></a>查看用户名和邮箱的地址</h3><pre><code>$ git config user.name$ git config user.email</code></pre><h3 id="设置用户名和邮箱地址"><a href="#设置用户名和邮箱地址" class="headerlink" title="设置用户名和邮箱地址"></a>设置用户名和邮箱地址</h3><pre><code>$ git config --global user.name &quot;username&quot;$ git config --global user.email &quot;email&quot;</code></pre><h3 id="生成sshKey"><a href="#生成sshKey" class="headerlink" title="生成sshKey"></a>生成sshKey</h3><p>在git命令行中，输入命令： cd ~/.ssh，来检测是否生成过key,没有生成过key，会有相关信息提示；然后输入命令： ssh-keygen -t rsa -C “邮箱地址”，按下回车键；然后根据返回的信息，找到.ssh目录下的两个文件；</p><pre><code>cat ~/.ssh/id_rsa.pub# ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6eNtGpNGwstc....</code></pre><h3 id="添加后在终端中输入"><a href="#添加后在终端中输入" class="headerlink" title="添加后在终端中输入"></a>添加后在终端中输入</h3><pre><code>ssh -T git@gitee.com</code></pre><p>若返回<br>    Welcome to Gitee.com, yourname!</p><p>则代表添加成功</p><h3 id="github添加是同样的流程"><a href="#github添加是同样的流程" class="headerlink" title="github添加是同样的流程"></a>github添加是同样的流程</h3>]]></content>
     
     <summary type="html">
     
-      &lt;h3 id=&quot;用户名和邮箱地址的使用&quot;&gt;&lt;a href=&quot;#用户名和邮箱地址的使用&quot; class=&quot;headerlink&quot; title=&quot;用户名和邮箱地址的使用&quot;&gt;&lt;/a&gt;用户名和邮箱地址的使用&lt;/h3&gt;&lt;p&gt;用户名和邮箱地址是本地git客户端的一个变量，不随git库而改变。&lt;br&gt;每次commit都会用用户名和邮箱纪录。&lt;br&gt;github的contributions统计就是按邮箱来统计的&lt;br&gt;
+      &lt;h3 id=&quot;用户名和邮箱地址的使用&quot;&gt;&lt;a href=&quot;#用户名和邮箱地址的使用&quot; class=&quot;headerlink&quot; title=&quot;用户名和邮箱地址的使用&quot;&gt;&lt;/a&gt;用户名和邮箱地址的使用&lt;/h3&gt;&lt;p&gt;用户名和邮箱地址是本地git客户端的一个变量，不随git库而改变。&lt;br&gt;每次commit都会用用户名和邮箱纪录。&lt;br&gt;github的contributions统计就是按邮箱来统计的&lt;/p&gt;
     
     </summary>
     
