@@ -3,18 +3,20 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Category: 杂谈 | Mo的个人博客</title>
+  <title>将标准sql语句导入到数据库中 | Mo的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="精彩不是顺着风直达，而逆风却刻服了害怕">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Mo的个人博客">
-<meta property="og:url" content="http://www.juedigulang.com/categories/杂谈/index.html">
+  <meta name="description" content="将转换为标准的sql文件导入到数据库中/**  * 将标准sql脚本导入本地数据库，导入前需清空数据库  *   */ public class SqlImp {     static Logger logger = Logger.getLogger(SqlImp.class);      public static String exec(String db,String driver,Stri">
+<meta name="keywords" content="sql">
+<meta property="og:type" content="article">
+<meta property="og:title" content="将标准sql语句导入到数据库中">
+<meta property="og:url" content="http://www.juedigulang.com/2017/11/18/将标准的sql脚本导入数据库/index.html">
 <meta property="og:site_name" content="Mo的个人博客">
-<meta property="og:description" content="精彩不是顺着风直达，而逆风却刻服了害怕">
+<meta property="og:description" content="将转换为标准的sql文件导入到数据库中/**  * 将标准sql脚本导入本地数据库，导入前需清空数据库  *   */ public class SqlImp {     static Logger logger = Logger.getLogger(SqlImp.class);      public static String exec(String db,String driver,Stri">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-11-18T08:24:25.221Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Mo的个人博客">
-<meta name="twitter:description" content="精彩不是顺着风直达，而逆风却刻服了害怕">
+<meta name="twitter:title" content="将标准sql语句导入到数据库中">
+<meta name="twitter:description" content="将转换为标准的sql文件导入到数据库中/**  * 将标准sql脚本导入本地数据库，导入前需清空数据库  *   */ public class SqlImp {     static Logger logger = Logger.getLogger(SqlImp.class);      public static String exec(String db,String driver,Stri">
   
   
     <link rel="icon" href="/favicon.png">
@@ -73,42 +75,167 @@
   </div>
 </div>
 
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap animated rubberBand">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2017/11/02/Mo/" class="archive-article-date">
-  <time class="post-time" datetime="2017-11-02T08:03:22.927Z" itemprop="datePublished">
+        <section id="main"><article id="post-将标准的sql脚本导入数据库" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/11/18/将标准的sql脚本导入数据库/" class="article-date">
+  <time class="post-time" datetime="2017-11-18T08:22:15.000Z" itemprop="datePublished">
     <span class="post-month">11月</span><br/>
-    <span class="post-day">02</span>
+    <span class="post-day">18</span>
   </time>
 </a>
-      
+   
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/11/02/Mo/">个人博客</a>
+    <h1 class="article-title" itemprop="name">
+      将标准sql语句导入到数据库中
     </h1>
   
 
-    </header>
+        <div>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/java/">java</a>
   </div>
+
+          
+              
+  &nbsp; | &nbsp;
+  <div class="view-box">
+    <span id="/2017/11/18/将标准的sql脚本导入数据库/" class="leancloud_visitors" data-flag-title="将标准sql语句导入到数据库中">
+      &nbsp;阅读次数<span class="leancloud-visitors-count"></span>
+    </span>
+  </div>
+
+
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="将转换为标准的sql文件导入到数据库中"><a href="#将转换为标准的sql文件导入到数据库中" class="headerlink" title="将转换为标准的sql文件导入到数据库中"></a>将转换为标准的sql文件导入到数据库中</h3><pre><code>/**
+ * 将标准sql脚本导入本地数据库，导入前需清空数据库
+ * 
+ */
+public class SqlImp {
+    static Logger logger = Logger.getLogger(SqlImp.class);
+
+    public static String exec(String db,String driver,String url,String user,String password) {
+        String str = &quot;&quot;;
+        try {
+            String jdbcUrl = url;
+            Class.forName(driver);
+            Connection conn = DriverManager.getConnection(jdbcUrl, user, password);
+
+            ScriptRunner runner = new ScriptRunner(conn);
+            Writer result = new StringWriter();
+            PrintWriter printWriter = new PrintWriter(result);
+            // runner.setLogWriter(printWriter);
+            runner.setErrorLogWriter(printWriter);
+            runner.setAutoCommit(true);
+            runner.setStopOnError(false);
+
+            // 构建流集合
+            Vector&lt;InputStream&gt; vector = new Vector&lt;InputStream&gt;();
+            InputStream standard = new FileInputStream(PathKit.getWebRootPath() + &quot;/WEB-INF/dbsql/&quot;+db+&quot;.sql&quot;);
+            // InputStream testdata = new
+            // FileInputStream(PathKit.getWebRootPath() + &quot;/doc/testdata.sql&quot;);
+            vector.addElement(standard);
+            // vector.addElement(testdata);
+
+            Enumeration&lt;InputStream&gt; enu = vector.elements();
+            // 合并流
+            SequenceInputStream sis = new SequenceInputStream(enu);
+            InputStreamReader isr = new InputStreamReader(sis, &quot;utf-8&quot;);
+            Reader reader = new BufferedReader(isr);
+            runner.runScript(reader);
+            str = result.toString();
+        }catch (IOException e) {
+            e.printStackTrace();
+        }catch (ClassNotFoundException e) {
+            logger.info(e.getMessage());
+            str=&quot;数据库驱动错误&quot;;
+        }catch (SQLException e) {
+            logger.info(e.getMessage());
+            str=&quot;数据库连接错误&quot;;
+        } 
+        return str;
+    }
+    public static String stringToHexString(String strPart) {
+String hexString = &quot;&quot;;
+for (int i = 0; i &lt; strPart.length(); i++) {
+int ch = (int) strPart.charAt(i);
+String strHex = Integer.toHexString(ch); 
+hexString = hexString + strHex;
+}
+return hexString;
+}
+    /**
+     * 执行sql文件
+     * 
+     * @return
+     */
+    public static String exec() {
+        String str = &quot;&quot;;
+        PropertiesConfiguration myconfig;
+        try {
+            myconfig = new PropertiesConfiguration(&quot;myconfig.properties&quot;);
+            String db = myconfig.getString(&quot;db&quot;);
+            String jdbcUrl = myconfig.getString(db + &quot;Url&quot;);
+            exec(db, jdbcUrl, myconfig.getString(db + &quot;Driver&quot;), myconfig.getString(db + &quot;User&quot;), myconfig.getString(db + &quot;Password&quot;));
+        } catch (ConfigurationException e) {
+            e.printStackTrace();
+        }
+
+        return str;
+    }
+
+    public static void main(String[] args) {
+        MyConfig mc = new MyConfig();
+        mc.initConsole();
+        String str = exec();
+        System.out.println(str);
+    }
+}
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.juedigulang.com/2017/11/18/将标准的sql脚本导入数据库/" data-id="cja53bfi2000gzkp6e19cixop" class="article-share-link">分享</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql/">sql</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/11/18/调用百度地址匹配接口和获取经纬度坐标/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          将java调用百度地址匹配接口获取经纬度坐标
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/11/18/将sql处理为标准的sql脚本/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">处理sql为标准sql</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
 
 
 </section>

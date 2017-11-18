@@ -3,20 +3,20 @@
 <head>
   <meta charset="utf-8">
   
-  <title>码云和github公钥的配置 | Mo的个人博客</title>
+  <title>JFinal和datatales-editor增删改 | Mo的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="用户名和邮箱地址的使用用户名和邮箱地址是本地git客户端的一个变量，不随git库而改变。每次commit都会用用户名和邮箱纪录。github的contributions统计就是按邮箱来统计的">
-<meta name="keywords" content="ssh公钥">
+  <meta name="description" content="页面js代码如下：editor = new $.fn.dataTable.Editor( {             ajax: {                 url:&amp;quot;${ctx}/console/job/dtAction?job.orgID=&amp;quot;+orgID,                   data:function(data){">
+<meta name="keywords" content="jfinal、datatables-editor">
 <meta property="og:type" content="article">
-<meta property="og:title" content="码云和github公钥的配置">
-<meta property="og:url" content="http://www.juedigulang.com/2017/11/03/码云公钥配置/index.html">
+<meta property="og:title" content="JFinal和datatales-editor增删改">
+<meta property="og:url" content="http://www.juedigulang.com/2017/11/18/jfinal和datatables-editor/index.html">
 <meta property="og:site_name" content="Mo的个人博客">
-<meta property="og:description" content="用户名和邮箱地址的使用用户名和邮箱地址是本地git客户端的一个变量，不随git库而改变。每次commit都会用用户名和邮箱纪录。github的contributions统计就是按邮箱来统计的">
+<meta property="og:description" content="页面js代码如下：editor = new $.fn.dataTable.Editor( {             ajax: {                 url:&amp;quot;${ctx}/console/job/dtAction?job.orgID=&amp;quot;+orgID,                   data:function(data){">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-11-03T08:18:38.521Z">
+<meta property="og:updated_time" content="2017-11-18T08:03:48.993Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="码云和github公钥的配置">
-<meta name="twitter:description" content="用户名和邮箱地址的使用用户名和邮箱地址是本地git客户端的一个变量，不随git库而改变。每次commit都会用用户名和邮箱纪录。github的contributions统计就是按邮箱来统计的">
+<meta name="twitter:title" content="JFinal和datatales-editor增删改">
+<meta name="twitter:description" content="页面js代码如下：editor = new $.fn.dataTable.Editor( {             ajax: {                 url:&amp;quot;${ctx}/console/job/dtAction?job.orgID=&amp;quot;+orgID,                   data:function(data){">
   
   
     <link rel="icon" href="/favicon.png">
@@ -75,12 +75,12 @@
   </div>
 </div>
 
-        <section id="main"><article id="post-码云公钥配置" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-jfinal和datatables-editor" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2017/11/03/码云公钥配置/" class="article-date">
-  <time class="post-time" datetime="2017-11-03T07:56:49.233Z" itemprop="datePublished">
+    <a href="/2017/11/18/jfinal和datatables-editor/" class="article-date">
+  <time class="post-time" datetime="2017-11-18T07:37:15.000Z" itemprop="datePublished">
     <span class="post-month">11月</span><br/>
-    <span class="post-day">03</span>
+    <span class="post-day">18</span>
   </time>
 </a>
    
@@ -92,21 +92,21 @@
         
   
     <h1 class="article-title" itemprop="name">
-      码云和github公钥的配置
+      JFinal和datatales-editor增删改
     </h1>
   
 
         <div>
           
   <div class="article-category">
-    <a class="article-category-link" href="/categories/hexo/">hexo</a>
+    <a class="article-category-link" href="/categories/jfinal/">jfinal</a>
   </div>
 
           
               
   &nbsp; | &nbsp;
   <div class="view-box">
-    <span id="/2017/11/03/码云公钥配置/" class="leancloud_visitors" data-flag-title="码云和github公钥的配置">
+    <span id="/2017/11/18/jfinal和datatables-editor/" class="leancloud_visitors" data-flag-title="JFinal和datatales-editor增删改">
       &nbsp;阅读次数<span class="leancloud-visitors-count"></span>
     </span>
   </div>
@@ -118,28 +118,172 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="用户名和邮箱地址的使用"><a href="#用户名和邮箱地址的使用" class="headerlink" title="用户名和邮箱地址的使用"></a>用户名和邮箱地址的使用</h3><p>用户名和邮箱地址是本地git客户端的一个变量，不随git库而改变。<br>每次commit都会用用户名和邮箱纪录。<br>github的contributions统计就是按邮箱来统计的</p>
-<a id="more"></a>
-<h3 id="查看用户名和邮箱的地址"><a href="#查看用户名和邮箱的地址" class="headerlink" title="查看用户名和邮箱的地址"></a>查看用户名和邮箱的地址</h3><pre><code>$ git config user.name
+        <h3 id="页面js代码如下："><a href="#页面js代码如下：" class="headerlink" title="页面js代码如下："></a>页面js代码如下：</h3><pre><code>editor = new $.fn.dataTable.Editor( {
+            ajax: {
+                url:&quot;${ctx}/console/job/dtAction?job.orgID=&quot;+orgID,
+                  data:function(data){
+                    var result = {};
+                    for(var i in data.data){
+                      //封装json的格式
+                         var result=data.data[i];
+                         result.DT_Rowid=i;
+                         result.action=data.action;
+                         console.log(result); 
+                         $.each(result,function (index, value) {
+                             //console.log(index);
+                             if(index!=&quot;action&quot; &amp;&amp; index!=&quot;DT_Rowid&quot;){
+                                 modifyJosnKey(result,index,&quot;job.&quot;+index);
+                             }
+                         })
+                    }
+                    return result;
+                },
+            },
+            table: &quot;#example&quot;,
+            idSrc:&quot;id&quot;,
+            fields: [ {
+                    label: &quot;主键&quot;,
+                    name:  &quot;id&quot;,
+                    type:  &quot;hidden&quot;,
+                }, {
+                    label: &quot;岗位名称&quot;,
+                    name:  &quot;jobname&quot;
+                }, {
+                    label: &quot;岗位描述&quot;,
+                    name:  &quot;jobdesc&quot;,
+                },{
+                    label: &quot;排序&quot;,
+                    name:  &quot;sortid&quot;,
+                }
+            ],
+            i18n: {
+                create: {
+                    button: &quot;新建&quot;,
+                    title:  &quot;新建&quot;,
+                    submit: &quot;保存&quot;
+                },
+                edit: {
+                    button: &quot;编辑&quot;,
+                    title:  &quot;编辑&quot;,
+                    submit: &quot;保存&quot;
+                },
+                remove: {
+                    button: &quot;删除&quot;,
+                    title:  &quot;删除&quot;,
+                    submit: &quot;删除&quot;,
+                    confirm: {
+                        _: &quot;您是不是一定希望删除%d行吗?&quot;,
+                        1: &quot;您是不是一定希望删除1行吗?&quot;
+                    }
+                },
+                error: {
+                    system: &quot;发生错误,请联系管理员&quot;
+                },
+                datetime: {
+                    previous: &apos;上一个&apos;,
+                    next:     &apos;下一个&apos;,
+                    months:   [ &apos;一月&apos;, &apos;二月&apos;, &apos;三月&apos;, &apos;四月&apos;, &apos;五月&apos;, &apos;六月&apos;, &apos;七月&apos;, &apos;八月&apos;, &apos;九月&apos;, &apos;十月&apos;, &apos;十一月&apos;, &apos;十二月&apos; ],
+                    weekdays: [ &apos;周一&apos;, &apos;周二&apos;, &apos;周三&apos;, &apos;周四&apos;, &apos;周五&apos;, &apos;周六&apos;, &apos;周日&apos; ]
+                }
+            }
+        } );
+        table = $(&apos;#example&apos;).DataTable( {
+              language: {
+                  &quot;sProcessing&quot;: &quot;处理中...&quot;,
+                  &quot;sLengthMenu&quot;: &quot;显示 _MENU_ 项结果&quot;,
+                  &quot;sZeroRecords&quot;: &quot;没有匹配结果&quot;,
+                  &quot;sInfo&quot;: &quot;显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项&quot;,
+                  &quot;sInfoEmpty&quot;: &quot;显示第 0 至 0 项结果，共 0 项&quot;,
+                  &quot;sInfoFiltered&quot;: &quot;(由 _MAX_ 项结果过滤)&quot;,
+                  &quot;sInfoPostFix&quot;: &quot;&quot;,
+                  &quot;sEmptyTable&quot;: &quot;表中数据为空&quot;,
+                  &quot;sLoadingRecords&quot;: &quot;载入中...&quot;,
+                  &quot;sInfoThousands&quot;: &quot;,&quot;,
+                  &quot;oPaginate&quot;: {
+                      &quot;sFirst&quot;: &quot;首页&quot;,
+                      &quot;sPrevious&quot;: &quot;上页&quot;,
+                      &quot;sNext&quot;: &quot;下页&quot;,
+                      &quot;sLast&quot;: &quot;末页&quot;
+                  },
+                  &quot;oAria&quot;: {
+                      &quot;sSortAscending&quot;: &quot;: 以升序排列此列&quot;,
+                      &quot;sSortDescending&quot;: &quot;: 以降序排列此列&quot;
+                  }
+              },
+              searching:false,
+              dom: &apos;&lt;&quot;dt-panelmenu clearfix&quot;Bfr&gt;t&lt;&quot;dt-panelfooter clearfix&quot;ip&gt;&apos;,
+              ajax: &quot;${ctx}/console/job/dtAction?orgID=&quot;+orgID,
+              columns: [
+                    { data: &quot;jobname&quot;, className: &quot;center&quot; },
+                  { data: &quot;jobdesc&quot;, className: &quot;center&quot; },
+                  { data: &quot;updatetime&quot;, className: &quot;center&quot; }
+              ],
+              select: true,
+              buttons: [
+                        { extend: &quot;create&quot;, editor: editor },
+                        { extend: &quot;edit&quot;,   editor: editor },
+                        { extend: &quot;remove&quot;, editor: editor }
+              ] 
+          } );
 
-$ git config user.email
-</code></pre><h3 id="设置用户名和邮箱地址"><a href="#设置用户名和邮箱地址" class="headerlink" title="设置用户名和邮箱地址"></a>设置用户名和邮箱地址</h3><pre><code>$ git config --global user.name &quot;username&quot;
-
-$ git config --global user.email &quot;email&quot;
-</code></pre><h3 id="生成sshKey"><a href="#生成sshKey" class="headerlink" title="生成sshKey"></a>生成sshKey</h3><p>在git命令行中，输入命令： cd ~/.ssh，来检测是否生成过key,没有生成过key，会有相关信息提示；然后输入命令： ssh-keygen -t rsa -C “邮箱地址”，按下回车键；然后根据返回的信息，找到.ssh目录下的两个文件；</p>
-<pre><code>cat ~/.ssh/id_rsa.pub
-# ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6eNtGpNGwstc....
-</code></pre><h3 id="添加后在终端中输入"><a href="#添加后在终端中输入" class="headerlink" title="添加后在终端中输入"></a>添加后在终端中输入</h3><pre><code>ssh -T git@gitee.com
-</code></pre><p>若返回<br>    Welcome to Gitee.com, yourname!</p>
-<p>则代表添加成功</p>
-<h3 id="github添加是同样的流程"><a href="#github添加是同样的流程" class="headerlink" title="github添加是同样的流程"></a>github添加是同样的流程</h3>
+        $(&quot;#tree&quot;).fancytree({
+              source:${orgs},
+            icons: false, // Display node icons.
+            clickFolderMode: 2, // 1:activate, 2:expand, 3:activate and expand, 4:activate (dblclick expands)
+            activate: function(event, data) {
+                orgID=data.node.data.id;
+                //console.log(orgID);
+                //console.log(table);
+                //console.log(table.context[0]._editor.s.ajax.url);
+                table.context[0]._editor.s.ajax.url=&quot;${ctx}/console/job/dtAction?job.orgID=&quot;+orgID;
+                table.ajax.url(&quot;${ctx}/console/job/dtAction?orgID=&quot;+orgID).load();//再次加载
+            }
+        });
+</code></pre><h3 id="后台java代码如下："><a href="#后台java代码如下：" class="headerlink" title="后台java代码如下："></a>后台java代码如下：</h3><pre><code>public void dtAction() {
+    String action = getPara(&quot;action&quot;, &quot;&quot;);
+    switch (action) {
+    case &quot;create&quot;:
+        Job job = getModel(Job.class);
+        User user = getSessionAttr(&quot;User&quot;);
+        job.set(&quot;insertuserid&quot;, user.getStr(&quot;username&quot;));
+        job.set(&quot;updateuserid&quot;, user.getStr(&quot;username&quot;));
+        service.save(job);
+        JSONObject json = new JSONObject();
+        json.put(&quot;data&quot;, job);
+        //Map map1 = new HashMap();
+        //map1.put(&quot;data&quot;, job);
+        renderJson(json);
+        break;
+    case &quot;edit&quot;:
+        Job job1 = getModel(Job.class);
+        service.update(job1);
+        Map map2 = new HashMap();
+        map2.put(&quot;data&quot;, job1);
+        renderJson(map2);
+        break;
+    case &quot;remove&quot;:
+        Job job2 = getModel(Job.class);
+        job2.delete();
+        renderJson();
+        break;
+    default:
+        String orgID = getPara(&quot;orgID&quot;);
+        List&lt;Job&gt; jobs = Job.dao.find(&quot;select * from t_job where orgid=?&quot;, orgID);
+        Map map = new HashMap();
+        map.put(&quot;data&quot;, jobs);
+        renderJson(map);
+        break;
+    }
+    return;
+}
+</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.juedigulang.com/2017/11/03/码云公钥配置/" data-id="cja53bfpi001dzkp6cpw600x8" class="article-share-link">分享</a>
+      <a data-url="http://www.juedigulang.com/2017/11/18/jfinal和datatables-editor/" data-id="cja53bffg0006zkp689fhcn2b" class="article-share-link">分享</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh公钥/">ssh公钥</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jfinal、datatables-editor/">jfinal、datatables-editor</a></li></ul>
 
     </footer>
   </div>
@@ -147,19 +291,19 @@ $ git config --global user.email &quot;email&quot;
     
 <nav id="article-nav">
   
-    <a href="/2017/11/03/乱码工具类/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2017/11/18/datatables增删改/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">上一篇</strong>
       <div class="article-nav-title">
         
-          乱码工具判断工具
+          JFinal和DataTasbles实现增删改
         
       </div>
     </a>
   
   
-    <a href="/2017/11/02/Nodejs安装/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2017/11/03/乱码工具类/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">Node.js安装</div>
+      <div class="article-nav-title">乱码工具判断工具</div>
     </a>
   
 </nav>

@@ -3,18 +3,26 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Category: 杂谈 | Mo的个人博客</title>
+  <title>JFinal和DataTasbles实现增删改 | Mo的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="精彩不是顺着风直达，而逆风却刻服了害怕">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Mo的个人博客">
-<meta property="og:url" content="http://www.juedigulang.com/categories/杂谈/index.html">
+  <meta name="description" content="下面记录下个人在使用过程中的一些难点，顺带一些没有解决的问题。先看下插件的页面效果： 如果仅仅作为表格的载体，其实有很多插件可以选择。我更看重的是它的编辑功能，后台为维护更多的是对单跳数据进行操作，具体场景是客服和客户 1V1的交流，而dataTables对于单条数据的编辑，是相当不错的，具体来说，采用bootstrap的模态窗口（插件自动生成）实现了修改功能。 对于开发人员来说，省去了另写编辑页">
+<meta name="keywords" content="jfinal、datatables">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JFinal和DataTasbles实现增删改">
+<meta property="og:url" content="http://www.juedigulang.com/2017/11/18/datatables增删改/index.html">
 <meta property="og:site_name" content="Mo的个人博客">
-<meta property="og:description" content="精彩不是顺着风直达，而逆风却刻服了害怕">
+<meta property="og:description" content="下面记录下个人在使用过程中的一些难点，顺带一些没有解决的问题。先看下插件的页面效果： 如果仅仅作为表格的载体，其实有很多插件可以选择。我更看重的是它的编辑功能，后台为维护更多的是对单跳数据进行操作，具体场景是客服和客户 1V1的交流，而dataTables对于单条数据的编辑，是相当不错的，具体来说，采用bootstrap的模态窗口（插件自动生成）实现了修改功能。 对于开发人员来说，省去了另写编辑页">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.imgur.com/FxDoZ8F.png">
+<meta property="og:image" content="https://i.imgur.com/vcPgDLZ.png">
+<meta property="og:image" content="https://i.imgur.com/GliHauJ.png">
+<meta property="og:image" content="https://i.imgur.com/7lUiKTX.png">
+<meta property="og:image" content="https://i.imgur.com/G2Dc1Hr.png">
+<meta property="og:updated_time" content="2017-11-18T08:14:43.887Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Mo的个人博客">
-<meta name="twitter:description" content="精彩不是顺着风直达，而逆风却刻服了害怕">
+<meta name="twitter:title" content="JFinal和DataTasbles实现增删改">
+<meta name="twitter:description" content="下面记录下个人在使用过程中的一些难点，顺带一些没有解决的问题。先看下插件的页面效果： 如果仅仅作为表格的载体，其实有很多插件可以选择。我更看重的是它的编辑功能，后台为维护更多的是对单跳数据进行操作，具体场景是客服和客户 1V1的交流，而dataTables对于单条数据的编辑，是相当不错的，具体来说，采用bootstrap的模态窗口（插件自动生成）实现了修改功能。 对于开发人员来说，省去了另写编辑页">
+<meta name="twitter:image" content="https://i.imgur.com/FxDoZ8F.png">
   
   
     <link rel="icon" href="/favicon.png">
@@ -73,42 +81,116 @@
   </div>
 </div>
 
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap animated rubberBand">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2017/11/02/Mo/" class="archive-article-date">
-  <time class="post-time" datetime="2017-11-02T08:03:22.927Z" itemprop="datePublished">
+        <section id="main"><article id="post-datatables增删改" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/11/18/datatables增删改/" class="article-date">
+  <time class="post-time" datetime="2017-11-18T07:51:11.000Z" itemprop="datePublished">
     <span class="post-month">11月</span><br/>
-    <span class="post-day">02</span>
+    <span class="post-day">18</span>
   </time>
 </a>
-      
+   
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/11/02/Mo/">个人博客</a>
+    <h1 class="article-title" itemprop="name">
+      JFinal和DataTasbles实现增删改
     </h1>
   
 
-    </header>
+        <div>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/jfinal/">jfinal</a>
   </div>
+
+          
+              
+  &nbsp; | &nbsp;
+  <div class="view-box">
+    <span id="/2017/11/18/datatables增删改/" class="leancloud_visitors" data-flag-title="JFinal和DataTasbles实现增删改">
+      &nbsp;阅读次数<span class="leancloud-visitors-count"></span>
+    </span>
+  </div>
+
+
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>下面记录下个人在使用过程中的一些难点，顺带一些没有解决的问题。先看下插件的页面效果：<br><img src="https://i.imgur.com/FxDoZ8F.png" alt=""></p>
+<p>如果仅仅作为表格的载体，其实有很多插件可以选择。我更看重的是它的编辑功能，后台为维护更多的是对单跳数据进行操作，具体场景是客服和客户 1V1的交流，而dataTables对于单条数据的编辑，是相当不错的，具体来说，采用bootstrap的模态窗口（插件自动生成）实现了修改功能。 对于开发人员来说，省去了另写编辑页面的繁琐。 </p>
+<p>话不多说，下面慢慢粘代码以及效果图。 </p>
+<p>对于一个和后台交互的插件，最重要其实就两件事情，需要什么样的数据格式，提交给后台的又是怎样的数据格式，搞清楚这两点，其实就没什么了。 </p>
+<p>dataTables支持很多数据源，官方有详细介绍，项目采用了轻量级的json数据进行传输，以下是插件填充表格时所需的数据格式：<br><img src="https://i.imgur.com/vcPgDLZ.png" alt=""></p>
+<p>对于增删改查，dataTable默认传给后台的数据相当蛋疼，这里费了不少心思，最后重新封装了下数据格式，先看一下默认的数据格式：<br><img src="https://i.imgur.com/GliHauJ.png" alt=""></p>
+<p>想要看懂上面的数据，还需要知道一个知识点，如果想使用dataTables的编辑功能，返回数据中，需要包括”DT_RowId”这个键，这个键值对需要放在每一行的数据中，充当表格的主键，当然，重复也没关系，这就是让人困惑的地方； </p>
+<p>有了这个知识点，在看编辑数据时，默认的数据格式，这些都是键值对，对于键的命名，action表示操作行为，包括 remove,edit,create三种键值，支持自定义，详细的可以参考官方文档；剩下的便是每个单元格的表示，“data[row1] [accountId]”中，data是固定的，row1是选中行DT_RowId的值，accountId是选中行列的别称，关于列名和json数据源 键名的匹配，以下会有详细代码。 </p>
+<p>看懂这个之后，再去思考后台如何拿数据，后台不可能去遍历request中的所有参数，所以比较好的方法就是在前台二次封装这些数据，通过对json数据的重新封装，即可，以下是个人的封装方法：<br>javaScript代码：<br>    ajax: {<br>        url:”/charge-manage/individualMember/edit”,<br>        data:function(data){<br>        var result={};<br>        for(var i in data.data){<br>        var result=data.data[i];<br>        result.DT_RowId=i;<br>        result.action=data.action;<br>        console.log(result);<br>        }<br>        return result;<br>        },<br>    },  </p>
+<p>经过这样的封装，参数类型如下：<br><img src="https://i.imgur.com/7lUiKTX.png" alt=""></p>
+<p>这样后台就方便拿参数进行操作了。 </p>
+<p>解决了数据流向问题，在看页面本身的问题，表格列名如何与数据源匹配，这个比较简单，代码如下：<br>js代码如下：<br>    $(‘#member’).DataTable( {<br>    dom: “Bfrtip”,<br>    ajax:”/charge-manage/individualMember/getMember?”+”phoneNum=”+phoneNum,<br>    columns:[{data:”memberCode”},<br>             {data:”accountId”},<br>             {data:”phoneNum”},<br>             {data:”password”},<br>             {data:”lastLoginTime”}<br>             ],<br>    select:true,<br>       buttons: [<br>            { extend: “create”, editor: editor },<br>            { extend: “edit”,   editor: editor },<br>            { extend: “remove”, editor: editor }]<br>   } );</p>
+<p>columns集合中的顺序，对应表格列的顺序，data的值，对应json数据源中的键；<br>以下是表格的实际图形： </p>
+<p>编辑操作有自己的操作对象，也就是上面buttons栏引用的，代码如下：<br>js代码如下：<br>        var editor = new $.fn.dataTable.Editor( {<br>        ajax: {<br>    url:”/charge-manage/individualMember/edit”,<br>    data:function(data){<br>    var result={};<br>    for(var i in data.data){<br>    var result=data.data[i];<br>    result.DT_RowId=i;<br>    result.action=data.action;<br>    console.log(result);<br>    }<br>    return result;<br>    },<br>    },  </p>
+<pre><code> fields: [{  
+        label: &quot;会员编码:&quot;,  
+        name: &quot;memberCode&quot;  
+    }, {  
+        label: &quot;账户编码:&quot;,  
+        name: &quot;accountId&quot;  
+    },{  
+        label: &quot;手机号:&quot;,  
+        name: &quot;phoneNum&quot;  
+    },{  
+        label: &quot;密码:&quot;,  
+        name: &quot;password&quot;                      
+    },{  
+        label: &quot;最后登录时间:&quot;,  
+        name: &quot;lastLoginTime&quot;                     
+    }],  
+table: &quot;#member&quot;  
+</code></pre><p> });</p>
+<p>fields集合中，label值是模态窗口对应的名称，细心的同学可以看到加了冒号，name对应向后台传入参数的键名。<br>下面是该模态的实际图片，再次强调，这玩意是自动生成的<br><img src="https://i.imgur.com/G2Dc1Hr.png" alt="">  </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.juedigulang.com/2017/11/18/datatables增删改/" data-id="cja53bfch0002zkp68dgtmr18" class="article-share-link">分享</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jfinal、datatables/">jfinal、datatables</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/11/18/将sql处理为标准的sql脚本/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          处理sql为标准sql
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/11/18/jfinal和datatables-editor/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">JFinal和datatales-editor增删改</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
 
 
 </section>

@@ -3,18 +3,20 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Category: 杂谈 | Mo的个人博客</title>
+  <title>处理sql为标准sql | Mo的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="精彩不是顺着风直达，而逆风却刻服了害怕">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Mo的个人博客">
-<meta property="og:url" content="http://www.juedigulang.com/categories/杂谈/index.html">
+  <meta name="description" content="将mysql数据库使用navcat导出后处理为标准的sql脚本/**  * 将navicat导出的mysql数据库脚本处理为标准脚本  */ public class StandardSql {      public static void make() {         try {             String str = FileUtils.readFileToString(new">
+<meta name="keywords" content="sql">
+<meta property="og:type" content="article">
+<meta property="og:title" content="处理sql为标准sql">
+<meta property="og:url" content="http://www.juedigulang.com/2017/11/18/将sql处理为标准的sql脚本/index.html">
 <meta property="og:site_name" content="Mo的个人博客">
-<meta property="og:description" content="精彩不是顺着风直达，而逆风却刻服了害怕">
+<meta property="og:description" content="将mysql数据库使用navcat导出后处理为标准的sql脚本/**  * 将navicat导出的mysql数据库脚本处理为标准脚本  */ public class StandardSql {      public static void make() {         try {             String str = FileUtils.readFileToString(new">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-11-18T08:20:30.770Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Mo的个人博客">
-<meta name="twitter:description" content="精彩不是顺着风直达，而逆风却刻服了害怕">
+<meta name="twitter:title" content="处理sql为标准sql">
+<meta name="twitter:description" content="将mysql数据库使用navcat导出后处理为标准的sql脚本/**  * 将navicat导出的mysql数据库脚本处理为标准脚本  */ public class StandardSql {      public static void make() {         try {             String str = FileUtils.readFileToString(new">
   
   
     <link rel="icon" href="/favicon.png">
@@ -73,42 +75,125 @@
   </div>
 </div>
 
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap animated rubberBand">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2017/11/02/Mo/" class="archive-article-date">
-  <time class="post-time" datetime="2017-11-02T08:03:22.927Z" itemprop="datePublished">
+        <section id="main"><article id="post-将sql处理为标准的sql脚本" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/11/18/将sql处理为标准的sql脚本/" class="article-date">
+  <time class="post-time" datetime="2017-11-18T08:16:48.000Z" itemprop="datePublished">
     <span class="post-month">11月</span><br/>
-    <span class="post-day">02</span>
+    <span class="post-day">18</span>
   </time>
 </a>
-      
+   
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/11/02/Mo/">个人博客</a>
+    <h1 class="article-title" itemprop="name">
+      处理sql为标准sql
     </h1>
   
 
-    </header>
+        <div>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/java/">java</a>
   </div>
+
+          
+              
+  &nbsp; | &nbsp;
+  <div class="view-box">
+    <span id="/2017/11/18/将sql处理为标准的sql脚本/" class="leancloud_visitors" data-flag-title="处理sql为标准sql">
+      &nbsp;阅读次数<span class="leancloud-visitors-count"></span>
+    </span>
+  </div>
+
+
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="将mysql数据库使用navcat导出后处理为标准的sql脚本"><a href="#将mysql数据库使用navcat导出后处理为标准的sql脚本" class="headerlink" title="将mysql数据库使用navcat导出后处理为标准的sql脚本"></a>将mysql数据库使用navcat导出后处理为标准的sql脚本</h3><pre><code>/**
+ * 将navicat导出的mysql数据库脚本处理为标准脚本
+ */
+public class StandardSql {
+
+    public static void make() {
+        try {
+            String str = FileUtils.readFileToString(new File(PathKit.getWebRootPath() + &quot;/src/main/webapp/WEB-INF/dbsql/fsm5.sql&quot;), &quot;utf-8&quot;);
+            str = str.replaceAll(&quot;`&quot;, &quot;&quot;).replaceAll(&quot;([ \t]+)longtext([ \t,]*)&quot;, &quot; clob $2&quot;).replaceAll(&quot;ENGINE=InnoDB DEFAULT CHARSET=utf8&quot;, &quot;&quot;)
+                    .replaceAll(&quot;DROP TABLE IF EXISTS ([^;]*);&quot;, &quot;-- DROP TABLE $1&quot;).replaceAll(&quot;SET FOREIGN_KEY_CHECKS=0;&quot;, &quot;&quot;).replaceAll(&quot;/\\*([^\\*]+)\\*/&quot;, &quot;&quot;);
+            //视图处理
+            str=str.replaceAll(&quot;DROP VIEW IF EXISTS ([^;]*);&quot;, &quot;-- DROP VIEW $1&quot;).replaceAll(&quot;ALGORITHM=UNDEFINED DEFINER=root@% SQL SECURITY DEFINER &quot;, &quot;&quot;);
+            // 注释处理
+            str = str.replaceAll(&quot;COMMENT=&apos;([^&apos;]+)&apos;;&quot;, &quot;;\r\n -- $1&quot;).replaceAll(&quot;COMMENT &apos;([^&apos;]+)&apos;,&quot;, &quot;, -- $1&quot;);
+            // 处理整形
+            str = str.replaceAll(&quot; int(\\(\\d+\\)) &quot;, &quot; int &quot;);
+            //替换\r\n\&quot;
+            str = str.replaceAll(&quot;\\x5c\\x72&quot;, &quot;\&quot;&quot;).replaceAll(&quot;\\x5c\\x6e&quot;, &quot;&quot;).replaceAll(&quot;\\x5c\\x22&quot;, &quot;\&quot;&quot;);
+            System.out.println(str);
+
+            String mysql=str.replaceAll(&quot;([ \t]+)clob([ \t,]*)&quot;, &quot; longtext $2&quot;);
+            FileUtils.writeStringToFile(new File(PathKit.getWebRootPath() + &quot;/src/main/webapp/WEB-INF/dbsql/mysql.sql&quot;), mysql, &quot;utf-8&quot;);
+
+            String oracle=str.replaceAll(&quot;\\x5c\\x27&quot;, &quot;\\&apos;\\&apos;&quot;);
+            FileUtils.writeStringToFile(new File(PathKit.getWebRootPath() + &quot;/src/main/webapp/WEB-INF/dbsql/oracle.sql&quot;), oracle, &quot;utf-8&quot;);
+
+            String sqlserver=str.replaceAll(&quot;([ \t]+)clob([ \t,]*)&quot;, &quot; text $2&quot;).replaceAll(&quot;\\x5c\\x27&quot;, &quot;\\&apos;\\&apos;&quot;);
+            FileUtils.writeStringToFile(new File(PathKit.getWebRootPath() + &quot;/src/main/webapp/WEB-INF/dbsql/sqlserver.sql&quot;), sqlserver, &quot;utf-8&quot;);
+
+            String dm=str.replaceAll(&quot;\\x5c\\x27&quot;, &quot;\\&apos;\\&apos;&quot;);
+            FileUtils.writeStringToFile(new File(PathKit.getWebRootPath() + &quot;/src/main/webapp/WEB-INF/dbsql/dm.sql&quot;), dm, &quot;utf-8&quot;);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+        make();
+    }
+}  
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.juedigulang.com/2017/11/18/将sql处理为标准的sql脚本/" data-id="cja53bfh3000czkp6ggt518jg" class="article-share-link">分享</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql/">sql</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/11/18/将标准的sql脚本导入数据库/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          将标准sql语句导入到数据库中
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/11/18/datatables增删改/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">JFinal和DataTasbles实现增删改</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
 
 
 </section>

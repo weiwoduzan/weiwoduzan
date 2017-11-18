@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>前台页面配置sql连接 | Mo的个人博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="###在前台页面配置sql的数据库连接，然后将其数据导入到数据库中，页面上的配置如下图所示 前端页面代码如下：&amp;lt;/style&amp;gt; &amp;lt;script type=&amp;quot;text/javascript&amp;quot;     src=&amp;quot;${ctx}/assets/lib/jquery/1.9.1/jquery.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;sc">
+<meta name="keywords" content="sql">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前台页面配置sql连接">
+<meta property="og:url" content="http://www.juedigulang.com/2017/11/18/前台页面配置数据库连接/index.html">
+<meta property="og:site_name" content="Mo的个人博客">
+<meta property="og:description" content="###在前台页面配置sql的数据库连接，然后将其数据导入到数据库中，页面上的配置如下图所示 前端页面代码如下：&amp;lt;/style&amp;gt; &amp;lt;script type=&amp;quot;text/javascript&amp;quot;     src=&amp;quot;${ctx}/assets/lib/jquery/1.9.1/jquery.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;sc">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.imgur.com/7atapZD.png">
+<meta property="og:updated_time" content="2017-11-18T08:45:48.904Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="前台页面配置sql连接">
+<meta name="twitter:description" content="###在前台页面配置sql的数据库连接，然后将其数据导入到数据库中，页面上的配置如下图所示 前端页面代码如下：&amp;lt;/style&amp;gt; &amp;lt;script type=&amp;quot;text/javascript&amp;quot;     src=&amp;quot;${ctx}/assets/lib/jquery/1.9.1/jquery.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt; &amp;lt;sc">
+<meta name="twitter:image" content="https://i.imgur.com/7atapZD.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/plugin/bganimation/bg.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <div class="widget-wrap mobile-header">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <img class="avatar" src="https://avatars0.githubusercontent.com/u/20333903?v=3&amp;s=460">
+    <h2 class="author">Mo</h2>
+    <h3 class="description">精彩不是顺着风直达，而逆风却刻服了害怕</h3>
+    <div class="count-box">
+      <a href="/archives"><div><strong>12</strong><br>文章</div></a>
+      <a href="/categories"><div><strong>4</strong><br>分类</div></a>
+      <a href="/tags"><div><strong>9</strong><br>标签</div></a>
+    </div>
+    <ul class="blog-link">
+     
+          <a href="/" title="Home">
+            <li>主页</li>
+          </a>
+        
+          <a href="/archives" title="Archives">
+            <li>归档</li>
+          </a>
+        
+          <a href="/categories" title="Categories">
+            <li>分类</li>
+          </a>
+        
+          <a href="/tags" title="Tags">
+            <li>标签</li>
+          </a>
+        
+          <a href="/about" title="about">
+            <li>about</li>
+          </a>
+        
+          <a href="/atom.xml" title="rss">
+            <li>rss</li>
+          </a>
+        
+    </ul>
+  </div>
+</div>
+
+        <section id="main"><article id="post-前台页面配置数据库连接" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/11/18/前台页面配置数据库连接/" class="article-date">
+  <time class="post-time" datetime="2017-11-18T08:45:42.000Z" itemprop="datePublished">
+    <span class="post-month">11月</span><br/>
+    <span class="post-day">18</span>
+  </time>
+</a>
+   
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      前台页面配置sql连接
+    </h1>
+  
+
+        <div>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/java/">java</a>
+  </div>
+
+          
+              
+  &nbsp; | &nbsp;
+  <div class="view-box">
+    <span id="/2017/11/18/前台页面配置数据库连接/" class="leancloud_visitors" data-flag-title="前台页面配置sql连接">
+      &nbsp;阅读次数<span class="leancloud-visitors-count"></span>
+    </span>
+  </div>
+
+
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>###<br>在前台页面配置sql的数据库连接，然后将其数据导入到数据库中，页面上的配置如下图所示<br><img src="https://i.imgur.com/7atapZD.png" alt=""></p>
+<h3 id="前端页面代码如下："><a href="#前端页面代码如下：" class="headerlink" title="前端页面代码如下："></a>前端页面代码如下：</h3><pre><code>&lt;/style&gt;
+&lt;script type=&quot;text/javascript&quot;
+    src=&quot;${ctx}/assets/lib/jquery/1.9.1/jquery.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+    function dochange(dbType) {
+        $.get(&quot;${ctx}/console/install/getDbInfo&quot;, {
+            &quot;DbType&quot; : dbType
+        }, function(data) {
+            for (var key in data) {
+                $(&quot;#&quot; + key).val(data[key]);
+            }
+        })
+    }
+    $(function() {
+        dochange();
+        $(&quot;#impl&quot;).click(function() {
+            var formData = $(&quot;#form1&quot;).serialize();
+            console.log(formData);
+            $.post(&quot;${ctx}/console/install/impl&quot;, formData, function(data) {
+                alert(data);
+            })
+        })
+    })
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body style=&quot;background-color: #D2D6DE; padding: 50px&quot;&gt;
+    &lt;h1 align=&quot;center&quot;&gt;
+        &lt;b&gt;fsm5安装向导&lt;/b&gt;
+    &lt;/h1&gt;
+    &lt;div
+        style=&quot;width: 750px; height: 400px; margin: 0 auto; background-color: #ffffff;&quot;&gt;
+        &lt;div class=&quot;box&quot;&gt;
+            &lt;div class=&quot;box-header&quot;&gt;
+                &lt;h3 class=&quot;box-title&quot;&gt;fsm5安装：填写数据库连接信息。&lt;/h3&gt;
+            &lt;/div&gt;
+            &lt;hr&gt;
+            &lt;div class=&quot;box-body&quot;&gt;
+                &lt;div class=&gt;
+                    &lt;h3 class=&quot;box-title&quot;&gt;请在下方填写您的数据库连接信息。如果您不确定，请联系您的服务提供商。&lt;/h3&gt;
+                &lt;/div&gt;
+                &lt;form name=&quot;form1&quot; id=&quot;form1&quot;&gt;
+                    &lt;table style=&quot;width:100%&quot;&gt;
+
+                        &lt;tr&gt;
+                            &lt;td&gt;选择数据库：&lt;/td&gt;
+                            &lt;td&gt;&lt;select size=&quot;1&quot; name=&quot;DbType&quot; id=&quot;DbType&quot;
+                                onChange=&quot;dochange(this.value)&quot;&gt;
+                                    &lt;option value=&quot;mysql&quot;&gt;mysql&lt;/option&gt;
+                                    &lt;option value=&quot;oracle&quot;&gt;oracle&lt;/option&gt;
+                                    &lt;option value=&quot;sqlserver&quot;&gt;sqlserver&lt;/option&gt;
+                                    &lt;option value=&quot;dm&quot;&gt;dm&lt;/option&gt;
+                            &lt;/select&gt;&lt;/td&gt;
+                            &lt;td&gt;选择你想用的数据库&lt;/td&gt;
+                        &lt;/tr&gt;
+                        &lt;tr&gt;
+                            &lt;td&gt;数据库驱动：&lt;/td&gt;
+                            &lt;td&gt;&lt;input type=&quot;text&quot; id=&quot;Driver&quot; name=&quot;Driver&quot; value=&quot;&quot;&gt;&lt;/td&gt;
+                            &lt;td&gt;您的数据库驱动是？&lt;/td&gt;
+                        &lt;/tr&gt;
+                        &lt;tr&gt;
+                            &lt;td&gt;数据库连接：&lt;/td&gt;
+                            &lt;td&gt;&lt;input type=&quot;text&quot; id=&quot;Url&quot; name=&quot;Url&quot; value=&quot;&quot;&gt;&lt;/td&gt;
+                            &lt;td&gt;您的数据库连接是？&lt;/td&gt;
+                        &lt;/tr&gt;
+                        &lt;tr&gt;
+                            &lt;td&gt;用户名：&lt;/td&gt;
+                            &lt;td&gt;&lt;input type=&quot;text&quot; id=&quot;User&quot; name=&quot;User&quot; value=&quot;&quot;&gt;&lt;/td&gt;
+                            &lt;td&gt;您的数据库用户名？&lt;/td&gt;
+                        &lt;/tr&gt;
+                        &lt;tr&gt;
+                            &lt;td&gt;密码：&lt;/td&gt;
+                            &lt;td&gt;&lt;input type=&quot;password&quot; id=&quot;Password&quot; name=&quot;Password&quot;
+                                value=&quot;&quot;&gt;&lt;/td&gt;
+                            &lt;td&gt;您的数据库密码是？&lt;/td&gt;
+                        &lt;/tr&gt;
+
+                    &lt;/table&gt;
+                &lt;/form&gt;
+                &lt;br&gt;
+                &lt;br&gt;
+            &lt;/div&gt;
+            &lt;hr&gt;
+            &lt;!-- /.box-body --&gt;
+            &lt;div id=&quot;footer&quot; style=&quot;padding-right: 5px&quot;&gt;
+                &lt;a class=&quot;you1&quot;&gt;&lt;input type=&quot;submit&quot; name=&quot;submit&quot; id=&quot;impl&quot;
+                    class=&quot;you&quot; value=&quot;初始化数据&quot;
+                    style=&quot;width:80px; height:30px; background-color: #337ab7;color: #ffffff;&quot;&gt;&lt;/a&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+&lt;/body&gt;
+</code></pre><h3 id="后台代码如下："><a href="#后台代码如下：" class="headerlink" title="后台代码如下："></a>后台代码如下：</h3><pre><code>package com.code.controller;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.configuration.PropertiesConfiguration;
+
+import com.code.core.MyConfig;
+import com.code.util.SqlImp;
+import com.jfinal.core.Controller;
+import com.jfinal.kit.StrKit;
+
+public class InstallController extends Controller {
+
+    public void index() {
+        if(MyConfig.installed){
+            renderText(&quot;已经初始化完成&quot;);
+            return;
+        }
+        render(&quot;install.html&quot;);
+    }
+
+    public void getDbInfo() {
+        Map&lt;String, String&gt; dbInfo = new HashMap&lt;String, String&gt;();
+        try {
+            PropertiesConfiguration myconfig = new PropertiesConfiguration(&quot;myconfig.properties&quot;);
+            String strDbType = getPara(&quot;DbType&quot;);
+            if (StrKit.isBlank(strDbType)) {
+                strDbType = myconfig.getString(&quot;db&quot;);
+            }
+            dbInfo.put(&quot;DbType&quot;, strDbType);
+            dbInfo.put(&quot;Driver&quot;, myconfig.getString(strDbType + &quot;Driver&quot;));
+            dbInfo.put(&quot;Url&quot;, myconfig.getString(strDbType + &quot;Url&quot;));
+            dbInfo.put(&quot;User&quot;, myconfig.getString(strDbType + &quot;User&quot;));
+            dbInfo.put(&quot;Password&quot;, myconfig.getString(strDbType + &quot;Password&quot;));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        renderJson(dbInfo);
+    }
+
+    public void impl() {
+        String msg = &quot;数据库脚本初始化成功，请重启中间件进入系统&quot;;
+        try {
+            PropertiesConfiguration myconfig = new PropertiesConfiguration(&quot;myconfig.properties&quot;);
+
+            String strDbType = getPara(&quot;DbType&quot;);
+            String strDriver = getPara(&quot;Driver&quot;);
+            String strUrl = getPara(&quot;Url&quot;);
+            String strUser = getPara(&quot;User&quot;);
+            String strPassword = getPara(&quot;Password&quot;);
+
+            String str = SqlImp.exec(strDbType,strDriver,strUrl,strUser,strPassword);
+            if (StrKit.notBlank(str)) {
+                msg = str;
+            }
+            myconfig.setProperty(&quot;db&quot;, strDbType);
+            myconfig.setProperty(strDbType + &quot;Driver&quot;, strDriver);
+            myconfig.setProperty(strDbType + &quot;Url&quot;, strUrl);
+            myconfig.setProperty(strDbType + &quot;User&quot;, strUser);
+            myconfig.setProperty(strDbType + &quot;Password&quot;, strPassword);
+            myconfig.save();
+
+        } catch (Exception e) {
+            msg = &quot;操作失败&quot;;
+            e.printStackTrace();
+        }
+
+        renderText(msg);
+    }
+
+}
+</code></pre><h3 id="对应的数据库连接如下："><a href="#对应的数据库连接如下：" class="headerlink" title="对应的数据库连接如下："></a>对应的数据库连接如下：</h3><blockquote>
+<p>db=sqlserver</p>
+<p>dmDriver = dm.jdbc.driver.DmDriver<br>dmUrl = jdbc:dm://localhost:5236/fsm4j<br>dmUser = fsm4j<br>dmPassword =123456789</p>
+<p>sqlserverDriver   =net.sourceforge.jtds.jdbc.Driver<br>sqlserverUrl  =jdbc:jtds:sqlserver://localhost:1433;DatabaseName=fsm5<br>sqlserverUser =sa<br>sqlserverPassword =123456</p>
+<p>oracleDriver = oracle.jdbc.driver.OracleDriver<br>oracleUrl = jdbc:oracle:thin:@localhost:1521:xe<br>oracleUser = fsm4j<br>oraclePassword = fsm4j</p>
+<p>mysqlDriver = com.mysql.jdbc.Driver<br>mysqlUrl = jdbc:mysql://192.168.5.231/fsm4j?zeroDateTimeBehavior=convertToNull<br>mysqlUser = root<br>mysqlPassword =password</p>
+<p>devMode = true</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.juedigulang.com/2017/11/18/前台页面配置数据库连接/" data-id="cja53bfga000bzkp685l6gtkb" class="article-share-link">分享</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql/">sql</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/11/18/调用百度地址匹配接口和获取经纬度坐标/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">将java调用百度地址匹配接口获取经纬度坐标</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <h1 class="blog-title">Mo的个人博客</h1>
+    <h2 class="blog-subtitle"></h2>
+    <ul class="blog-link">
+     
+          <a href="/" title="Home">
+            <li>主页</li>
+          </a>
+        
+          <a href="/archives" title="Archives">
+            <li>归档</li>
+          </a>
+        
+          <a href="/categories" title="Categories">
+            <li>分类</li>
+          </a>
+        
+          <a href="/tags" title="Tags">
+            <li>标签</li>
+          </a>
+        
+          <a href="/about" title="about">
+            <li>about</li>
+          </a>
+        
+          <a href="/atom.xml" title="rss">
+            <li>rss</li>
+          </a>
+        
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <img class="avatar" src="https://avatars0.githubusercontent.com/u/20333903?v=3&amp;s=460">
+    <h2 class="author">Mo</h2>
+    <h3 class="description">精彩不是顺着风直达，而逆风却刻服了害怕</h3>
+    <div class="count-box">
+      <a href="/archives"><div><strong>12</strong><br>文章</div></a>
+      <a href="/categories"><div><strong>4</strong><br>分类</div></a>
+      <a href="/tags"><div><strong>9</strong><br>标签</div></a>
+    </div>
+
+
+
+    <div class="social-link">
+      
+        <a class="hvr-bounce-in" href="http://github.com/ShanaMaid" target="_blank" title="Github">
+          Github
+        </a>
+      
+    </div>
+
+    <div class="friend-link">
+      <h2>友情链接</h2>
+      
+        <a class="hvr-bounce-in" href="http://blog.sina.com.cn/u/2953388753" target="_blank" title="新浪博客">
+          新浪博客
+        </a>
+      
+    </div>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy;2016 - 2017 Mo<br>
+      由<a href="http://hexo.io/" target="_blank">Hexo</a>强力驱动 | 
+      主题-<a href="https://github.com/ShanaMaid/hexo-theme-shana">Shana</a>
+      
+        |<script src="http://s11.cnzz.com/z_stat.php?id=1267336678&web_id=1267336678" language="JavaScript"></script>
+      
+	  <i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+<script src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="//apps.bdimg.com/libs/wow/0.1.6/wow.min.js"></script>
+<script>
+new WOW().init();
+</script>   
+
+
+  <link rel="stylesheet" href="/plugin/fancybox/jquery.fancybox.css">
+  <script src="/plugin/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+  <link rel="stylesheet" href="/plugin/galmenu/GalMenu.css">
+  <script src="/plugin/galmenu/GalMenu.js"></script>
+  <div class="GalMenu GalDropDown">
+      <div class="circle" id="gal">
+        <div class="ring">
+          
+            <a href="/" title="" class="menuItem">首页</a>
+          
+            <a href="/tags" title="" class="menuItem">标签</a>
+          
+            <a href="/archives" title="" class="menuItem">分类</a>
+          
+            <a href="/categories" title="" class="menuItem">归档</a>
+          
+            <a href="/about" title="" class="menuItem">关于我</a>
+          
+            <a href="/blog/atom.xml" title="" class="menuItem">rss</a>
+          
+        </div>
+        
+          <audio id="audio" src="#"></audio>
+        
+      </div> 
+</div>
+<div id="overlay" style="opacity: 1; cursor: pointer;"></div>
+  <script type="text/javascript">var items = document.querySelectorAll('.menuItem');
+    for (var i = 0,
+    l = items.length; i < l; i++) {
+      items[i].style.left = (50 - 35 * Math.cos( - 0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
+      items[i].style.top = (50 + 35 * Math.sin( - 0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%"
+    }</script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('body').GalMenu({
+      'menu': 'GalDropDown'
+    })
+  });
+</script>
+
+  <section class="hidden-xs"> 
+  <ul class="cb-slideshow"> 
+    <li><span>苟利</span></li> 
+    <li><span>国家</span></li> 
+    <li><span>生死以</span></li> 
+    <li><span>岂能</span></li> 
+    <li><span>祸福</span></li> 
+    <li><span>趋避之</span></li> 
+  </ul>
+</section>
+<script src="/js/script.js"></script>
+
+
+
+
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("6Cl1oPEl3c4iSTfuYhWSG65n-gzGzoHsz", "JrWDh6iQeKQs1BVxD2u54pVA");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.article-title').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?20d1ce54b975b19479b82f518336315c";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+  </div>
+</body>
+</html>
