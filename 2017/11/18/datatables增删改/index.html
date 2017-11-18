@@ -5,23 +5,23 @@
   
   <title>JFinal和DataTasbles实现增删改 | Mo的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="下面记录下个人在使用过程中的一些难点，顺带一些没有解决的问题。先看下插件的页面效果： 如果仅仅作为表格的载体，其实有很多插件可以选择。我更看重的是它的编辑功能，后台为维护更多的是对单跳数据进行操作，具体场景是客服和客户 1V1的交流，而dataTables对于单条数据的编辑，是相当不错的，具体来说，采用bootstrap的模态窗口（插件自动生成）实现了修改功能。 对于开发人员来说，省去了另写编辑页">
+  <meta name="description" content="下面记录下个人在使用过程中的一些难点，顺带一些没有解决的问题。先看下插件的页面效果：">
 <meta name="keywords" content="jfinal、datatables">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JFinal和DataTasbles实现增删改">
 <meta property="og:url" content="http://www.juedigulang.com/2017/11/18/datatables增删改/index.html">
 <meta property="og:site_name" content="Mo的个人博客">
-<meta property="og:description" content="下面记录下个人在使用过程中的一些难点，顺带一些没有解决的问题。先看下插件的页面效果： 如果仅仅作为表格的载体，其实有很多插件可以选择。我更看重的是它的编辑功能，后台为维护更多的是对单跳数据进行操作，具体场景是客服和客户 1V1的交流，而dataTables对于单条数据的编辑，是相当不错的，具体来说，采用bootstrap的模态窗口（插件自动生成）实现了修改功能。 对于开发人员来说，省去了另写编辑页">
+<meta property="og:description" content="下面记录下个人在使用过程中的一些难点，顺带一些没有解决的问题。先看下插件的页面效果：">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://i.imgur.com/FxDoZ8F.png">
 <meta property="og:image" content="https://i.imgur.com/vcPgDLZ.png">
 <meta property="og:image" content="https://i.imgur.com/GliHauJ.png">
 <meta property="og:image" content="https://i.imgur.com/7lUiKTX.png">
 <meta property="og:image" content="https://i.imgur.com/G2Dc1Hr.png">
-<meta property="og:updated_time" content="2017-11-18T08:14:43.887Z">
+<meta property="og:updated_time" content="2017-11-18T08:55:03.833Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JFinal和DataTasbles实现增删改">
-<meta name="twitter:description" content="下面记录下个人在使用过程中的一些难点，顺带一些没有解决的问题。先看下插件的页面效果： 如果仅仅作为表格的载体，其实有很多插件可以选择。我更看重的是它的编辑功能，后台为维护更多的是对单跳数据进行操作，具体场景是客服和客户 1V1的交流，而dataTables对于单条数据的编辑，是相当不错的，具体来说，采用bootstrap的模态窗口（插件自动生成）实现了修改功能。 对于开发人员来说，省去了另写编辑页">
+<meta name="twitter:description" content="下面记录下个人在使用过程中的一些难点，顺带一些没有解决的问题。先看下插件的页面效果：">
 <meta name="twitter:image" content="https://i.imgur.com/FxDoZ8F.png">
   
   
@@ -124,8 +124,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>下面记录下个人在使用过程中的一些难点，顺带一些没有解决的问题。先看下插件的页面效果：<br><img src="https://i.imgur.com/FxDoZ8F.png" alt=""></p>
-<p>如果仅仅作为表格的载体，其实有很多插件可以选择。我更看重的是它的编辑功能，后台为维护更多的是对单跳数据进行操作，具体场景是客服和客户 1V1的交流，而dataTables对于单条数据的编辑，是相当不错的，具体来说，采用bootstrap的模态窗口（插件自动生成）实现了修改功能。 对于开发人员来说，省去了另写编辑页面的繁琐。 </p>
+        <p>下面记录下个人在使用过程中的一些难点，顺带一些没有解决的问题。先看下插件的页面效果：<br><img src="https://i.imgur.com/FxDoZ8F.png" alt=""><br><a id="more"></a><br>如果仅仅作为表格的载体，其实有很多插件可以选择。我更看重的是它的编辑功能，后台为维护更多的是对单跳数据进行操作，具体场景是客服和客户 1V1的交流，而dataTables对于单条数据的编辑，是相当不错的，具体来说，采用bootstrap的模态窗口（插件自动生成）实现了修改功能。 对于开发人员来说，省去了另写编辑页面的繁琐。 </p>
 <p>话不多说，下面慢慢粘代码以及效果图。 </p>
 <p>对于一个和后台交互的插件，最重要其实就两件事情，需要什么样的数据格式，提交给后台的又是怎样的数据格式，搞清楚这两点，其实就没什么了。 </p>
 <p>dataTables支持很多数据源，官方有详细介绍，项目采用了轻量级的json数据进行传输，以下是插件填充表格时所需的数据格式：<br><img src="https://i.imgur.com/vcPgDLZ.png" alt=""></p>
@@ -161,7 +160,7 @@ table: &quot;#member&quot;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.juedigulang.com/2017/11/18/datatables增删改/" data-id="cja53bfch0002zkp68dgtmr18" class="article-share-link">分享</a>
+      <a data-url="http://www.juedigulang.com/2017/11/18/datatables增删改/" data-id="cja53lwf80002lop6yttd7q4e" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jfinal、datatables/">jfinal、datatables</a></li></ul>

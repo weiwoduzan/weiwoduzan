@@ -118,182 +118,16 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>###<br>在前台页面配置sql的数据库连接，然后将其数据导入到数据库中，页面上的配置如下图所示<br><img src="https://i.imgur.com/7atapZD.png" alt=""></p>
-<h3 id="前端页面代码如下："><a href="#前端页面代码如下：" class="headerlink" title="前端页面代码如下："></a>前端页面代码如下：</h3><pre><code>&lt;/style&gt;
-&lt;script type=&quot;text/javascript&quot;
-    src=&quot;${ctx}/assets/lib/jquery/1.9.1/jquery.js&quot;&gt;&lt;/script&gt;
-&lt;script type=&quot;text/javascript&quot;&gt;
-    function dochange(dbType) {
-        $.get(&quot;${ctx}/console/install/getDbInfo&quot;, {
-            &quot;DbType&quot; : dbType
-        }, function(data) {
-            for (var key in data) {
-                $(&quot;#&quot; + key).val(data[key]);
-            }
-        })
-    }
-    $(function() {
-        dochange();
-        $(&quot;#impl&quot;).click(function() {
-            var formData = $(&quot;#form1&quot;).serialize();
-            console.log(formData);
-            $.post(&quot;${ctx}/console/install/impl&quot;, formData, function(data) {
-                alert(data);
-            })
-        })
-    })
-&lt;/script&gt;
-&lt;/head&gt;
-&lt;body style=&quot;background-color: #D2D6DE; padding: 50px&quot;&gt;
-    &lt;h1 align=&quot;center&quot;&gt;
-        &lt;b&gt;fsm5安装向导&lt;/b&gt;
-    &lt;/h1&gt;
-    &lt;div
-        style=&quot;width: 750px; height: 400px; margin: 0 auto; background-color: #ffffff;&quot;&gt;
-        &lt;div class=&quot;box&quot;&gt;
-            &lt;div class=&quot;box-header&quot;&gt;
-                &lt;h3 class=&quot;box-title&quot;&gt;fsm5安装：填写数据库连接信息。&lt;/h3&gt;
-            &lt;/div&gt;
-            &lt;hr&gt;
-            &lt;div class=&quot;box-body&quot;&gt;
-                &lt;div class=&gt;
-                    &lt;h3 class=&quot;box-title&quot;&gt;请在下方填写您的数据库连接信息。如果您不确定，请联系您的服务提供商。&lt;/h3&gt;
-                &lt;/div&gt;
-                &lt;form name=&quot;form1&quot; id=&quot;form1&quot;&gt;
-                    &lt;table style=&quot;width:100%&quot;&gt;
-
-                        &lt;tr&gt;
-                            &lt;td&gt;选择数据库：&lt;/td&gt;
-                            &lt;td&gt;&lt;select size=&quot;1&quot; name=&quot;DbType&quot; id=&quot;DbType&quot;
-                                onChange=&quot;dochange(this.value)&quot;&gt;
-                                    &lt;option value=&quot;mysql&quot;&gt;mysql&lt;/option&gt;
-                                    &lt;option value=&quot;oracle&quot;&gt;oracle&lt;/option&gt;
-                                    &lt;option value=&quot;sqlserver&quot;&gt;sqlserver&lt;/option&gt;
-                                    &lt;option value=&quot;dm&quot;&gt;dm&lt;/option&gt;
-                            &lt;/select&gt;&lt;/td&gt;
-                            &lt;td&gt;选择你想用的数据库&lt;/td&gt;
-                        &lt;/tr&gt;
-                        &lt;tr&gt;
-                            &lt;td&gt;数据库驱动：&lt;/td&gt;
-                            &lt;td&gt;&lt;input type=&quot;text&quot; id=&quot;Driver&quot; name=&quot;Driver&quot; value=&quot;&quot;&gt;&lt;/td&gt;
-                            &lt;td&gt;您的数据库驱动是？&lt;/td&gt;
-                        &lt;/tr&gt;
-                        &lt;tr&gt;
-                            &lt;td&gt;数据库连接：&lt;/td&gt;
-                            &lt;td&gt;&lt;input type=&quot;text&quot; id=&quot;Url&quot; name=&quot;Url&quot; value=&quot;&quot;&gt;&lt;/td&gt;
-                            &lt;td&gt;您的数据库连接是？&lt;/td&gt;
-                        &lt;/tr&gt;
-                        &lt;tr&gt;
-                            &lt;td&gt;用户名：&lt;/td&gt;
-                            &lt;td&gt;&lt;input type=&quot;text&quot; id=&quot;User&quot; name=&quot;User&quot; value=&quot;&quot;&gt;&lt;/td&gt;
-                            &lt;td&gt;您的数据库用户名？&lt;/td&gt;
-                        &lt;/tr&gt;
-                        &lt;tr&gt;
-                            &lt;td&gt;密码：&lt;/td&gt;
-                            &lt;td&gt;&lt;input type=&quot;password&quot; id=&quot;Password&quot; name=&quot;Password&quot;
-                                value=&quot;&quot;&gt;&lt;/td&gt;
-                            &lt;td&gt;您的数据库密码是？&lt;/td&gt;
-                        &lt;/tr&gt;
-
-                    &lt;/table&gt;
-                &lt;/form&gt;
-                &lt;br&gt;
-                &lt;br&gt;
-            &lt;/div&gt;
-            &lt;hr&gt;
-            &lt;!-- /.box-body --&gt;
-            &lt;div id=&quot;footer&quot; style=&quot;padding-right: 5px&quot;&gt;
-                &lt;a class=&quot;you1&quot;&gt;&lt;input type=&quot;submit&quot; name=&quot;submit&quot; id=&quot;impl&quot;
-                    class=&quot;you&quot; value=&quot;初始化数据&quot;
-                    style=&quot;width:80px; height:30px; background-color: #337ab7;color: #ffffff;&quot;&gt;&lt;/a&gt;
-            &lt;/div&gt;
-        &lt;/div&gt;
-&lt;/body&gt;
-</code></pre><h3 id="后台代码如下："><a href="#后台代码如下：" class="headerlink" title="后台代码如下："></a>后台代码如下：</h3><pre><code>package com.code.controller;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.commons.configuration.PropertiesConfiguration;
-
-import com.code.core.MyConfig;
-import com.code.util.SqlImp;
-import com.jfinal.core.Controller;
-import com.jfinal.kit.StrKit;
-
-public class InstallController extends Controller {
-
-    public void index() {
-        if(MyConfig.installed){
-            renderText(&quot;已经初始化完成&quot;);
-            return;
-        }
-        render(&quot;install.html&quot;);
-    }
-
-    public void getDbInfo() {
-        Map&lt;String, String&gt; dbInfo = new HashMap&lt;String, String&gt;();
-        try {
-            PropertiesConfiguration myconfig = new PropertiesConfiguration(&quot;myconfig.properties&quot;);
-            String strDbType = getPara(&quot;DbType&quot;);
-            if (StrKit.isBlank(strDbType)) {
-                strDbType = myconfig.getString(&quot;db&quot;);
-            }
-            dbInfo.put(&quot;DbType&quot;, strDbType);
-            dbInfo.put(&quot;Driver&quot;, myconfig.getString(strDbType + &quot;Driver&quot;));
-            dbInfo.put(&quot;Url&quot;, myconfig.getString(strDbType + &quot;Url&quot;));
-            dbInfo.put(&quot;User&quot;, myconfig.getString(strDbType + &quot;User&quot;));
-            dbInfo.put(&quot;Password&quot;, myconfig.getString(strDbType + &quot;Password&quot;));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        renderJson(dbInfo);
-    }
-
-    public void impl() {
-        String msg = &quot;数据库脚本初始化成功，请重启中间件进入系统&quot;;
-        try {
-            PropertiesConfiguration myconfig = new PropertiesConfiguration(&quot;myconfig.properties&quot;);
-
-            String strDbType = getPara(&quot;DbType&quot;);
-            String strDriver = getPara(&quot;Driver&quot;);
-            String strUrl = getPara(&quot;Url&quot;);
-            String strUser = getPara(&quot;User&quot;);
-            String strPassword = getPara(&quot;Password&quot;);
-
-            String str = SqlImp.exec(strDbType,strDriver,strUrl,strUser,strPassword);
-            if (StrKit.notBlank(str)) {
-                msg = str;
-            }
-            myconfig.setProperty(&quot;db&quot;, strDbType);
-            myconfig.setProperty(strDbType + &quot;Driver&quot;, strDriver);
-            myconfig.setProperty(strDbType + &quot;Url&quot;, strUrl);
-            myconfig.setProperty(strDbType + &quot;User&quot;, strUser);
-            myconfig.setProperty(strDbType + &quot;Password&quot;, strPassword);
-            myconfig.save();
-
-        } catch (Exception e) {
-            msg = &quot;操作失败&quot;;
-            e.printStackTrace();
-        }
-
-        renderText(msg);
-    }
-
-}
-</code></pre><h3 id="对应的数据库连接如下："><a href="#对应的数据库连接如下：" class="headerlink" title="对应的数据库连接如下："></a>对应的数据库连接如下：</h3><blockquote>
-<p>db=sqlserver</p>
-<p>dmDriver = dm.jdbc.driver.DmDriver<br>dmUrl = jdbc:dm://localhost:5236/fsm4j<br>dmUser = fsm4j<br>dmPassword =123456789</p>
-<p>sqlserverDriver   =net.sourceforge.jtds.jdbc.Driver<br>sqlserverUrl  =jdbc:jtds:sqlserver://localhost:1433;DatabaseName=fsm5<br>sqlserverUser =sa<br>sqlserverPassword =123456</p>
-<p>oracleDriver = oracle.jdbc.driver.OracleDriver<br>oracleUrl = jdbc:oracle:thin:@localhost:1521:xe<br>oracleUser = fsm4j<br>oraclePassword = fsm4j</p>
-<p>mysqlDriver = com.mysql.jdbc.Driver<br>mysqlUrl = jdbc:mysql://192.168.5.231/fsm4j?zeroDateTimeBehavior=convertToNull<br>mysqlUser = root<br>mysqlPassword =password</p>
-<p>devMode = true</p>
-</blockquote>
-
+        <p>###<br>在前台页面配置sql的数据库连接，然后将其数据导入到数据库中，页面上的配置如下图所示<br>
+        
+          <p class="article-more-link">
+            <a href="/2017/11/18/前台页面配置数据库连接/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.juedigulang.com/2017/11/18/前台页面配置数据库连接/" data-id="cja53bfga000bzkp685l6gtkb" class="article-share-link">分享</a>
+      <a data-url="http://www.juedigulang.com/2017/11/18/前台页面配置数据库连接/" data-id="cja53lwin000elop6y5f9avl0" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql/">sql</a></li></ul>
@@ -350,117 +184,16 @@ public class InstallController extends Controller {
     <div class="article-entry" itemprop="articleBody">
       
         <p>做项目中经常要调用 百度地图，遇到要根据坐标得到地址名称，或根据名称匹配得到经纬度坐标，所以提取出来写了两个通用方法。<br>需要依赖 json.jar 包。</p>
-<p>代码如下：</p>
-<pre><code>/**
- * 地址匹配
- * @author 
- *
- */
-public class AddressParse {
-/**
- * 正向地址匹配接口
- * 根据xy获取所在省市县
- * @param xy
- * @return
- */
- public static Map geodecode(String xy){
-String sUrl=&quot;http://api.map.baidu.com/geocoder/v2/?ak=8926feb9ef0a93c41c13b6103bf4dfa6&amp;location=&quot;+xy + &quot;&amp;output=json&amp;pois=0&quot;;
- String address=&quot;&quot;;
- StringBuffer str = new StringBuffer();
- Map resultMap=new HashMap();
- try {  
- java.net.URL url = new java.net.URL(sUrl);
- BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream(),&quot;utf-8&quot;));
- String line;
- while ((line = in.readLine()) != null) {
- str.append(line);
- }
- in.close();
-if (str.equals(&quot;&quot;) || str == null) {
-System.err.println(&quot;百度服务无返回&quot;);
-return null;
-}
-System.out.println(str.toString());
-
-
-JSONObject jsonobj = null;
-try {
-jsonobj = JSONObject.fromObject(str.toString());
-JSONObject result = jsonobj.getJSONObject(&quot;result&quot;);// 获取对象
-JSONObject addressComponent = result
-.getJSONObject(&quot;addressComponent&quot;);
-String province = addressComponent
-.getString(&quot;province&quot;);
-resultMap.put(&quot;province&quot;,province);
-String city = addressComponent.getString(&quot;city&quot;);
-resultMap.put(&quot;city&quot;,city);
-String district = addressComponent
-.getString(&quot;district&quot;);
-resultMap.put(&quot;district&quot;,district);
-
-} catch (Exception e) {
-e.printStackTrace();
-System.out.println(&quot;此坐标获取不到省份：&quot;+xy);
-}
-
-
- } catch (Exception e) {  
- e.printStackTrace();  
- }  
- return resultMap;
-}
-
- /**
-  * 逆向匹配接口
-  * 根据地址名称，匹配得到经纬度坐标
-  * @param addr
-  * @return
-  */
-public static String geocode(String addr){
-String xyStr=&quot;&quot;;
-addr=URLEncoder.encode(addr);
-StringBuffer str = new StringBuffer();
-String lng=&quot;&quot;;
-String lat=&quot;&quot;;
-try {
-//System.out.println(&quot;http://api.map.baidu.com/geocoder?address=&quot;+addr+&quot;&amp;output=json&quot;);
-String sUrl=&quot;http://api.map.baidu.com/geocoder/v2/?address=&quot;+addr+&quot;&amp;&amp;output=json&amp;ak=SgntTWnUw65ysdPSghbs27noTxOuK88O&quot;;
-java.net.URL url = new java.net.URL(sUrl);
-//java.net.URL url = new java.net.URL(&quot;http://api.map.baidu.com/?qt=gc&amp;wd=&quot;+addr+&quot;&amp;cn=%E5%85%A8%E5%9B%BD&amp;ie=utf-8&amp;oue=0&amp;res=api&amp;callback=BMap._rd._cbk96117&quot;);
-BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-String line;
-while ((line = in.readLine()) != null) {
-str.append(line);
-}
-in.close();
-JSONObject dataJson=null;
-dataJson =JSONObject.fromObject(str.toString());
-JSONObject result=dataJson.getJSONObject(&quot;result&quot;);
-JSONObject location=result.getJSONObject(&quot;location&quot;);
-lng =location.getDouble(&quot;lng&quot;)+&quot;&quot;;
-lat =location.getDouble(&quot;lat&quot;)+&quot;&quot;;
-xyStr= lng+&quot; &quot;+lat;
-} catch (Exception e) {
-lng=&quot;&quot;;
-lat=&quot;&quot;;
-}
-return xyStr;
-}
-
-public static void main(String [] args){
-String xy = AddressParse.geocode(&quot;成都市成华区建设路颐和家园7栋2801&quot;);
-System.out.println(xy);
-
-Map address = AddressParse.geodecode(&quot;40.033534,116.313289&quot;);
-System.out.println(address);
-
-}
-}
-</code></pre>
+<p>代码如下：<br>
+        
+          <p class="article-more-link">
+            <a href="/2017/11/18/调用百度地址匹配接口和获取经纬度坐标/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.juedigulang.com/2017/11/18/调用百度地址匹配接口和获取经纬度坐标/" data-id="cja53bfia000izkp6iwl24qc2" class="article-share-link">分享</a>
+      <a data-url="http://www.juedigulang.com/2017/11/18/调用百度地址匹配接口和获取经纬度坐标/" data-id="cja53lwkf000qlop63lmiudyo" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
@@ -516,95 +249,16 @@ System.out.println(address);
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="将转换为标准的sql文件导入到数据库中"><a href="#将转换为标准的sql文件导入到数据库中" class="headerlink" title="将转换为标准的sql文件导入到数据库中"></a>将转换为标准的sql文件导入到数据库中</h3><pre><code>/**
- * 将标准sql脚本导入本地数据库，导入前需清空数据库
- * 
- */
-public class SqlImp {
-    static Logger logger = Logger.getLogger(SqlImp.class);
-
-    public static String exec(String db,String driver,String url,String user,String password) {
-        String str = &quot;&quot;;
-        try {
-            String jdbcUrl = url;
-            Class.forName(driver);
-            Connection conn = DriverManager.getConnection(jdbcUrl, user, password);
-
-            ScriptRunner runner = new ScriptRunner(conn);
-            Writer result = new StringWriter();
-            PrintWriter printWriter = new PrintWriter(result);
-            // runner.setLogWriter(printWriter);
-            runner.setErrorLogWriter(printWriter);
-            runner.setAutoCommit(true);
-            runner.setStopOnError(false);
-
-            // 构建流集合
-            Vector&lt;InputStream&gt; vector = new Vector&lt;InputStream&gt;();
-            InputStream standard = new FileInputStream(PathKit.getWebRootPath() + &quot;/WEB-INF/dbsql/&quot;+db+&quot;.sql&quot;);
-            // InputStream testdata = new
-            // FileInputStream(PathKit.getWebRootPath() + &quot;/doc/testdata.sql&quot;);
-            vector.addElement(standard);
-            // vector.addElement(testdata);
-
-            Enumeration&lt;InputStream&gt; enu = vector.elements();
-            // 合并流
-            SequenceInputStream sis = new SequenceInputStream(enu);
-            InputStreamReader isr = new InputStreamReader(sis, &quot;utf-8&quot;);
-            Reader reader = new BufferedReader(isr);
-            runner.runScript(reader);
-            str = result.toString();
-        }catch (IOException e) {
-            e.printStackTrace();
-        }catch (ClassNotFoundException e) {
-            logger.info(e.getMessage());
-            str=&quot;数据库驱动错误&quot;;
-        }catch (SQLException e) {
-            logger.info(e.getMessage());
-            str=&quot;数据库连接错误&quot;;
-        } 
-        return str;
-    }
-    public static String stringToHexString(String strPart) {
-String hexString = &quot;&quot;;
-for (int i = 0; i &lt; strPart.length(); i++) {
-int ch = (int) strPart.charAt(i);
-String strHex = Integer.toHexString(ch); 
-hexString = hexString + strHex;
-}
-return hexString;
-}
-    /**
-     * 执行sql文件
-     * 
-     * @return
-     */
-    public static String exec() {
-        String str = &quot;&quot;;
-        PropertiesConfiguration myconfig;
-        try {
-            myconfig = new PropertiesConfiguration(&quot;myconfig.properties&quot;);
-            String db = myconfig.getString(&quot;db&quot;);
-            String jdbcUrl = myconfig.getString(db + &quot;Url&quot;);
-            exec(db, jdbcUrl, myconfig.getString(db + &quot;Driver&quot;), myconfig.getString(db + &quot;User&quot;), myconfig.getString(db + &quot;Password&quot;));
-        } catch (ConfigurationException e) {
-            e.printStackTrace();
-        }
-
-        return str;
-    }
-
-    public static void main(String[] args) {
-        MyConfig mc = new MyConfig();
-        mc.initConsole();
-        String str = exec();
-        System.out.println(str);
-    }
-}
-</code></pre>
+        <h3 id="将转换为标准的sql文件导入到数据库中"><a href="#将转换为标准的sql文件导入到数据库中" class="headerlink" title="将转换为标准的sql文件导入到数据库中"></a>将转换为标准的sql文件导入到数据库中</h3>
+        
+          <p class="article-more-link">
+            <a href="/2017/11/18/将标准的sql脚本导入数据库/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.juedigulang.com/2017/11/18/将标准的sql脚本导入数据库/" data-id="cja53bfi2000gzkp6e19cixop" class="article-share-link">分享</a>
+      <a data-url="http://www.juedigulang.com/2017/11/18/将标准的sql脚本导入数据库/" data-id="cja53lwjk000klop6duormqjd" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql/">sql</a></li></ul>
@@ -660,53 +314,16 @@ return hexString;
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="将mysql数据库使用navcat导出后处理为标准的sql脚本"><a href="#将mysql数据库使用navcat导出后处理为标准的sql脚本" class="headerlink" title="将mysql数据库使用navcat导出后处理为标准的sql脚本"></a>将mysql数据库使用navcat导出后处理为标准的sql脚本</h3><pre><code>/**
- * 将navicat导出的mysql数据库脚本处理为标准脚本
- */
-public class StandardSql {
-
-    public static void make() {
-        try {
-            String str = FileUtils.readFileToString(new File(PathKit.getWebRootPath() + &quot;/src/main/webapp/WEB-INF/dbsql/fsm5.sql&quot;), &quot;utf-8&quot;);
-            str = str.replaceAll(&quot;`&quot;, &quot;&quot;).replaceAll(&quot;([ \t]+)longtext([ \t,]*)&quot;, &quot; clob $2&quot;).replaceAll(&quot;ENGINE=InnoDB DEFAULT CHARSET=utf8&quot;, &quot;&quot;)
-                    .replaceAll(&quot;DROP TABLE IF EXISTS ([^;]*);&quot;, &quot;-- DROP TABLE $1&quot;).replaceAll(&quot;SET FOREIGN_KEY_CHECKS=0;&quot;, &quot;&quot;).replaceAll(&quot;/\\*([^\\*]+)\\*/&quot;, &quot;&quot;);
-            //视图处理
-            str=str.replaceAll(&quot;DROP VIEW IF EXISTS ([^;]*);&quot;, &quot;-- DROP VIEW $1&quot;).replaceAll(&quot;ALGORITHM=UNDEFINED DEFINER=root@% SQL SECURITY DEFINER &quot;, &quot;&quot;);
-            // 注释处理
-            str = str.replaceAll(&quot;COMMENT=&apos;([^&apos;]+)&apos;;&quot;, &quot;;\r\n -- $1&quot;).replaceAll(&quot;COMMENT &apos;([^&apos;]+)&apos;,&quot;, &quot;, -- $1&quot;);
-            // 处理整形
-            str = str.replaceAll(&quot; int(\\(\\d+\\)) &quot;, &quot; int &quot;);
-            //替换\r\n\&quot;
-            str = str.replaceAll(&quot;\\x5c\\x72&quot;, &quot;\&quot;&quot;).replaceAll(&quot;\\x5c\\x6e&quot;, &quot;&quot;).replaceAll(&quot;\\x5c\\x22&quot;, &quot;\&quot;&quot;);
-            System.out.println(str);
-
-            String mysql=str.replaceAll(&quot;([ \t]+)clob([ \t,]*)&quot;, &quot; longtext $2&quot;);
-            FileUtils.writeStringToFile(new File(PathKit.getWebRootPath() + &quot;/src/main/webapp/WEB-INF/dbsql/mysql.sql&quot;), mysql, &quot;utf-8&quot;);
-
-            String oracle=str.replaceAll(&quot;\\x5c\\x27&quot;, &quot;\\&apos;\\&apos;&quot;);
-            FileUtils.writeStringToFile(new File(PathKit.getWebRootPath() + &quot;/src/main/webapp/WEB-INF/dbsql/oracle.sql&quot;), oracle, &quot;utf-8&quot;);
-
-            String sqlserver=str.replaceAll(&quot;([ \t]+)clob([ \t,]*)&quot;, &quot; text $2&quot;).replaceAll(&quot;\\x5c\\x27&quot;, &quot;\\&apos;\\&apos;&quot;);
-            FileUtils.writeStringToFile(new File(PathKit.getWebRootPath() + &quot;/src/main/webapp/WEB-INF/dbsql/sqlserver.sql&quot;), sqlserver, &quot;utf-8&quot;);
-
-            String dm=str.replaceAll(&quot;\\x5c\\x27&quot;, &quot;\\&apos;\\&apos;&quot;);
-            FileUtils.writeStringToFile(new File(PathKit.getWebRootPath() + &quot;/src/main/webapp/WEB-INF/dbsql/dm.sql&quot;), dm, &quot;utf-8&quot;);
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void main(String[] args) {
-        make();
-    }
-}  
-</code></pre>
+        <h3 id="将mysql数据库使用navcat导出后处理为标准的sql脚本"><a href="#将mysql数据库使用navcat导出后处理为标准的sql脚本" class="headerlink" title="将mysql数据库使用navcat导出后处理为标准的sql脚本"></a>将mysql数据库使用navcat导出后处理为标准的sql脚本</h3>
+        
+          <p class="article-more-link">
+            <a href="/2017/11/18/将sql处理为标准的sql脚本/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.juedigulang.com/2017/11/18/将sql处理为标准的sql脚本/" data-id="cja53bfh3000czkp6ggt518jg" class="article-share-link">分享</a>
+      <a data-url="http://www.juedigulang.com/2017/11/18/将sql处理为标准的sql脚本/" data-id="cja53lwj4000ilop6451qachj" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql/">sql</a></li></ul>
@@ -762,44 +379,16 @@ public class StandardSql {
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>下面记录下个人在使用过程中的一些难点，顺带一些没有解决的问题。先看下插件的页面效果：<br><img src="https://i.imgur.com/FxDoZ8F.png" alt=""></p>
-<p>如果仅仅作为表格的载体，其实有很多插件可以选择。我更看重的是它的编辑功能，后台为维护更多的是对单跳数据进行操作，具体场景是客服和客户 1V1的交流，而dataTables对于单条数据的编辑，是相当不错的，具体来说，采用bootstrap的模态窗口（插件自动生成）实现了修改功能。 对于开发人员来说，省去了另写编辑页面的繁琐。 </p>
-<p>话不多说，下面慢慢粘代码以及效果图。 </p>
-<p>对于一个和后台交互的插件，最重要其实就两件事情，需要什么样的数据格式，提交给后台的又是怎样的数据格式，搞清楚这两点，其实就没什么了。 </p>
-<p>dataTables支持很多数据源，官方有详细介绍，项目采用了轻量级的json数据进行传输，以下是插件填充表格时所需的数据格式：<br><img src="https://i.imgur.com/vcPgDLZ.png" alt=""></p>
-<p>对于增删改查，dataTable默认传给后台的数据相当蛋疼，这里费了不少心思，最后重新封装了下数据格式，先看一下默认的数据格式：<br><img src="https://i.imgur.com/GliHauJ.png" alt=""></p>
-<p>想要看懂上面的数据，还需要知道一个知识点，如果想使用dataTables的编辑功能，返回数据中，需要包括”DT_RowId”这个键，这个键值对需要放在每一行的数据中，充当表格的主键，当然，重复也没关系，这就是让人困惑的地方； </p>
-<p>有了这个知识点，在看编辑数据时，默认的数据格式，这些都是键值对，对于键的命名，action表示操作行为，包括 remove,edit,create三种键值，支持自定义，详细的可以参考官方文档；剩下的便是每个单元格的表示，“data[row1] [accountId]”中，data是固定的，row1是选中行DT_RowId的值，accountId是选中行列的别称，关于列名和json数据源 键名的匹配，以下会有详细代码。 </p>
-<p>看懂这个之后，再去思考后台如何拿数据，后台不可能去遍历request中的所有参数，所以比较好的方法就是在前台二次封装这些数据，通过对json数据的重新封装，即可，以下是个人的封装方法：<br>javaScript代码：<br>    ajax: {<br>        url:”/charge-manage/individualMember/edit”,<br>        data:function(data){<br>        var result={};<br>        for(var i in data.data){<br>        var result=data.data[i];<br>        result.DT_RowId=i;<br>        result.action=data.action;<br>        console.log(result);<br>        }<br>        return result;<br>        },<br>    },  </p>
-<p>经过这样的封装，参数类型如下：<br><img src="https://i.imgur.com/7lUiKTX.png" alt=""></p>
-<p>这样后台就方便拿参数进行操作了。 </p>
-<p>解决了数据流向问题，在看页面本身的问题，表格列名如何与数据源匹配，这个比较简单，代码如下：<br>js代码如下：<br>    $(‘#member’).DataTable( {<br>    dom: “Bfrtip”,<br>    ajax:”/charge-manage/individualMember/getMember?”+”phoneNum=”+phoneNum,<br>    columns:[{data:”memberCode”},<br>             {data:”accountId”},<br>             {data:”phoneNum”},<br>             {data:”password”},<br>             {data:”lastLoginTime”}<br>             ],<br>    select:true,<br>       buttons: [<br>            { extend: “create”, editor: editor },<br>            { extend: “edit”,   editor: editor },<br>            { extend: “remove”, editor: editor }]<br>   } );</p>
-<p>columns集合中的顺序，对应表格列的顺序，data的值，对应json数据源中的键；<br>以下是表格的实际图形： </p>
-<p>编辑操作有自己的操作对象，也就是上面buttons栏引用的，代码如下：<br>js代码如下：<br>        var editor = new $.fn.dataTable.Editor( {<br>        ajax: {<br>    url:”/charge-manage/individualMember/edit”,<br>    data:function(data){<br>    var result={};<br>    for(var i in data.data){<br>    var result=data.data[i];<br>    result.DT_RowId=i;<br>    result.action=data.action;<br>    console.log(result);<br>    }<br>    return result;<br>    },<br>    },  </p>
-<pre><code> fields: [{  
-        label: &quot;会员编码:&quot;,  
-        name: &quot;memberCode&quot;  
-    }, {  
-        label: &quot;账户编码:&quot;,  
-        name: &quot;accountId&quot;  
-    },{  
-        label: &quot;手机号:&quot;,  
-        name: &quot;phoneNum&quot;  
-    },{  
-        label: &quot;密码:&quot;,  
-        name: &quot;password&quot;                      
-    },{  
-        label: &quot;最后登录时间:&quot;,  
-        name: &quot;lastLoginTime&quot;                     
-    }],  
-table: &quot;#member&quot;  
-</code></pre><p> });</p>
-<p>fields集合中，label值是模态窗口对应的名称，细心的同学可以看到加了冒号，name对应向后台传入参数的键名。<br>下面是该模态的实际图片，再次强调，这玩意是自动生成的<br><img src="https://i.imgur.com/G2Dc1Hr.png" alt="">  </p>
-
+        <p>下面记录下个人在使用过程中的一些难点，顺带一些没有解决的问题。先看下插件的页面效果：<br><img src="https://i.imgur.com/FxDoZ8F.png" alt=""><br>
+        
+          <p class="article-more-link">
+            <a href="/2017/11/18/datatables增删改/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.juedigulang.com/2017/11/18/datatables增删改/" data-id="cja53bfch0002zkp68dgtmr18" class="article-share-link">分享</a>
+      <a data-url="http://www.juedigulang.com/2017/11/18/datatables增删改/" data-id="cja53lwf80002lop6yttd7q4e" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jfinal、datatables/">jfinal、datatables</a></li></ul>
@@ -855,169 +444,16 @@ table: &quot;#member&quot;
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="页面js代码如下："><a href="#页面js代码如下：" class="headerlink" title="页面js代码如下："></a>页面js代码如下：</h3><pre><code>editor = new $.fn.dataTable.Editor( {
-            ajax: {
-                url:&quot;${ctx}/console/job/dtAction?job.orgID=&quot;+orgID,
-                  data:function(data){
-                    var result = {};
-                    for(var i in data.data){
-                      //封装json的格式
-                         var result=data.data[i];
-                         result.DT_Rowid=i;
-                         result.action=data.action;
-                         console.log(result); 
-                         $.each(result,function (index, value) {
-                             //console.log(index);
-                             if(index!=&quot;action&quot; &amp;&amp; index!=&quot;DT_Rowid&quot;){
-                                 modifyJosnKey(result,index,&quot;job.&quot;+index);
-                             }
-                         })
-                    }
-                    return result;
-                },
-            },
-            table: &quot;#example&quot;,
-            idSrc:&quot;id&quot;,
-            fields: [ {
-                    label: &quot;主键&quot;,
-                    name:  &quot;id&quot;,
-                    type:  &quot;hidden&quot;,
-                }, {
-                    label: &quot;岗位名称&quot;,
-                    name:  &quot;jobname&quot;
-                }, {
-                    label: &quot;岗位描述&quot;,
-                    name:  &quot;jobdesc&quot;,
-                },{
-                    label: &quot;排序&quot;,
-                    name:  &quot;sortid&quot;,
-                }
-            ],
-            i18n: {
-                create: {
-                    button: &quot;新建&quot;,
-                    title:  &quot;新建&quot;,
-                    submit: &quot;保存&quot;
-                },
-                edit: {
-                    button: &quot;编辑&quot;,
-                    title:  &quot;编辑&quot;,
-                    submit: &quot;保存&quot;
-                },
-                remove: {
-                    button: &quot;删除&quot;,
-                    title:  &quot;删除&quot;,
-                    submit: &quot;删除&quot;,
-                    confirm: {
-                        _: &quot;您是不是一定希望删除%d行吗?&quot;,
-                        1: &quot;您是不是一定希望删除1行吗?&quot;
-                    }
-                },
-                error: {
-                    system: &quot;发生错误,请联系管理员&quot;
-                },
-                datetime: {
-                    previous: &apos;上一个&apos;,
-                    next:     &apos;下一个&apos;,
-                    months:   [ &apos;一月&apos;, &apos;二月&apos;, &apos;三月&apos;, &apos;四月&apos;, &apos;五月&apos;, &apos;六月&apos;, &apos;七月&apos;, &apos;八月&apos;, &apos;九月&apos;, &apos;十月&apos;, &apos;十一月&apos;, &apos;十二月&apos; ],
-                    weekdays: [ &apos;周一&apos;, &apos;周二&apos;, &apos;周三&apos;, &apos;周四&apos;, &apos;周五&apos;, &apos;周六&apos;, &apos;周日&apos; ]
-                }
-            }
-        } );
-        table = $(&apos;#example&apos;).DataTable( {
-              language: {
-                  &quot;sProcessing&quot;: &quot;处理中...&quot;,
-                  &quot;sLengthMenu&quot;: &quot;显示 _MENU_ 项结果&quot;,
-                  &quot;sZeroRecords&quot;: &quot;没有匹配结果&quot;,
-                  &quot;sInfo&quot;: &quot;显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项&quot;,
-                  &quot;sInfoEmpty&quot;: &quot;显示第 0 至 0 项结果，共 0 项&quot;,
-                  &quot;sInfoFiltered&quot;: &quot;(由 _MAX_ 项结果过滤)&quot;,
-                  &quot;sInfoPostFix&quot;: &quot;&quot;,
-                  &quot;sEmptyTable&quot;: &quot;表中数据为空&quot;,
-                  &quot;sLoadingRecords&quot;: &quot;载入中...&quot;,
-                  &quot;sInfoThousands&quot;: &quot;,&quot;,
-                  &quot;oPaginate&quot;: {
-                      &quot;sFirst&quot;: &quot;首页&quot;,
-                      &quot;sPrevious&quot;: &quot;上页&quot;,
-                      &quot;sNext&quot;: &quot;下页&quot;,
-                      &quot;sLast&quot;: &quot;末页&quot;
-                  },
-                  &quot;oAria&quot;: {
-                      &quot;sSortAscending&quot;: &quot;: 以升序排列此列&quot;,
-                      &quot;sSortDescending&quot;: &quot;: 以降序排列此列&quot;
-                  }
-              },
-              searching:false,
-              dom: &apos;&lt;&quot;dt-panelmenu clearfix&quot;Bfr&gt;t&lt;&quot;dt-panelfooter clearfix&quot;ip&gt;&apos;,
-              ajax: &quot;${ctx}/console/job/dtAction?orgID=&quot;+orgID,
-              columns: [
-                    { data: &quot;jobname&quot;, className: &quot;center&quot; },
-                  { data: &quot;jobdesc&quot;, className: &quot;center&quot; },
-                  { data: &quot;updatetime&quot;, className: &quot;center&quot; }
-              ],
-              select: true,
-              buttons: [
-                        { extend: &quot;create&quot;, editor: editor },
-                        { extend: &quot;edit&quot;,   editor: editor },
-                        { extend: &quot;remove&quot;, editor: editor }
-              ] 
-          } );
-
-        $(&quot;#tree&quot;).fancytree({
-              source:${orgs},
-            icons: false, // Display node icons.
-            clickFolderMode: 2, // 1:activate, 2:expand, 3:activate and expand, 4:activate (dblclick expands)
-            activate: function(event, data) {
-                orgID=data.node.data.id;
-                //console.log(orgID);
-                //console.log(table);
-                //console.log(table.context[0]._editor.s.ajax.url);
-                table.context[0]._editor.s.ajax.url=&quot;${ctx}/console/job/dtAction?job.orgID=&quot;+orgID;
-                table.ajax.url(&quot;${ctx}/console/job/dtAction?orgID=&quot;+orgID).load();//再次加载
-            }
-        });
-</code></pre><h3 id="后台java代码如下："><a href="#后台java代码如下：" class="headerlink" title="后台java代码如下："></a>后台java代码如下：</h3><pre><code>public void dtAction() {
-    String action = getPara(&quot;action&quot;, &quot;&quot;);
-    switch (action) {
-    case &quot;create&quot;:
-        Job job = getModel(Job.class);
-        User user = getSessionAttr(&quot;User&quot;);
-        job.set(&quot;insertuserid&quot;, user.getStr(&quot;username&quot;));
-        job.set(&quot;updateuserid&quot;, user.getStr(&quot;username&quot;));
-        service.save(job);
-        JSONObject json = new JSONObject();
-        json.put(&quot;data&quot;, job);
-        //Map map1 = new HashMap();
-        //map1.put(&quot;data&quot;, job);
-        renderJson(json);
-        break;
-    case &quot;edit&quot;:
-        Job job1 = getModel(Job.class);
-        service.update(job1);
-        Map map2 = new HashMap();
-        map2.put(&quot;data&quot;, job1);
-        renderJson(map2);
-        break;
-    case &quot;remove&quot;:
-        Job job2 = getModel(Job.class);
-        job2.delete();
-        renderJson();
-        break;
-    default:
-        String orgID = getPara(&quot;orgID&quot;);
-        List&lt;Job&gt; jobs = Job.dao.find(&quot;select * from t_job where orgid=?&quot;, orgID);
-        Map map = new HashMap();
-        map.put(&quot;data&quot;, jobs);
-        renderJson(map);
-        break;
-    }
-    return;
-}
-</code></pre>
+        <h3 id="页面js代码如下："><a href="#页面js代码如下：" class="headerlink" title="页面js代码如下："></a>页面js代码如下：</h3>
+        
+          <p class="article-more-link">
+            <a href="/2017/11/18/jfinal和datatables-editor/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.juedigulang.com/2017/11/18/jfinal和datatables-editor/" data-id="cja53bffg0006zkp689fhcn2b" class="article-share-link">分享</a>
+      <a data-url="http://www.juedigulang.com/2017/11/18/jfinal和datatables-editor/" data-id="cja53lwl0000ulop6bwu7171m" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jfinal、datatables-editor/">jfinal、datatables-editor</a></li></ul>
@@ -1082,7 +518,7 @@ table: &quot;#member&quot;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.juedigulang.com/2017/11/03/乱码工具类/" data-id="cja53bfft0007zkp6r479vn38" class="article-share-link">分享</a>
+      <a data-url="http://www.juedigulang.com/2017/11/03/乱码工具类/" data-id="cja53lwie000dlop6lydcyygx" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/乱码/">乱码</a></li></ul>
@@ -1147,7 +583,7 @@ table: &quot;#member&quot;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.juedigulang.com/2017/11/03/码云公钥配置/" data-id="cja53bfpi001dzkp6cpw600x8" class="article-share-link">分享</a>
+      <a data-url="http://www.juedigulang.com/2017/11/03/码云公钥配置/" data-id="cja53lwk2000olop609ltcvjj" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh公钥/">ssh公钥</a></li></ul>
@@ -1212,7 +648,7 @@ table: &quot;#member&quot;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.juedigulang.com/2017/11/02/Nodejs安装/" data-id="cja53bfp5001bzkp6m5j03sac" class="article-share-link">分享</a>
+      <a data-url="http://www.juedigulang.com/2017/11/02/Nodejs安装/" data-id="cja53lwgi0006lop6gbwj48i7" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo、node-js/">hexo、node.js</a></li></ul>
@@ -1274,7 +710,7 @@ table: &quot;#member&quot;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.juedigulang.com/2017/11/02/Mo/" data-id="cja53bfbg0000zkp6mkcsgl5r" class="article-share-link">分享</a>
+      <a data-url="http://www.juedigulang.com/2017/11/02/Mo/" data-id="cja53lwds0000lop60harrlz4" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/死肥宅/">死肥宅</a></li></ul>
