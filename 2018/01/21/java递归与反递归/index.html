@@ -5,20 +5,20 @@
   
   <title>Mo的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="title: java递归和反向递归tags: mysqlcategories: mysql archives: /archives递归查询树tree结构有两种做法第一种，递归查询数据库结构，">
+  <meta name="description" content="title: java递归和反向递归tags: javacategories: java archives: /archives递归查询树tree结构有两种做法第一种，递归查询数据库结构，">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Mo的个人博客">
 <meta property="og:url" content="http://www.juedigulang.com/2018/01/21/java递归与反递归/index.html">
 <meta property="og:site_name" content="Mo的个人博客">
-<meta property="og:description" content="title: java递归和反向递归tags: mysqlcategories: mysql archives: /archives递归查询树tree结构有两种做法第一种，递归查询数据库结构，">
+<meta property="og:description" content="title: java递归和反向递归tags: javacategories: java archives: /archives递归查询树tree结构有两种做法第一种，递归查询数据库结构，">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://i.imgur.com/OSLw7V3.png">
 <meta property="og:image" content="https://i.imgur.com/Jflkbgg.png">
 <meta property="og:image" content="https://i.imgur.com/tgOOwPo.png">
-<meta property="og:updated_time" content="2018-01-21T05:55:24.792Z">
+<meta property="og:updated_time" content="2018-01-21T06:03:18.301Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mo的个人博客">
-<meta name="twitter:description" content="title: java递归和反向递归tags: mysqlcategories: mysql archives: /archives递归查询树tree结构有两种做法第一种，递归查询数据库结构，">
+<meta name="twitter:description" content="title: java递归和反向递归tags: javacategories: java archives: /archives递归查询树tree结构有两种做法第一种，递归查询数据库结构，">
 <meta name="twitter:image" content="https://i.imgur.com/OSLw7V3.png">
   
   
@@ -94,7 +94,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <hr>
-<p>title: java递归和反向递归<br>tags: mysql<br>categories: mysql</p>
+<p>title: java递归和反向递归<br>tags: java<br>categories: java</p>
 <h2 id="archives-archives"><a href="#archives-archives" class="headerlink" title="archives: /archives"></a>archives: /archives</h2><h3 id="递归查询树tree结构有两种做法"><a href="#递归查询树tree结构有两种做法" class="headerlink" title="递归查询树tree结构有两种做法"></a>递归查询树tree结构有两种做法</h3><p>第一种，递归查询数据库结构，<br><a id="more"></a><br>第二种，一次性将数据库表中的所有数据查出来，然后再递归查出来的list集合，<br>第一种做法适合数据量较少的tree结构，因为要一直查询数据库数据量大时速度回相对较慢，所以数据量大时建议使用第二种方法，如图1所示是一个常见的树tree结构。图如下：<br><img src="https://i.imgur.com/OSLw7V3.png" alt=""></p>
 <h3 id="反向递归（逆向递归）查询树tree结构根据关键字过滤数据"><a href="#反向递归（逆向递归）查询树tree结构根据关键字过滤数据" class="headerlink" title="反向递归（逆向递归）查询树tree结构根据关键字过滤数据"></a>反向递归（逆向递归）查询树tree结构根据关键字过滤数据</h3><p>大家有么有遇到过这个问题：我想要根据关键字过滤查询出相关数据和它的上级结构，得到图1所示结果，可往往不知道怎么做，查不出上级结构总是得到图3类似的结构，要解决这个比较常见的问题就要用到反向递归的算法，网上我那个网搜不到类似的解决方案，本人一时兴趣来了，做了一套递归和反递归的解决方案，简单易懂，大家可以相互交流一下，图如下：<br><img src="https://i.imgur.com/Jflkbgg.png" alt=""><br><img src="https://i.imgur.com/tgOOwPo.png" alt=""></p>
 <h3 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h3><pre><code>  1. /** 
@@ -300,7 +300,7 @@ return super.useListRecordToTree(allRrecords);
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.juedigulang.com/2018/01/21/java递归与反递归/" data-id="cjcodijbv000dfcp6ke0vdutd" class="article-share-link">分享</a>
+      <a data-url="http://www.juedigulang.com/2018/01/21/java递归与反递归/" data-id="cjcodncv6000gm8p6bh7wv0da" class="article-share-link">分享</a>
       
       
     </footer>
