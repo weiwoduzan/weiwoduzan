@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.juedigulang.com/"/>
-  <updated>2018-01-21T05:56:56.788Z</updated>
+  <updated>2018-01-21T07:26:11.560Z</updated>
   <id>http://www.juedigulang.com/</id>
   
   <author>
@@ -15,6 +15,163 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>插入sql语句的拼接</title>
+    <link href="http://www.juedigulang.com/2018/01/21/sql%E6%8F%92%E5%85%A5%E8%AF%AD%E5%8F%A5%E6%8B%BC%E6%8E%A5/"/>
+    <id>http://www.juedigulang.com/2018/01/21/sql插入语句拼接/</id>
+    <published>2018-01-21T07:26:11.429Z</published>
+    <updated>2018-01-21T07:26:11.560Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><p>点击保存的时候需要将上面四条数据添加到数据库中，并将原数据库中的数据清空，添加新的数据<br><img src="https://i.imgur.com/swgSnX0.png" alt=""></p><p>js代码如下：<br>    var sjArray = [];</p><pre><code>$(&quot;tr&quot;).each(function(i,v){//遍历trvar yarray = [];if(i &gt;= 1){$(v).find(&quot;td&quot;).each(function(i1,v1){//遍历tr下面的tdif(i1 &lt; $(v).find(&quot;td&quot;).length-1){yarray.push($(v1).find(&quot;input&quot;).val());}})}sjArray.push(yarray)})$.ajax({ type:&quot;POST&quot;, url:contextPath + &apos;/ChartElementInfo/sdlrAjbxxAysszSave&apos;, dataType:&quot;json&quot;, data:{num:num,newArr:JSON.stringify(sjArray)},async: false,success:function(result){if (result.code == 200) {alert(&quot;添加成功&quot;);window.location.href = contextPath + &apos;/ChartElementInfo/toshow&apos;;}else{alert(&quot;添加失败&quot;); }} });</code></pre><p>后台接收到的sjarray的格式如下：</p><p><img src="https://i.imgur.com/DKCNYaL.png" alt=""></p><h3 id="使用sql插入功能，使用insert的方法"><a href="#使用sql插入功能，使用insert的方法" class="headerlink" title="使用sql插入功能，使用insert的方法"></a>使用sql插入功能，使用insert的方法</h3><p>insert into tablename(id,name)values(x,x);格式</p><p>后台代码如下：<br>    /* </p><pre><code>* 手动录入数据的保存*/@Transactional(propagation=Propagation.SUPPORTS)@Overridepublic void getSave(String num,String newArr) throws Exception{JSONArray jsonArray = JSONArray.parseArray(newArr);ChartElementInfo info = this.get(num);String dataTable = info.getDataTable();//将数据库中内容清空this.chartElementInfoDao.del(dataTable);//遍历jsonArray将数据保存到list中List&lt;List&lt;Object&gt;&gt; data = new ArrayList&lt;List&lt;Object&gt;&gt;();for (int i =1; i&lt;jsonArray.size();i++) {String obj = jsonArray.get(i).toString();List&lt;Object&gt; row = new ArrayList&lt;Object&gt;();JSONArray array = JSONArray.parseArray(obj);for (int j=0; j&lt;array.size();j++) {String str = array.get(j).toString();row.add(str);}data.add(row);}//字段拼接String flieds = &quot;id&quot;;List&lt;ChartElementData&gt; list = this.chartElementDataService.getChartElementDataByFkId(num);Database database = this.dataBaseService.get(info.getDatabaseId());this.getConnection(database);Statement statement = null; //拿到需要添加数据的字段名称for (ChartElementData chartElementData : list) {flieds = flieds+&quot;,&quot;+chartElementData.getFieldName();String type = chartElementData.getDataType();}//拼接需要添加的数据for (List&lt;Object&gt; list2 : data) {//数据拼接String datas = &quot;&apos;&quot;+UuidUtil.uuids()+&quot;&apos;&quot;;for (Object object : list2) {if(object instanceof java.lang.String){datas = datas+&quot;,&apos;&quot;+object+&quot;&apos;&quot;;}else{datas = datas+&quot;,&quot;+object;}}try {statement = connection.getConn().createStatement();String sql = &quot;insert into &quot;+dataTable+&quot;(&quot;+flieds+&quot;) values(&quot;+datas+&quot;)&quot;;statement.executeUpdate(sql);} catch (Exception e) {// TODO Auto-generated catch blocke.printStackTrace();}finally{if (statement != null) {try {statement.close();} catch (SQLException e) {e.printStackTrace();}}}}//关闭连接connection.closeConn();}</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;需求&quot;&gt;&lt;a href=&quot;#需求&quot; class=&quot;headerlink&quot; title=&quot;需求&quot;&gt;&lt;/a&gt;需求&lt;/h3&gt;&lt;p&gt;点击保存的时候需要将上面四条数据添加到数据库中，并将原数据库中的数据清空，添加新的数据&lt;br&gt;&lt;img src=&quot;https://i.img
+      
+    
+    </summary>
+    
+      <category term="java" scheme="http://www.juedigulang.com/categories/java/"/>
+    
+    
+      <category term="java" scheme="http://www.juedigulang.com/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>js写的模糊查询</title>
+    <link href="http://www.juedigulang.com/2018/01/21/js%E6%A8%A1%E7%B3%8A%E6%9F%A5%E8%AF%A2/"/>
+    <id>http://www.juedigulang.com/2018/01/21/js模糊查询/</id>
+    <published>2018-01-21T07:14:45.316Z</published>
+    <updated>2018-01-21T07:19:44.047Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><a id="more"></a><p>页面上需要进行模糊查询匹配，使用js完成，效果如下：<br><img src="https://i.imgur.com/J6bwvoX.png" alt=""></p><h3 id="通过主题和名称组成的多条件查询"><a href="#通过主题和名称组成的多条件查询" class="headerlink" title="通过主题和名称组成的多条件查询"></a>通过主题和名称组成的多条件查询</h3><p>首先，要把数据组装成下面的格式：</p><pre><code>var treejson=[{id:&apos;theme0&apos;,nodename:&apos;经济主题&apos;,//节点名称children:[{id:&apos;1&apos;,nodename:&apos;规模增长及增速&apos;},{id:&apos;2&apos;,nodename:&apos;产业构成&apos;},{id:&apos;3&apos;,nodename:&apos;社会消费品构成&apos;}]},{id:&apos;theme1&apos;,nodename:&apos;人口主题&apos;,//节点名称children:[{id:&apos;4&apos;,nodename:&apos;规模增长及增速&apos;},{id:&apos;5&apos;,nodename:&apos;贫困特征&apos;}]}]</code></pre><p>前端js代码的格式如上面的格式，由于在前端不好组装数据，所以在后台进行数据的组装，后台代码 如下：</p><pre><code>List&lt;Map&lt;String,Object&gt;&gt; list = themeService.getThemes();List&lt;Map&lt;String,Object&gt;&gt; listJson = new ArrayList&lt;Map&lt;String,Object&gt;&gt;();for (Map&lt;String, Object&gt; map2 : list) {String themeId = map2.get(&quot;id&quot;).toString();//获取图元数据List&lt;Map&lt;String, Object&gt;&gt; info = service.getInfo(themeId);//查询数据的组装Map&lt;String,Object&gt; jmap = new HashMap&lt;String, Object&gt;();Object obj = map2.get(&quot;id&quot;);jmap.put(&quot;id&quot;, obj);Object obj1 = map2.get(&quot;name&quot;);jmap.put(&quot;nodename&quot;, obj1);jmap.put(&quot;children&quot;, info);listJson.add(jmap);}//查询数据setAttribute(&quot;charInfoListJson&quot;, JsonUtil.toJson(listJson));</code></pre><p>这样就可以把数据组装成上面所对应的格式了，下面就是所对应的前端代码了，jsp代码如下</p><pre><code>&lt;div class=&quot;message&quot; id=&quot;animate&quot;&gt;&lt;div class=&quot;line&quot;&gt;&lt;div class=&quot;lineC&quot; id=&quot;1&quot;&gt;&lt;span class=&quot;text&quot;&gt;人口主题&lt;/span&gt; &lt;em&gt;&lt;/em&gt;&lt;/div&gt;&lt;ul style=&quot;display: block;&quot;&gt;&lt;li class=&quot;active&quot; id=&quot;1&quot; onclick=&quot;gb1(this);&quot;&gt;人口流入&lt;/li&gt;&lt;li id=&quot;2&quot; onclick=&quot;gb1(this);&quot;&gt;就业人口行业分布&lt;/li&gt;&lt;li id=&quot;3&quot; onclick=&quot;gb1(this);&quot;&gt;近年人口增长率&lt;/li&gt;&lt;li id=&quot;4&quot; onclick=&quot;gb1(this);&quot;&gt;人口流出&lt;/li&gt;&lt;li id=&quot;5&quot; onclick=&quot;gb1(this);&quot;&gt;近年失业率统计&lt;/li&gt;&lt;li id=&quot;6&quot; onclick=&quot;gb1(this);&quot;&gt;文化程度分析&lt;/li&gt;&lt;li id=&quot;7&quot; onclick=&quot;gb1(this);&quot;&gt;近年婚姻状况分析&lt;/li&gt;&lt;li id=&quot;8&quot; onclick=&quot;gb1(this);&quot;&gt;各年龄段人口数&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;rightInfo fr w84 economic-left&quot;&gt;&lt;div class=&quot;tuyuan w100&quot; id=&quot;tuyuan&quot;&gt;&lt;div class=&quot;fonud&quot;&gt;&lt;span&gt;主题：&lt;/span&gt; &lt;select name=&quot;&quot; id=&quot;father&quot;&gt;&lt;option value=&quot;main&quot;&gt;全部&lt;/option&gt;&lt;option value=&quot;1&quot;&gt;人口主题&lt;/option&gt;&lt;option value=&quot;8a90fb266095aca7016095d66fff0006&quot;&gt;法人主题&lt;/option&gt;&lt;option value=&quot;8a90fb266095aca7016095d688f80007&quot;&gt;农业主题&lt;/option&gt;&lt;option value=&quot;8a90fb266095aca7016095d6ac6f0008&quot;&gt;经济主题&lt;/option&gt;&lt;option value=&quot;8a90fb266095aca7016095d6c2770009&quot;&gt;旅游主题&lt;/option&gt;&lt;/select&gt; &lt;span&gt;名称：&lt;/span&gt; &lt;input id=&quot;son&quot; type=&quot;text&quot; class=&quot;form-control&quot;value=&quot;&quot;&gt; &lt;a href=&quot;javascript:search()&quot;&gt;查询&lt;/a&gt;&lt;/div&gt;&lt;div class=&quot;chart&quot; id=&quot;chart&quot; style=&quot;overflow: auto;&quot;&gt;&lt;div id=&quot;box&quot;&gt;&lt;div class=&quot;ztBox&quot; id=&quot;1&quot;&gt;&lt;div class=&quot;zt-title&quot;&gt;&lt;i&gt;&lt;/i&gt; &lt;span&gt;人口主题&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;ztinfo clearfix&quot;&gt;&lt;div class=&quot;w33 fl checked&quot; data-num=&quot;1&quot; data-type=&quot;10&quot;&gt;&lt;div class=&quot;pixel&quot; onclick=&quot;preview(this);&quot;&gt;&lt;div id=&quot;drop11&quot; class=&quot;w100&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;pixel-txt&quot; onclick=&quot;revise(this);&quot;&gt;人口流入&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;w33 fl&quot; data-num=&quot;2&quot; data-type=&quot;1&quot;&gt;&lt;div class=&quot;pixel&quot; onclick=&quot;preview(this);&quot;&gt;&lt;div id=&quot;drop12&quot; class=&quot;w100&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;pixel-txt&quot; onclick=&quot;revise(this);&quot;&gt;就业人口行业分布&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;w33 fl&quot; style=&quot;margin-right: 0px;&quot; data-num=&quot;3&quot;data-type=&quot;2&quot;&gt;&lt;div class=&quot;pixel&quot; onclick=&quot;preview(this);&quot;&gt;&lt;div id=&quot;drop13&quot; class=&quot;w100&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;pixel-txt&quot; onclick=&quot;revise(this);&quot;&gt;近年人口增长率&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;w33 fl&quot; data-num=&quot;4&quot; data-type=&quot;11&quot;&gt;&lt;div class=&quot;pixel&quot; onclick=&quot;preview(this);&quot;&gt;&lt;div id=&quot;drop14&quot; class=&quot;w100&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;pixel-txt&quot; onclick=&quot;revise(this);&quot;&gt;人口流出&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;w33 fl&quot; data-num=&quot;5&quot; data-type=&quot;8&quot;&gt;&lt;div class=&quot;pixel&quot; onclick=&quot;preview(this);&quot;&gt;&lt;div id=&quot;drop15&quot; class=&quot;w100&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;pixel-txt&quot; onclick=&quot;revise(this);&quot;&gt;近年失业率统计&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;w33 fl&quot; style=&quot;margin-right: 0px;&quot; data-num=&quot;6&quot;data-type=&quot;9&quot;&gt;&lt;div class=&quot;pixel&quot; onclick=&quot;preview(this);&quot;&gt;&lt;div id=&quot;drop16&quot; class=&quot;w100&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;pixel-txt&quot; onclick=&quot;revise(this);&quot;&gt;文化程度分析&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;w33 fl&quot; data-num=&quot;7&quot; data-type=&quot;8&quot;&gt;&lt;div class=&quot;pixel&quot; onclick=&quot;preview(this);&quot;&gt;&lt;div id=&quot;drop17&quot; class=&quot;w100&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;pixel-txt&quot; onclick=&quot;revise(this);&quot;&gt;近年婚姻状况分析&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;w33 fl&quot; data-num=&quot;8&quot; data-type=&quot;5&quot;&gt;&lt;div class=&quot;pixel&quot; onclick=&quot;preview(this);&quot;&gt;&lt;div id=&quot;drop18&quot; class=&quot;w100&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;pixel-txt&quot; onclick=&quot;revise(this);&quot;&gt;各年龄段人口数&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</code></pre><p>对应的js代码如下：</p><pre><code>function search(){var theme=$(&apos;#father&apos;).find(&quot;option:selected&quot;).text(); var value=$(&apos;#son&apos;).val(); //删除列表及图元的选中状态$(&apos;#box .w33&apos;).removeClass(&quot;checked&quot;);$(&apos;#animate li&apos;).removeClass(&quot;active&quot;); //隐藏主题及下属的chartif(theme==&quot;全部&quot;){//全部主题时的查询方法 if(value.length==0){$(&quot;#box .ztBox&quot;).css(&quot;display&quot;,&quot;block&quot;);$(&quot;#box .w33&quot;).css(&quot;display&quot;,&quot;block&quot;); //根据主题的索引index去匹配左侧树，及右侧树的层级结构：$(&quot;#box .ztBox&quot;).each(function(i,v){if($(v).index()==0){$(v).find(&quot;.w33&quot;).each(function(i1,v1){if($(v1).index()==0){$(v1).css(&quot;display&quot;,&quot;block&quot;);$(v1).addClass(&quot;checked&quot;);}else{$(v1).css(&quot;display&quot;,&quot;block&quot;);}})}});$(&quot;#animate .line&quot;).each(function(i,v){if($(v).index()==0){$(v).find(&quot;ul li&quot;).each(function(i1,v1){if($(v1).index()==0){$(v1).addClass(&quot;active&quot;);}});}});}else{$(&quot;#box .ztBox&quot;).css(&quot;display&quot;,&quot;none&quot;);$(&quot;#box .w33&quot;).css(&quot;display&quot;,&quot;none&quot;); for(var t=0;t&lt;treejson.length;t++){var children=treejson[t].children;var id=treejson[t].id; var index;for(var i=0;i&lt;children.length;i++ ){//模糊匹配if(children[i].nodename.indexOf(value)&gt;=0){var theme=treejson[t].nodename; var child_id=children[i].id;$(&apos;#box .ztBox&apos;).each(function(i,v){if($(v).find(&apos;span&apos;).text()==theme){$(this).css(&quot;display&quot;,&quot;block&quot;);}});$(&quot;#box .w33&quot;).each(function(i,v){if ($(v).attr(&quot;data-num&quot;) == child_id) {$(this).css(&quot;display&quot;,&quot;block&quot;); $(this).addClass(&quot;checked&quot;);}})$(&quot;#animate li&quot;).each(function(i1,v1){if($(v1).attr(&quot;id&quot;) == child_id){ $(this).addClass(&quot;active&quot;); }}) }}}} }else{//有特定主题的查询方法$(&quot;#box .ztBox&quot;).css(&quot;display&quot;,&quot;none&quot;);$(&quot;#box .w33&quot;).css(&quot;display&quot;,&quot;none&quot;); for(var j=0;j&lt;treejson.length;j++){if(treejson[j].nodename==theme){var children=treejson[j].children;var id=treejson[j].id; var index;$(&quot;#box .ztBox&quot;).each(function(i,v){if ($(v).attr(&quot;id&quot;) == id) {$(this).css(&quot;display&quot;,&quot;block&quot;);index=$(this).index();}})if(value.length&gt;0){ var flag=0;for(var i=0;i&lt;children.length;i++ ){//模糊匹配if(children[i].nodename.indexOf(value)&gt;=0){flag++;var child_id=children[i].id;$(&quot;#box .w33&quot;).each(function(i,v){if ($(v).attr(&quot;data-num&quot;) == child_id) {$(this).css(&quot;display&quot;,&quot;block&quot;); $(this).addClass(&quot;checked&quot;);}})$(&quot;#animate li&quot;).each(function(i1,v1){if($(v1).attr(&quot;id&quot;) == child_id){ $(this).addClass(&quot;active&quot;); }}) }} }else if(value.length==0){//根据主题的索引index去匹配左侧树，及右侧树的层级结构：$(&quot;#box .ztBox&quot;).each(function(i,v){if($(v).index()==index){$(v).find(&quot;.w33&quot;).each(function(i1,v1){if($(v1).index()==0){$(v1).css(&quot;display&quot;,&quot;block&quot;);$(v1).addClass(&quot;checked&quot;);}else{$(v1).css(&quot;display&quot;,&quot;block&quot;);}})}});$(&quot;#animate .line&quot;).each(function(i,v){if($(v).index()==index){$(v).find(&quot;ul li&quot;).each(function(i1,v1){if($(v1).index()==0){$(v1).addClass(&quot;active&quot;);}});}});}}}//主题循环查询结束} //else结束}</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;需求&quot;&gt;&lt;a href=&quot;#需求&quot; class=&quot;headerlink&quot; title=&quot;需求&quot;&gt;&lt;/a&gt;需求&lt;/h3&gt;
+    
+    </summary>
+    
+      <category term="js" scheme="http://www.juedigulang.com/categories/js/"/>
+    
+    
+      <category term="js" scheme="http://www.juedigulang.com/tags/js/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>获取表格中每一列的值</title>
+    <link href="http://www.juedigulang.com/2018/01/21/%E8%8E%B7%E5%8F%96%E8%A1%A8%E6%A0%BC%E4%B8%AD%E6%AF%8F%E5%88%97%E7%9A%84%E5%80%BC/"/>
+    <id>http://www.juedigulang.com/2018/01/21/获取表格中每列的值/</id>
+    <published>2018-01-21T07:10:59.407Z</published>
+    <updated>2018-01-21T07:10:59.540Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><a id="more"></a><p>工作中需要将获取到表格中的每一列的值，每一列的值放到数组中，然后将其发替换echart的option中的值<br><img src="https://i.imgur.com/Hl2lBdp.png" alt=""></p><p>需要将年份的值放到一个数组中，在将增长率的值放到一个数组中，然后将其的值放到echarts中，如图：<br><img src="https://i.imgur.com/RlvW6Ub.png" alt=""></p><h3 id="前台获取表格中每一列值的代码如下："><a href="#前台获取表格中每一列值的代码如下：" class="headerlink" title="前台获取表格中每一列值的代码如下："></a>前台获取表格中每一列值的代码如下：</h3><pre><code>var arr2=[];//遍历tr下面的td的值for(var k=0;k&lt;$(&quot;tr&quot;).eq(1).find(&quot;td&quot;).length-1;k++){var arr1 = [];$(&quot;tr&quot;).each(function(i3,v3){if(i3 &gt;= 1){var v=$(this).find(&quot;td&quot;).eq(k) //每一列的值arr1.push(v.find(&quot;input&quot;).val());}})arr2.push(arr1);</code></pre><h3 id="获取表头的值，拿表头的值去与option中的图例的值进行比较，相等的话就将其替换"><a href="#获取表头的值，拿表头的值去与option中的图例的值进行比较，相等的话就将其替换" class="headerlink" title="获取表头的值，拿表头的值去与option中的图例的值进行比较，相等的话就将其替换"></a>获取表头的值，拿表头的值去与option中的图例的值进行比较，相等的话就将其替换</h3><pre><code>//为了拿表头的值var laArr = []$(&quot;tr&quot;).each(function(ii,vv){if(ii == 0){$(vv).find(&quot;th&quot;).each(function(ii1,vv1){if(ii1 &lt; $(vv).find(&quot;th&quot;).length-1){laArr.push($(vv1).find(&quot;label&quot;).text());}})}})//使用表头的值与option中的图例的值进行比较，如果相同的话就将其替换option.xAxis[0].data = arr2[0];var series = option.series;for(var i = 0;i&lt;series.length;i++){var seriesName = series[i].name;for(var j= 1;j&lt;laArr.length;j++){//var name = laArr[j];if(name == seriesName ){option.series[i].data = arr2[j];}}}</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;需求&quot;&gt;&lt;a href=&quot;#需求&quot; class=&quot;headerlink&quot; title=&quot;需求&quot;&gt;&lt;/a&gt;需求&lt;/h3&gt;
+    
+    </summary>
+    
+      <category term="js" scheme="http://www.juedigulang.com/categories/js/"/>
+    
+    
+      <category term="js、table" scheme="http://www.juedigulang.com/tags/js%E3%80%81table/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>表格实现按年龄排序</title>
+    <link href="http://www.juedigulang.com/2018/01/21/%E8%A1%A8%E6%A0%BC%E5%AE%9E%E7%8E%B0%E6%8C%89%E7%85%A7%E5%B9%B4%E9%BE%84%E6%8E%92%E5%BA%8F/"/>
+    <id>http://www.juedigulang.com/2018/01/21/表格实现按照年龄排序/</id>
+    <published>2018-01-21T07:05:07.970Z</published>
+    <updated>2018-01-21T07:11:01.378Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><a id="more"></a><p>实现点击刷新的时候按照年份进行排序，使其按照年份进行正序排序，最终效果如下：<br><img src="https://i.imgur.com/PIpHT1v.png" alt=""><br><img src="https://i.imgur.com/PY6uvFJ.png" alt=""></p><h3 id="jsp代码如下"><a href="#jsp代码如下" class="headerlink" title="jsp代码如下"></a>jsp代码如下</h3><pre><code>&lt;table id=&quot;edit&quot;&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;&lt;label class=&quot;cc0&quot; for=&quot;nf&quot; data-type=&quot;INTEGER&quot;&gt;年份&lt;/label&gt;&lt;inputtype=&quot;hidden&quot;&gt;&lt;/th&gt;&lt;th&gt;&lt;label class=&quot;cc1&quot; for=&quot;zcl&quot; data-type=&quot;DECIMAL&quot;&gt;增长率&lt;/label&gt;&lt;inputtype=&quot;hidden&quot;&gt;&lt;/th&gt;&lt;th&gt;操作&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;input name=&quot;&quot; autofocus=&quot;&quot; onkeyup=&quot;shuzi(this);&quot;&gt;&lt;div class=&quot;tips&quot; style=&quot;display: none;&quot;&gt;&lt;/div&gt;&lt;/td&gt;&lt;td&gt;&lt;input name=&quot;&quot; onkeyup=&quot;xiaoshu(this);&quot;&gt;&lt;div class=&quot;tips&quot; style=&quot;display: none;&quot;&gt;请输入数字，并且保留两位小数&lt;/div&gt;&lt;/td&gt;&lt;td&gt;&lt;em onclick=&quot;del(this)&quot;&gt;&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;input name=&quot;&quot; value=&quot;2011&quot; onkeyup=&quot;shuzi(this);&quot;&gt;&lt;div class=&quot;tips&quot;&gt;&lt;/div&gt;&lt;/td&gt;&lt;td&gt;&lt;input name=&quot;&quot; value=&quot;52.08&quot; onkeyup=&quot;xiaoshu(this);&quot;&gt;&lt;div class=&quot;tips&quot;&gt;&lt;/div&gt;&lt;/td&gt;&lt;td&gt;&lt;em onclick=&quot;del(this)&quot;&gt;&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;input name=&quot;&quot; value=&quot;2012&quot; onkeyup=&quot;shuzi(this);&quot;&gt;&lt;div class=&quot;tips&quot;&gt;&lt;/div&gt;&lt;/td&gt;&lt;td&gt;&lt;input name=&quot;&quot; value=&quot;51.12&quot; onkeyup=&quot;xiaoshu(this);&quot;&gt;&lt;div class=&quot;tips&quot;&gt;&lt;/div&gt;&lt;/td&gt;&lt;td&gt;&lt;em onclick=&quot;del(this)&quot;&gt;&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;input name=&quot;&quot; value=&quot;2013&quot; onkeyup=&quot;shuzi(this);&quot;&gt;&lt;div class=&quot;tips&quot;&gt;&lt;/div&gt;&lt;/td&gt;&lt;td&gt;&lt;input name=&quot;&quot; value=&quot;50.01&quot; onkeyup=&quot;xiaoshu(this);&quot;&gt;&lt;div class=&quot;tips&quot;&gt;&lt;/div&gt;&lt;/td&gt;&lt;td&gt;&lt;em onclick=&quot;del(this)&quot;&gt;&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;input name=&quot;&quot; value=&quot;2014&quot; onkeyup=&quot;shuzi(this);&quot;&gt;&lt;div class=&quot;tips&quot;&gt;&lt;/div&gt;&lt;/td&gt;&lt;td&gt;&lt;input name=&quot;&quot; value=&quot;45.88&quot; onkeyup=&quot;xiaoshu(this);&quot;&gt;&lt;div class=&quot;tips&quot;&gt;&lt;/div&gt;&lt;/td&gt;&lt;td&gt;&lt;em onclick=&quot;del(this)&quot;&gt;&lt;/em&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;</code></pre><h3 id="js代码如下"><a href="#js代码如下" class="headerlink" title="js代码如下"></a>js代码如下</h3><pre><code>function sortTable(){/** 思路：* 1，排序就需要数组。获取需要参与排序的行对象数组。* 2，对行数组中的每一个行的年龄单元格的数据进行比较，并完成行对象在数组中的位置置换。* 3，将排好序的数组重新添加回表格。*/var oTabNode = document.getElementById(&quot;edit&quot;);var collTrNodes = oTabNode.rows;//定义一个临时容器，存储需要排序行对象。var trArr = [];//遍历原行集合，并将需要排序的行对象存储到临时容器中。for(var x=1; x&lt;collTrNodes.length; x++){trArr[x-1] = collTrNodes[x];}//对临时容器排个序。mySort(trArr);for (var x = 0; x &lt; trArr.length; x++) {trArr[x].parentNode.appendChild(trArr[x]);}}function mySort(arr){var temp;for(var i=0; i&lt;arr.length; i++) {for(var j=i+1; j&lt;arr.length; j++) {var td = arr[i].cells[0];var td1 = arr[j].cells[0];if(parseInt($(td).find(&apos;input&apos;).val())&gt;parseInt($(td1).find(&apos;input&apos;).val())) {var temp = arr[i];arr[i] = arr[j];arr[j] = temp;}}}}</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;需求&quot;&gt;&lt;a href=&quot;#需求&quot; class=&quot;headerlink&quot; title=&quot;需求&quot;&gt;&lt;/a&gt;需求&lt;/h3&gt;
+    
+    </summary>
+    
+      <category term="js" scheme="http://www.juedigulang.com/categories/js/"/>
+    
+    
+      <category term="js、table" scheme="http://www.juedigulang.com/tags/js%E3%80%81table/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>js动态创建表格</title>
+    <link href="http://www.juedigulang.com/2018/01/21/js%E5%8A%A8%E6%80%81%E6%8B%BC%E6%8E%A5%E8%A1%A8%E6%A0%BC/"/>
+    <id>http://www.juedigulang.com/2018/01/21/js动态拼接表格/</id>
+    <published>2018-01-21T06:58:53.007Z</published>
+    <updated>2018-01-21T06:58:53.163Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><a id="more"></a><p>项目中为了要实现手动在表格里面添加数据，每点击一次增加添加一行，然后在表格中添加数据，最后将其保存到数据库中<br>效果如下图：<br><img src="https://i.imgur.com/GlB6oXy.png" alt=""></p><p>添加一行，录入数据</p><p><img src="https://i.imgur.com/IhUMBQS.png" alt=""></p><h3 id="jsp代码如下："><a href="#jsp代码如下：" class="headerlink" title="jsp代码如下："></a>jsp代码如下：</h3><pre><code>&lt;table id=&quot;edit&quot;&gt;&lt;/table&gt;</code></pre><h3 id="数据表格的拼接和数据回显的就是代码如下："><a href="#数据表格的拼接和数据回显的就是代码如下：" class="headerlink" title="数据表格的拼接和数据回显的就是代码如下："></a>数据表格的拼接和数据回显的就是代码如下：</h3><pre><code>//点击图元信息的时候拼接表格function sdSr(num,data_type,dataname){var html = &apos;&apos;;var trHtml = &apos;&apos;;$.post(contextPath+&quot;/ChartElementInfo/dataList&quot;,{&apos;id&apos;:num,&apos;name&apos;:dataname},function(result){html+=&apos;&lt;thead&gt;&lt;tr&gt;&apos;var datalist = result.dalist;var mlist = result.mlist;//循环添加表头，将其拼接在一起for(var i=0;i&lt;datalist.length;i++){html += &apos;&lt;th&gt;&lt;label class=&quot;cc&apos;+i+&apos;&quot; for=&quot;&apos;+datalist[i].FIELD_NAME+&apos;&quot; data-type=&quot;&apos;+datalist[i].DATA_TYPE+&apos;&quot;&gt;&apos;+datalist[i].FIELD_COMMENT+&apos;&lt;/label&gt;&lt;input type=&quot;hidden&quot;/&gt;&lt;/th&gt;&apos;;    }    html += &apos;&lt;th&gt;操作&lt;/th&gt;&apos;;html +=&apos;&lt;/tr&gt;&lt;/thead&gt;&apos;$(&quot;#edit&quot;).html(html);//将其添加到表格中//循环遍历数据中的数据，将其添加到表格中对应的表头下面for(var j =0;j&lt;mlist.length;j++){var trHtml = &apos;&lt;tr&gt;&apos;;//循环遍历表头，以便于数据添加到表头下面for(var i=0;i&lt;datalist.length;i++){$(&quot;th&quot;).each(function(i,v){if(i == $(&quot;th&quot;).length - 1){//判断th的长度，如果是最后一个让其显示删除图标trHtml += &apos;&lt;td&gt;&lt;em onclick=&quot;del(this)&quot;&gt;&lt;/em&gt;&lt;/td&gt;&apos;}else{if($(v).find(&quot;label&quot;).attr(&quot;data-type&quot;) == &quot;STRING&quot;){//判断字段的类型是否是String类型的trHtml += &apos;&lt;td&gt;&lt;input name=&quot;&quot; type=&quot;text&quot; value = &quot;&apos;+mlist[j][datalist[i].FIELD_NAME]+&apos;&quot; onkeyup=&quot;Str(this);&quot;/&gt;&lt;div class=&quot;tips&quot;&gt;&lt;/div&gt;&lt;/td&gt;&apos;}else if($(v).find(&quot;label&quot;).attr(&quot;data-type&quot;) == &quot;INTEGER&quot;){trHtml += &apos;&lt;td&gt;&lt;input name=&quot;&quot; value = &quot;&apos;+mlist[j][datalist[i].FIELD_NAME]+&apos;&quot; onkeyup=&quot;shuzi(this);&quot;/&gt;&lt;div class=&quot;tips&quot;&gt;&lt;/div&gt;&lt;/td&gt;&apos;}else if($(v).find(&quot;label&quot;).attr(&quot;data-type&quot;) == &quot;DECIMAL&quot;){trHtml += &apos;&lt;td&gt;&lt;input name=&quot;&quot; value = &quot;&apos;+mlist[j][datalist[i].FIELD_NAME]+&apos;&quot; onkeyup=&quot;xiaoshu(this);&quot;/&gt;&lt;div class=&quot;tips&quot;&gt;&lt;/div&gt;&lt;/td&gt;&apos;}/* trHtml += &apos;&lt;td&gt;&lt;input id=&quot;&quot; name=&quot;&quot; type=&quot;text&quot; value=&quot;&apos;+i+&apos;&quot;/&gt;&lt;/td&gt;&apos; */}})trHtml +=&apos;&lt;/tr&gt;&apos;;$(&quot;#edit&quot;).append(trHtml);break;}}}); }</code></pre><h3 id="点击增加的时候追加一行，并且验证文本框的值"><a href="#点击增加的时候追加一行，并且验证文本框的值" class="headerlink" title="点击增加的时候追加一行，并且验证文本框的值"></a>点击增加的时候追加一行，并且验证文本框的值</h3><pre><code>//点击增加时追加一行function creat(){var aa = &apos;&apos;;var trHtml = &apos;&lt;tr&gt;&apos;;//循环表头的th，在其下面添加对用的tr$(&quot;th&quot;).each(function(i,v){if(i == $(&quot;th&quot;).length - 1){trHtml += &apos;&lt;td&gt;&lt;em onclick=&quot;del(this)&quot;&gt;&lt;/em&gt;&lt;/td&gt;&apos;}else{if($(v).find(&quot;label&quot;).attr(&quot;data-type&quot;) == &quot;STRING&quot;){//autofocus添加焦点，添加一行后会自动定位到该行trHtml += &apos;&lt;td&gt;&lt;input name=&quot;&quot; type=&quot;text&quot; autofocus onkeyup=&quot;Str(this);&quot;/&gt;&lt;div class=&quot;tips&quot;&gt;&lt;/div&gt;&lt;/td&gt;&apos;}else if($(v).find(&quot;label&quot;).attr(&quot;data-type&quot;) == &quot;INTEGER&quot;){trHtml += &apos;&lt;td&gt;&lt;input name=&quot;&quot; autofocus onkeyup=&quot;shuzi(this);&quot;/&gt;&lt;div class=&quot;tips&quot;&gt;&lt;/div&gt;&lt;/td&gt;&apos;}else if($(v).find(&quot;label&quot;).attr(&quot;data-type&quot;) == &quot;DECIMAL&quot;){trHtml += &apos;&lt;td&gt;&lt;input name=&quot;&quot; onkeyup=&quot;xiaoshu(this);&quot;/&gt;&lt;div class=&quot;tips&quot;&gt;&lt;/div&gt;&lt;/td&gt;&apos;}/* trHtml += &apos;&lt;td&gt;&lt;input id=&quot;&quot; name=&quot;&quot; type=&quot;text&quot; value=&quot;&apos;+i+&apos;&quot;/&gt;&lt;/td&gt;&apos; */}})trHtml +=&apos;&lt;/tr&gt;&apos;;$(&quot;#edit&quot;).append(trHtml);}function Str(ele){if(&apos;&apos; == $(ele).val() || null == $(ele).val()){var txt = $(ele).siblings(&quot;.tips&quot;).text(&quot;不能为空,请输入&quot;).text();show(ele,txt);setTimeout(function(){hide(ele);},5000);//使其显示5秒后自动消失return;} else{$(ele).siblings(&quot;.tips&quot;).hide();}}    //校验数字function shuzi(ele){if((/[^\d]/.test($(ele).val()))){//替换非数字字符 var txt = $(ele).siblings(&quot;.tips&quot;).text(&quot;请输入正确的数字&quot;).text();var temp_amount=$(ele).val().replace(/[^\d]/g,&apos;&apos;); $(ele).val(temp_amount); show(ele,txt);setTimeout(function(){hide(ele);},5000);return;} else if(&apos;&apos; == $(ele).val() || null == $(ele).val()){var txt = $(ele).siblings(&quot;.tips&quot;).text(&quot;不能为空,请输入正确的数字&quot;).text();show(ele,txt);setTimeout(function(){hide(ele);},5000);return;} else{$(ele).siblings(&quot;.tips&quot;).hide();}}//校验小数function xiaoshu(ele){var reg = /^\d+(\.\d{1,2})?$/;if(!reg.test($(ele).val())){//替换非数字字符 var txt = $(ele).siblings(&quot;.tips&quot;).text(&quot;请输入数字，并且保留两位小数&quot;).text();var temp_amount=$(ele).val().replace(/[^\d\.]/g,&apos;&apos;); $(ele).val(temp_amount);show(ele,txt);setTimeout(function(){hide(ele);},5000);return;}else if(&apos;&apos; == $(ele).val() || null == $(ele).val()){var txt = $(ele).siblings(&quot;.tips&quot;).text(&quot;不能为空,请输入正确的数字&quot;).text();show(ele,txt);setTimeout(function(){hide(ele);},5000);return;} else{$(ele).siblings(&quot;.tips&quot;).hide();}}//点击删除时删除行function del(ele){$(ele).closest(&quot;tr&quot;).remove();}/* 控制提示框内的提示词的显示效果 */var i = 0;function show(ediv,txt) {$(ediv).siblings(&quot;.tips&quot;).text(txt);$(ediv).siblings(&quot;.tips&quot;).show();/* $(ediv).siblings(&quot;.tips&quot;).animate({opacity:&quot;1&quot;},1000); */}function hide(e1) {$(e1).siblings(&quot;.tips&quot;).hide();}</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;需求&quot;&gt;&lt;a href=&quot;#需求&quot; class=&quot;headerlink&quot; title=&quot;需求&quot;&gt;&lt;/a&gt;需求&lt;/h3&gt;
+    
+    </summary>
+    
+      <category term="js" scheme="http://www.juedigulang.com/categories/js/"/>
+    
+    
+      <category term="js、table" scheme="http://www.juedigulang.com/tags/js%E3%80%81table/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>搜索框使用插件出搜索提示</title>
+    <link href="http://www.juedigulang.com/2018/01/21/%E5%B0%B1%E6%98%AF%E3%80%81/"/>
+    <id>http://www.juedigulang.com/2018/01/21/就是、/</id>
+    <published>2018-01-21T06:51:02.903Z</published>
+    <updated>2018-01-21T06:51:02.905Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="首先需要在jsp页面上导入两个js"><a href="#首先需要在jsp页面上导入两个js" class="headerlink" title="首先需要在jsp页面上导入两个js"></a>首先需要在jsp页面上导入两个js</h3><a id="more"></a><p><img src="https://i.imgur.com/rTmVBTq.png" alt=""></p><h3 id="查询条件jsp处代码如下："><a href="#查询条件jsp处代码如下：" class="headerlink" title="查询条件jsp处代码如下："></a>查询条件jsp处代码如下：</h3><p><img src="https://i.imgur.com/ju4Hpna.png" alt=""></p><h3 id="js对应的方法如下："><a href="#js对应的方法如下：" class="headerlink" title="js对应的方法如下："></a>js对应的方法如下：</h3><p><img src="https://i.imgur.com/39rtWMs.png" alt=""></p><h3 id="那个array，是后台查出来的数据，添加到数组中"><a href="#那个array，是后台查出来的数据，添加到数组中" class="headerlink" title="那个array，是后台查出来的数据，添加到数组中"></a>那个array，是后台查出来的数据，添加到数组中</h3><p><img src="https://i.imgur.com/s7gtERm.png" alt=""></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;首先需要在jsp页面上导入两个js&quot;&gt;&lt;a href=&quot;#首先需要在jsp页面上导入两个js&quot; class=&quot;headerlink&quot; title=&quot;首先需要在jsp页面上导入两个js&quot;&gt;&lt;/a&gt;首先需要在jsp页面上导入两个js&lt;/h3&gt;
+    
+    </summary>
+    
+      <category term="js" scheme="http://www.juedigulang.com/categories/js/"/>
+    
+    
+      <category term="js" scheme="http://www.juedigulang.com/tags/js/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>搜索框使用插件出搜索提示</title>
+    <link href="http://www.juedigulang.com/2018/01/21/js%E6%8F%90%E7%A4%BA%E6%A1%86/"/>
+    <id>http://www.juedigulang.com/2018/01/21/js提示框/</id>
+    <published>2018-01-21T06:50:05.205Z</published>
+    <updated>2018-01-21T06:50:05.331Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="首先需要在jsp页面上导入两个js"><a href="#首先需要在jsp页面上导入两个js" class="headerlink" title="首先需要在jsp页面上导入两个js"></a>首先需要在jsp页面上导入两个js</h3><a id="more"></a><p><img src="https://i.imgur.com/rTmVBTq.png" alt=""></p><h3 id="查询条件jsp处代码如下："><a href="#查询条件jsp处代码如下：" class="headerlink" title="查询条件jsp处代码如下："></a>查询条件jsp处代码如下：</h3><p><img src="https://i.imgur.com/ju4Hpna.png" alt=""></p><h3 id="js对应的方法如下："><a href="#js对应的方法如下：" class="headerlink" title="js对应的方法如下："></a>js对应的方法如下：</h3><p><img src="https://i.imgur.com/39rtWMs.png" alt=""></p><h3 id="那个array，是后台查出来的数据，添加到数组中"><a href="#那个array，是后台查出来的数据，添加到数组中" class="headerlink" title="那个array，是后台查出来的数据，添加到数组中"></a>那个array，是后台查出来的数据，添加到数组中</h3><p><img src="https://i.imgur.com/s7gtERm.png" alt=""></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;首先需要在jsp页面上导入两个js&quot;&gt;&lt;a href=&quot;#首先需要在jsp页面上导入两个js&quot; class=&quot;headerlink&quot; title=&quot;首先需要在jsp页面上导入两个js&quot;&gt;&lt;/a&gt;首先需要在jsp页面上导入两个js&lt;/h3&gt;
+    
+    </summary>
+    
+      <category term="js" scheme="http://www.juedigulang.com/categories/js/"/>
+    
+    
+      <category term="js" scheme="http://www.juedigulang.com/tags/js/"/>
+    
+  </entry>
   
   <entry>
     <title>js中map的使用</title>
@@ -191,6 +348,28 @@
   </entry>
   
   <entry>
+    <title>将标准sql语句导入到数据库中</title>
+    <link href="http://www.juedigulang.com/2017/11/18/%E5%B0%86%E6%A0%87%E5%87%86%E7%9A%84sql%E8%84%9A%E6%9C%AC%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    <id>http://www.juedigulang.com/2017/11/18/将标准的sql脚本导入数据库/</id>
+    <published>2017-11-18T08:22:15.000Z</published>
+    <updated>2017-11-18T08:54:24.213Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="将转换为标准的sql文件导入到数据库中"><a href="#将转换为标准的sql文件导入到数据库中" class="headerlink" title="将转换为标准的sql文件导入到数据库中"></a>将转换为标准的sql文件导入到数据库中</h3><a id="more"></a><pre><code>/** * 将标准sql脚本导入本地数据库，导入前需清空数据库 *  */public class SqlImp {    static Logger logger = Logger.getLogger(SqlImp.class);    public static String exec(String db,String driver,String url,String user,String password) {        String str = &quot;&quot;;        try {            String jdbcUrl = url;            Class.forName(driver);            Connection conn = DriverManager.getConnection(jdbcUrl, user, password);            ScriptRunner runner = new ScriptRunner(conn);            Writer result = new StringWriter();            PrintWriter printWriter = new PrintWriter(result);            // runner.setLogWriter(printWriter);            runner.setErrorLogWriter(printWriter);            runner.setAutoCommit(true);            runner.setStopOnError(false);            // 构建流集合            Vector&lt;InputStream&gt; vector = new Vector&lt;InputStream&gt;();            InputStream standard = new FileInputStream(PathKit.getWebRootPath() + &quot;/WEB-INF/dbsql/&quot;+db+&quot;.sql&quot;);            // InputStream testdata = new            // FileInputStream(PathKit.getWebRootPath() + &quot;/doc/testdata.sql&quot;);            vector.addElement(standard);            // vector.addElement(testdata);            Enumeration&lt;InputStream&gt; enu = vector.elements();            // 合并流            SequenceInputStream sis = new SequenceInputStream(enu);            InputStreamReader isr = new InputStreamReader(sis, &quot;utf-8&quot;);            Reader reader = new BufferedReader(isr);            runner.runScript(reader);            str = result.toString();        }catch (IOException e) {            e.printStackTrace();        }catch (ClassNotFoundException e) {            logger.info(e.getMessage());            str=&quot;数据库驱动错误&quot;;        }catch (SQLException e) {            logger.info(e.getMessage());            str=&quot;数据库连接错误&quot;;        }         return str;    }    public static String stringToHexString(String strPart) {String hexString = &quot;&quot;;for (int i = 0; i &lt; strPart.length(); i++) {int ch = (int) strPart.charAt(i);String strHex = Integer.toHexString(ch); hexString = hexString + strHex;}return hexString;}    /**     * 执行sql文件     *      * @return     */    public static String exec() {        String str = &quot;&quot;;        PropertiesConfiguration myconfig;        try {            myconfig = new PropertiesConfiguration(&quot;myconfig.properties&quot;);            String db = myconfig.getString(&quot;db&quot;);            String jdbcUrl = myconfig.getString(db + &quot;Url&quot;);            exec(db, jdbcUrl, myconfig.getString(db + &quot;Driver&quot;), myconfig.getString(db + &quot;User&quot;), myconfig.getString(db + &quot;Password&quot;));        } catch (ConfigurationException e) {            e.printStackTrace();        }        return str;    }    public static void main(String[] args) {        MyConfig mc = new MyConfig();        mc.initConsole();        String str = exec();        System.out.println(str);    }}</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;将转换为标准的sql文件导入到数据库中&quot;&gt;&lt;a href=&quot;#将转换为标准的sql文件导入到数据库中&quot; class=&quot;headerlink&quot; title=&quot;将转换为标准的sql文件导入到数据库中&quot;&gt;&lt;/a&gt;将转换为标准的sql文件导入到数据库中&lt;/h3&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="http://www.juedigulang.com/categories/java/"/>
+    
+    
+      <category term="sql" scheme="http://www.juedigulang.com/tags/sql/"/>
+    
+  </entry>
+  
+  <entry>
     <title>将java调用百度地址匹配接口获取经纬度坐标</title>
     <link href="http://www.juedigulang.com/2017/11/18/%E8%B0%83%E7%94%A8%E7%99%BE%E5%BA%A6%E5%9C%B0%E5%9D%80%E5%8C%B9%E9%85%8D%E6%8E%A5%E5%8F%A3%E5%92%8C%E8%8E%B7%E5%8F%96%E7%BB%8F%E7%BA%AC%E5%BA%A6%E5%9D%90%E6%A0%87/"/>
     <id>http://www.juedigulang.com/2017/11/18/调用百度地址匹配接口和获取经纬度坐标/</id>
@@ -210,28 +389,6 @@
     
     
       <category term="java" scheme="http://www.juedigulang.com/tags/java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>将标准sql语句导入到数据库中</title>
-    <link href="http://www.juedigulang.com/2017/11/18/%E5%B0%86%E6%A0%87%E5%87%86%E7%9A%84sql%E8%84%9A%E6%9C%AC%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    <id>http://www.juedigulang.com/2017/11/18/将标准的sql脚本导入数据库/</id>
-    <published>2017-11-18T08:22:15.000Z</published>
-    <updated>2017-11-18T08:54:24.213Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="将转换为标准的sql文件导入到数据库中"><a href="#将转换为标准的sql文件导入到数据库中" class="headerlink" title="将转换为标准的sql文件导入到数据库中"></a>将转换为标准的sql文件导入到数据库中</h3><a id="more"></a><pre><code>/** * 将标准sql脚本导入本地数据库，导入前需清空数据库 *  */public class SqlImp {    static Logger logger = Logger.getLogger(SqlImp.class);    public static String exec(String db,String driver,String url,String user,String password) {        String str = &quot;&quot;;        try {            String jdbcUrl = url;            Class.forName(driver);            Connection conn = DriverManager.getConnection(jdbcUrl, user, password);            ScriptRunner runner = new ScriptRunner(conn);            Writer result = new StringWriter();            PrintWriter printWriter = new PrintWriter(result);            // runner.setLogWriter(printWriter);            runner.setErrorLogWriter(printWriter);            runner.setAutoCommit(true);            runner.setStopOnError(false);            // 构建流集合            Vector&lt;InputStream&gt; vector = new Vector&lt;InputStream&gt;();            InputStream standard = new FileInputStream(PathKit.getWebRootPath() + &quot;/WEB-INF/dbsql/&quot;+db+&quot;.sql&quot;);            // InputStream testdata = new            // FileInputStream(PathKit.getWebRootPath() + &quot;/doc/testdata.sql&quot;);            vector.addElement(standard);            // vector.addElement(testdata);            Enumeration&lt;InputStream&gt; enu = vector.elements();            // 合并流            SequenceInputStream sis = new SequenceInputStream(enu);            InputStreamReader isr = new InputStreamReader(sis, &quot;utf-8&quot;);            Reader reader = new BufferedReader(isr);            runner.runScript(reader);            str = result.toString();        }catch (IOException e) {            e.printStackTrace();        }catch (ClassNotFoundException e) {            logger.info(e.getMessage());            str=&quot;数据库驱动错误&quot;;        }catch (SQLException e) {            logger.info(e.getMessage());            str=&quot;数据库连接错误&quot;;        }         return str;    }    public static String stringToHexString(String strPart) {String hexString = &quot;&quot;;for (int i = 0; i &lt; strPart.length(); i++) {int ch = (int) strPart.charAt(i);String strHex = Integer.toHexString(ch); hexString = hexString + strHex;}return hexString;}    /**     * 执行sql文件     *      * @return     */    public static String exec() {        String str = &quot;&quot;;        PropertiesConfiguration myconfig;        try {            myconfig = new PropertiesConfiguration(&quot;myconfig.properties&quot;);            String db = myconfig.getString(&quot;db&quot;);            String jdbcUrl = myconfig.getString(db + &quot;Url&quot;);            exec(db, jdbcUrl, myconfig.getString(db + &quot;Driver&quot;), myconfig.getString(db + &quot;User&quot;), myconfig.getString(db + &quot;Password&quot;));        } catch (ConfigurationException e) {            e.printStackTrace();        }        return str;    }    public static void main(String[] args) {        MyConfig mc = new MyConfig();        mc.initConsole();        String str = exec();        System.out.println(str);    }}</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;将转换为标准的sql文件导入到数据库中&quot;&gt;&lt;a href=&quot;#将转换为标准的sql文件导入到数据库中&quot; class=&quot;headerlink&quot; title=&quot;将转换为标准的sql文件导入到数据库中&quot;&gt;&lt;/a&gt;将转换为标准的sql文件导入到数据库中&lt;/h3&gt;
-    
-    </summary>
-    
-      <category term="java" scheme="http://www.juedigulang.com/categories/java/"/>
-    
-    
-      <category term="sql" scheme="http://www.juedigulang.com/tags/sql/"/>
     
   </entry>
   
@@ -298,143 +455,6 @@
     
     
       <category term="jfinal、datatables-editor" scheme="http://www.juedigulang.com/tags/jfinal%E3%80%81datatables-editor/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>乱码工具判断工具</title>
-    <link href="http://www.juedigulang.com/2017/11/03/%E4%B9%B1%E7%A0%81%E5%B7%A5%E5%85%B7%E7%B1%BB/"/>
-    <id>http://www.juedigulang.com/2017/11/03/乱码工具类/</id>
-    <published>2017-11-03T08:37:11.000Z</published>
-    <updated>2017-11-03T08:57:56.618Z</updated>
-    
-    <content type="html"><![CDATA[<p>乱码，指的是“由于本地计算机在用文本编辑器打开源文件时，使用了不相应字符集而造成部分或所有字符无法被阅读的一系列字符。”，造成其结果的原因是多种多样的。<br><a id="more"></a></p><h3 id="乱码工具类代码如下："><a href="#乱码工具类代码如下：" class="headerlink" title="乱码工具类代码如下："></a>乱码工具类代码如下：</h3><pre><code>import java.util.regex.Matcher;import java.util.regex.Pattern;/**  * @author  * @version  * 说明 判断中文字符串是否乱码 */public class ChineseUtil {/**  * @author mo   * @version   * 说明 判断是否是中文 */private static boolean isChinese(char c) {  Character.UnicodeBlock ub = Character.UnicodeBlock.of(c);  if (ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS  || ub == Character.UnicodeBlock.CJK_COMPATIBILITY_IDEOGRAPHS  || ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A|| ub == Character.UnicodeBlock.GENERAL_PUNCTUATION  || ub == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION  || ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS) {  return true;  }  return false;  }  /**  * @author mo   * @version   * 说明 判断是否乱码 */public static boolean isMessyCode(String strName) {  Pattern p = Pattern.compile(&quot;\\s*|\t*|\r*|\n*&quot;);  Matcher m = p.matcher(strName);  String after = m.replaceAll(&quot;&quot;);  String temp = after.replaceAll(&quot;\\p{P}&quot;, &quot;&quot;);  char[] ch = temp.trim().toCharArray();  float chLength = 0 ;  float count = 0;  for (int i = 0; i &lt; ch.length; i++) {  char c = ch[i];  if (!Character.isLetterOrDigit(c)) {  if (!isChinese(c)) {  count = count + 1;  }  chLength++;   }  }  float result = count / chLength ;  if (result &gt; 0.4) {  return true;  } else {  return false;  }  }}</code></pre><p>将上面的工具类放入带到项目中，在需要引用的项目中引入这个工具类即可   </p><pre><code>String zgbm = request.getParameter(&quot;zgbm&quot;);        if(ChineseUtil.isMessyCode(zgbm)){            try {                zgbm = new String(zgbm.getBytes(&quot;ISO8859-1&quot;),&quot;UTF-8&quot;);            } catch (UnsupportedEncodingException e) {                // TODO Auto-generated catch block                e.printStackTrace();            }        }</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;乱码，指的是“由于本地计算机在用文本编辑器打开源文件时，使用了不相应字符集而造成部分或所有字符无法被阅读的一系列字符。”，造成其结果的原因是多种多样的。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="java" scheme="http://www.juedigulang.com/categories/java/"/>
-    
-    
-      <category term="乱码" scheme="http://www.juedigulang.com/tags/%E4%B9%B1%E7%A0%81/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>码云和github公钥的配置</title>
-    <link href="http://www.juedigulang.com/2017/11/03/%E7%A0%81%E4%BA%91%E5%85%AC%E9%92%A5%E9%85%8D%E7%BD%AE/"/>
-    <id>http://www.juedigulang.com/2017/11/03/码云公钥配置/</id>
-    <published>2017-11-03T07:56:49.233Z</published>
-    <updated>2017-11-03T08:18:38.521Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="用户名和邮箱地址的使用"><a href="#用户名和邮箱地址的使用" class="headerlink" title="用户名和邮箱地址的使用"></a>用户名和邮箱地址的使用</h3><p>用户名和邮箱地址是本地git客户端的一个变量，不随git库而改变。<br>每次commit都会用用户名和邮箱纪录。<br>github的contributions统计就是按邮箱来统计的</p><a id="more"></a><h3 id="查看用户名和邮箱的地址"><a href="#查看用户名和邮箱的地址" class="headerlink" title="查看用户名和邮箱的地址"></a>查看用户名和邮箱的地址</h3><pre><code>$ git config user.name$ git config user.email</code></pre><h3 id="设置用户名和邮箱地址"><a href="#设置用户名和邮箱地址" class="headerlink" title="设置用户名和邮箱地址"></a>设置用户名和邮箱地址</h3><pre><code>$ git config --global user.name &quot;username&quot;$ git config --global user.email &quot;email&quot;</code></pre><h3 id="生成sshKey"><a href="#生成sshKey" class="headerlink" title="生成sshKey"></a>生成sshKey</h3><p>在git命令行中，输入命令： cd ~/.ssh，来检测是否生成过key,没有生成过key，会有相关信息提示；然后输入命令： ssh-keygen -t rsa -C “邮箱地址”，按下回车键；然后根据返回的信息，找到.ssh目录下的两个文件；</p><pre><code>cat ~/.ssh/id_rsa.pub# ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6eNtGpNGwstc....</code></pre><h3 id="添加后在终端中输入"><a href="#添加后在终端中输入" class="headerlink" title="添加后在终端中输入"></a>添加后在终端中输入</h3><pre><code>ssh -T git@gitee.com</code></pre><p>若返回<br>    Welcome to Gitee.com, yourname!</p><p>则代表添加成功</p><h3 id="github添加是同样的流程"><a href="#github添加是同样的流程" class="headerlink" title="github添加是同样的流程"></a>github添加是同样的流程</h3>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;用户名和邮箱地址的使用&quot;&gt;&lt;a href=&quot;#用户名和邮箱地址的使用&quot; class=&quot;headerlink&quot; title=&quot;用户名和邮箱地址的使用&quot;&gt;&lt;/a&gt;用户名和邮箱地址的使用&lt;/h3&gt;&lt;p&gt;用户名和邮箱地址是本地git客户端的一个变量，不随git库而改变。&lt;br&gt;每次commit都会用用户名和邮箱纪录。&lt;br&gt;github的contributions统计就是按邮箱来统计的&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="hexo" scheme="http://www.juedigulang.com/categories/hexo/"/>
-    
-    
-      <category term="ssh公钥" scheme="http://www.juedigulang.com/tags/ssh%E5%85%AC%E9%92%A5/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Node.js安装</title>
-    <link href="http://www.juedigulang.com/2017/11/02/Nodejs%E5%AE%89%E8%A3%85/"/>
-    <id>http://www.juedigulang.com/2017/11/02/Nodejs安装/</id>
-    <published>2017-11-02T08:03:22.927Z</published>
-    <updated>2017-11-01T07:54:04.481Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="Node-js简介"><a href="#Node-js简介" class="headerlink" title="Node.js简介"></a>Node.js简介</h3><p>简单的说 Node.js 就是运行在服务端的 JavaScript。Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境。Node.js 使用了一个事件驱动、非阻塞式 I/O 的模型，使其轻量又高效。Node.js 的包管理器 npm，是全球最大的开源库生态系统。<br><a id="more"></a></p><h3 id="下载Node-js"><a href="#下载Node-js" class="headerlink" title="下载Node.js"></a>下载Node.js</h3><p>打开官网下载链接:<a href="https://nodejs.org/en/download/" target="_blank" rel="external">https://nodejs.org/en/download/</a><br><img src="https://i.imgur.com/2YWZz1q.png" alt=""></p><h3 id="开始安装"><a href="#开始安装" class="headerlink" title="开始安装"></a>开始安装</h3><p>1、下载完成后，双击“node-v6.9.2-x64.msi”，开始安装Node.js<br><img src="https://i.imgur.com/CdBixyY.png" alt=""><br>2、点击Next按钮<br><img src="https://i.imgur.com/iFdaq6p.png" alt=""><br>3、勾选复选框，点击【Next】按钮<br><img src="https://i.imgur.com/NBpoDyf.png" alt=""><br>4、修改好目录后，点击【Next】按钮<br><img src="https://i.imgur.com/BFvWQwF.png" alt=""><br><img src="https://i.imgur.com/JlV4gQH.png" alt=""><br>5、安装完后点击【Finish】按钮完成安装<br><img src="https://i.imgur.com/U4Ufq9j.png" alt=""><br>6、至此Node.js已经安装完成，可以先进行下简单的测试安装是否成功了，后面还要进行环境配置<br>在键盘按下【win+R】键，输入cmd，然后回车，打开cmd窗口<br><img src="https://i.imgur.com/PccF3DO.png" alt=""></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;Node-js简介&quot;&gt;&lt;a href=&quot;#Node-js简介&quot; class=&quot;headerlink&quot; title=&quot;Node.js简介&quot;&gt;&lt;/a&gt;Node.js简介&lt;/h3&gt;&lt;p&gt;简单的说 Node.js 就是运行在服务端的 JavaScript。Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境。Node.js 使用了一个事件驱动、非阻塞式 I/O 的模型，使其轻量又高效。Node.js 的包管理器 npm，是全球最大的开源库生态系统。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="hexo" scheme="http://www.juedigulang.com/categories/hexo/"/>
-    
-    
-      <category term="hexo、node.js" scheme="http://www.juedigulang.com/tags/hexo%E3%80%81node-js/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>个人博客</title>
-    <link href="http://www.juedigulang.com/2017/11/02/Mo/"/>
-    <id>http://www.juedigulang.com/2017/11/02/Mo/</id>
-    <published>2017-11-02T08:03:22.927Z</published>
-    <updated>2017-11-15T12:59:15.619Z</updated>
-    
-    <content type="html"><![CDATA[<pre><code>我的第一篇个人博客</code></pre><p>欢迎来到我的个人小屋，以后会不定时更新博客</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;pre&gt;&lt;code&gt;我的第一篇个人博客
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;欢迎来到我的个人小屋，以后会不定时更新博客&lt;/p&gt;
-
-      
-    
-    </summary>
-    
-      <category term="杂谈" scheme="http://www.juedigulang.com/categories/%E6%9D%82%E8%B0%88/"/>
-    
-    
-      <category term="死肥宅" scheme="http://www.juedigulang.com/tags/%E6%AD%BB%E8%82%A5%E5%AE%85/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>使用hexo+码云搭建个人博客</title>
-    <link href="http://www.juedigulang.com/2017/11/02/hexo%E5%AE%89%E8%A3%85/"/>
-    <id>http://www.juedigulang.com/2017/11/02/hexo安装/</id>
-    <published>2017-11-02T08:03:22.911Z</published>
-    <updated>2017-11-18T08:58:28.862Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="使用工具介绍"><a href="#使用工具介绍" class="headerlink" title="使用工具介绍"></a>使用工具介绍</h3><p>1、码云 Pages：码云 Pages 是一个免费的静态网页托管服务，您可以使用码云 Pages 托管博客、项目官网等静态网页。这样就不用购买服务器和域名了，如果您使用过 Github Pages 那么您会很快上手使用码云的Pages服务。这里使用码云上的Pages 而不是用Github Pages，主要原因就是在国内没有VPN的话。。。你懂得！还有就是支持国产！链接：<a href="https://git.oschina.net/" target="_blank" rel="external">https://git.oschina.net/</a><br><a id="more"></a><br>2、Hexo：Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。使用者只需要专注于写博客而不需要关注网站是如何生成的。而且还有丰富的博客主题可以选择！链接：<a href="https://hexo.io/zh-cn/（ps：这是国外网站，翻墙吧少年，需要自由门" target="_blank" rel="external">https://hexo.io/zh-cn/（ps：这是国外网站，翻墙吧少年，需要自由门</a> 翻墙软件可以在博客中联系我哦）</p><h3 id="搭建环境"><a href="#搭建环境" class="headerlink" title="搭建环境"></a>搭建环境</h3><p>Node.js安装</p><blockquote><p>参考：<a href="http://www.runoob.com/nodejs/nodejs-install-setup.html（ps：如果没有VPN的用户最好切换一下npm的源，不然后续的步骤可能会让你想砸电脑，安装完后，在命令窗口执行下面代码）" target="_blank" rel="external">http://www.runoob.com/nodejs/nodejs-install-setup.html（ps：如果没有VPN的用户最好切换一下npm的源，不然后续的步骤可能会让你想砸电脑，安装完后，在命令窗口执行下面代码）</a></p></blockquote><pre><code>npm config set registry http://registry.cnpmjs.org #切换npm为淘宝镜像</code></pre><p>Git安装</p><blockquote><p>参考<a href="http://www.runoob.com/git/git-install-setup.html" target="_blank" rel="external">http://www.runoob.com/git/git-install-setup.html</a></p></blockquote><p>Hexo安装。（ ps：安装完Node.js和Git之后不需要配置些什么，只需要安装成功就是了，如果想明白原理的话可以深入的学习。）</p><p>如果您的电脑中已经安装上述必备程序，那么恭喜您！接下来只需要使用 npm 即可完成 Hexo 的安装。打开命令窗口输入下面代码：</p><pre><code>npm install -g hexo-cli</code></pre><p>安装成功后输入hexo 如果得到下面这个结果，恭喜你！安装成功！<br><img src="https://i.imgur.com/knj5ef9.png" alt=""></p><p>Hexo的常用命令说明：</p><blockquote><p>参考：<a href="https://hexo.io/zh-cn/docs/commands.html" target="_blank" rel="external">https://hexo.io/zh-cn/docs/commands.html</a></p></blockquote><h3 id="本地运行Hexo"><a href="#本地运行Hexo" class="headerlink" title="本地运行Hexo"></a>本地运行Hexo</h3><p>安装 Hexo 完成后，请依次执行下列命令，Hexo 将会在指定文件夹中新建所需要的文件。将<folder> 替换成项目存放的文件夹目录，</folder></p><pre><code>hexo init &lt;folder&gt;cd &lt;folder&gt;npm installhexo generate   </code></pre><p>新建完成后，指定文件夹的目录如下：</p><p><img src="https://i.imgur.com/TxNmAPZ.png" alt=""></p><p>进行到这步后就可以先在本地运行下，看看效果了。执行下面命令：</p><pre><code>cd &lt;folder&gt; #切换到项目目录下npm install       #install before start blogginghexo server #运行本地服务</code></pre><p>浏览器输入<a href="http://localhost:4000就可以看到效果。如下：" target="_blank" rel="external">http://localhost:4000就可以看到效果。如下：</a></p><p><img src="https://i.imgur.com/0orsKgO.png" alt=""></p><h3 id="修改Hexo的主题"><a href="#修改Hexo的主题" class="headerlink" title="修改Hexo的主题"></a>修改Hexo的主题</h3><p>当然，上面运行的只是Hexo官方默认的主题配置效果，想要个性一点？，下面我们就将他改造成自己想要的个性主题。</p><p>Hexo的主题都是一些前端民间高手写的模版，可以在官方收录的主题中去挑选：<a href="https://hexo.io/themes/" target="_blank" rel="external">https://hexo.io/themes/</a></p><p>看上一个主题后点击下图位置，进入下载主题文件。如下图：</p><p><img src="https://i.imgur.com/9prhX8U.png" alt=""></p><p>主题下载完成后，将主题文件解压到Hexo项目的thems文件夹下面（ps:我这里的项目目录是在桌面的Hexo文件夹里面。）</p><p><img src="https://i.imgur.com/Owv5y5K.png" alt=""></p><p>接下来就是修改Hexo的配置文件_config.yml，将里面theme 对应的值改为之前下载的主题的文件夹名字，本文里面下载的主题文件夹名字为hexo-theme-smackdown-master。</p><p><img src="https://i.imgur.com/oUoij99.png" alt=""></p><p>注意：这里“：”后面必须要有一个空格，而且这个空格要在英文输入法下，不然会报一些稀奇古怪的错。</p><p>按照之前步骤本地重新运行后，如下图：</p><p><img src="https://i.imgur.com/1PYd8n8.png" alt=""></p><p>关于Hexo中_config.yml 文件的其他配置，大家可以参考官方的文档，这里就不多赘述了：</p><pre><code>文档链接 https://hexo.io/zh-cn/docs/configuration.html</code></pre><p>下载的每个主题中，有一个配置文件，名字也叫_config.yml，这里大家千万不要和之前Hexo根目录下的_config.yml搞混淆了，这里面配置的主要是些与主题相关的东西，比如一些文章阅读量，多说插件，cnzz站长工具等等的配置信息。一般里面也都有注释，这里就不赘述了，不懂得可以在我的博客问我。</p><p>一些主题在GitHub上面也都有主题安装的一些文档，写的都很详细。推荐一个主题的文档，结合官方的文档看完之后，基本上也就明白了。</p><pre><code>推荐一个主题的文档https://github.com/yscoder/hexo-theme-indigo/wiki</code></pre><h3 id="编写博客文章"><a href="#编写博客文章" class="headerlink" title="编写博客文章"></a>编写博客文章</h3><p>如果你使用过MarkDown 来写博客文章的话，接下来就简单多了，没使用过也没关系，推荐大家一个编辑工具马克飞象 链接：<a href="https://maxiang.io/，在编辑器里面写好文章后，复制或另存为.md文件" target="_blank" rel="external">https://maxiang.io/，在编辑器里面写好文章后，复制或另存为.md文件</a>, 与普通的.md文件不同 要在文件开头添加下面代码</p><pre><code>title: #文章标题date: #文章日期tags: #文章标签categories: #文章分类---</code></pre><p>在.md文件的开头添加上面代码，是为了让Hexo框架在生成网页的时候，设置相应的参数。例如下图所示：<br><img src="https://i.imgur.com/r3ofBm7.png" alt=""></p><p>将写好的.md文件放入Hexo项目的source 目录下的_posts 文件夹中，可以看到里面有个hello-world.md 文件，这就是默认的文章。</p><p>重新在本地启动项目，访问就可以看到之前添加的文章。</p><h3 id="生成静态Html文件"><a href="#生成静态Html文件" class="headerlink" title="生成静态Html文件"></a>生成静态Html文件</h3><p>现在只能在本地启动项目然后通过本地地址访问博客网站，下面我们就可以利用Hexo生成静态Html，很简单，只需要在命令窗口执行下面代码：</p><pre><code>cd &lt;folder&gt; #切换到项目目录下hexo generate   #生成静态文件到项目根目录的public文件夹中</code></pre><p>发布静态Html文件到码云 Pages上</p><p>注册一个码云帐号，并创建一个项目。如下图：<br><img src="https://i.imgur.com/oo9ylK4.png" alt=""></p><p>创建完项目后得到项目的Https的地址后面要用。地址获取如下图<br><img src="https://i.imgur.com/pvFwdCT.png" alt=""></p><p>这里借用一个插件来帮助我们完成代码上传的工作，安装 hexo-deployer-git。安装代码如下</p><pre><code>npm install hexo-deployer-git --save#把public里面生成的文件推上到码云上。</code></pre><p>配置项目根目录_config.yml 文件，修改deploy 的值，如下图：</p><p><img src="https://i.imgur.com/Pye8eMq.png" alt=""></p><p>修改完后在命令窗口执行下面命令：<br>    cd <folder> #切换到项目目录下<br>    hexo deploy #一键部署功能</folder></p><p>之后会弹出一个对话框，输入码云的帐号密码。</p><p>部署成功之后，登录码云，查看之前创建的项目中出现了本地项目中public 文件夹中的文件，这时候代表之前的部署是成功的。</p><p>然后如下图，启动码云的pages功能：<br><img src="https://i.imgur.com/5pFYcZR.png" alt=""></p><p>访问链接<br><img src="https://i.imgur.com/Os6lpWc.png" alt=""></p><p>这时候就看到之前和本地启动一样的效果了。博客部署完成，在这之后，只需要每次用马克飞象写好文章后，放入Hexo项目的source 目录下的_posts 文件夹中，在按照之前步骤更新博客就OK了。还可以随时切换博客的主题哦！</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;使用工具介绍&quot;&gt;&lt;a href=&quot;#使用工具介绍&quot; class=&quot;headerlink&quot; title=&quot;使用工具介绍&quot;&gt;&lt;/a&gt;使用工具介绍&lt;/h3&gt;&lt;p&gt;1、码云 Pages：码云 Pages 是一个免费的静态网页托管服务，您可以使用码云 Pages 托管博客、项目官网等静态网页。这样就不用购买服务器和域名了，如果您使用过 Github Pages 那么您会很快上手使用码云的Pages服务。这里使用码云上的Pages 而不是用Github Pages，主要原因就是在国内没有VPN的话。。。你懂得！还有就是支持国产！链接：&lt;a href=&quot;https://git.oschina.net/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://git.oschina.net/&lt;/a&gt;&lt;br&gt;
-    
-    </summary>
-    
-      <category term="hexo" scheme="http://www.juedigulang.com/categories/hexo/"/>
-    
-    
-      <category term="hexo" scheme="http://www.juedigulang.com/tags/hexo/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="http://www.juedigulang.com/2017/11/02/hello-world/"/>
-    <id>http://www.juedigulang.com/2017/11/02/hello-world/</id>
-    <published>2017-11-02T08:03:22.911Z</published>
-    <updated>2017-10-27T08:08:10.515Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="创建一个文件"><a href="#创建一个文件" class="headerlink" title="创建一个文件"></a>创建一个文件</h3><p>$ hexo new “My New Post”</p><h3 id="运行本地服务"><a href="#运行本地服务" class="headerlink" title="运行本地服务"></a>运行本地服务</h3><p>$ hexo server</p><h3 id="生成静态文件"><a href="#生成静态文件" class="headerlink" title="生成静态文件"></a>生成静态文件</h3><p>$ hexo generate</p><h3 id="部署到服务器"><a href="#部署到服务器" class="headerlink" title="部署到服务器"></a>部署到服务器</h3><p>$ hexo deploy</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;创建一个文件&quot;&gt;&lt;a href=&quot;#创建一个文件&quot; class=&quot;headerlink&quot; title=&quot;创建一个文件&quot;&gt;&lt;/a&gt;创建一个文件&lt;/h3&gt;&lt;p&gt;$ hexo new “My New Post”&lt;/p&gt;
-&lt;h3 id=&quot;运行本地服务&quot;&gt;&lt;a href=&quot;
-      
-    
-    </summary>
-    
     
   </entry>
   

@@ -39,9 +39,9 @@
     <h2 class="author">Mo</h2>
     <h3 class="description">精彩不是顺着风直达，而逆风却刻服了害怕</h3>
     <div class="count-box">
-      <a href="/archives"><div><strong>19</strong><br>文章</div></a>
+      <a href="/archives"><div><strong>26</strong><br>文章</div></a>
       <a href="/categories"><div><strong>6</strong><br>分类</div></a>
-      <a href="/tags"><div><strong>11</strong><br>标签</div></a>
+      <a href="/tags"><div><strong>13</strong><br>标签</div></a>
     </div>
     <ul class="blog-link">
      
@@ -74,6 +74,558 @@
 </div>
 
         <section id="main">
+  
+    <article id="post-sql插入语句拼接" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/21/sql插入语句拼接/" class="article-date">
+  <time class="post-time" datetime="2018-01-21T07:26:11.429Z" itemprop="datePublished">
+    <span class="post-month">1月</span><br/>
+    <span class="post-day">21</span>
+  </time>
+</a>
+   
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/21/sql插入语句拼接/">插入sql语句的拼接</a>
+    </h1>
+  
+
+        <div>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/java/">java</a>
+  </div>
+
+          
+              
+  &nbsp; | &nbsp;
+  <div class="view-box">
+    <span id="/2018/01/21/sql插入语句拼接/" class="leancloud_visitors" data-flag-title="插入sql语句的拼接">
+      &nbsp;阅读次数<span class="leancloud-visitors-count"></span>
+    </span>
+  </div>
+
+
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><p>点击保存的时候需要将上面四条数据添加到数据库中，并将原数据库中的数据清空，添加新的数据<br><img src="https://i.imgur.com/swgSnX0.png" alt=""></p>
+<p>js代码如下：<br>    var sjArray = [];</p>
+<pre><code>$(&quot;tr&quot;).each(function(i,v){//遍历tr
+var yarray = [];
+if(i &gt;= 1){
+$(v).find(&quot;td&quot;).each(function(i1,v1){//遍历tr下面的td
+if(i1 &lt; $(v).find(&quot;td&quot;).length-1){
+yarray.push($(v1).find(&quot;input&quot;).val());
+}
+})
+}
+
+sjArray.push(yarray)
+})
+$.ajax({ 
+type:&quot;POST&quot;, 
+url:contextPath + &apos;/ChartElementInfo/sdlrAjbxxAysszSave&apos;, 
+dataType:&quot;json&quot;, 
+data:{num:num,newArr:JSON.stringify(sjArray)},
+async: false,
+success:function(result){
+if (result.code == 200) {
+alert(&quot;添加成功&quot;);
+window.location.href = contextPath + &apos;/ChartElementInfo/toshow&apos;;
+}else{
+alert(&quot;添加失败&quot;); 
+}
+} 
+});
+</code></pre><p>后台接收到的sjarray的格式如下：</p>
+<p><img src="https://i.imgur.com/DKCNYaL.png" alt=""></p>
+<h3 id="使用sql插入功能，使用insert的方法"><a href="#使用sql插入功能，使用insert的方法" class="headerlink" title="使用sql插入功能，使用insert的方法"></a>使用sql插入功能，使用insert的方法</h3><p>insert into tablename(id,name)values(x,x);格式</p>
+<p>后台代码如下：<br>    /* </p>
+<pre><code>* 手动录入数据的保存
+*/
+@Transactional(propagation=Propagation.SUPPORTS)
+@Override
+public void getSave(String num,String newArr) throws Exception{
+JSONArray jsonArray = JSONArray.parseArray(newArr);
+
+ChartElementInfo info = this.get(num);
+String dataTable = info.getDataTable();
+//将数据库中内容清空
+this.chartElementInfoDao.del(dataTable);
+//遍历jsonArray将数据保存到list中
+List&lt;List&lt;Object&gt;&gt; data = new ArrayList&lt;List&lt;Object&gt;&gt;();
+for (int i =1; i&lt;jsonArray.size();i++) {
+String obj = jsonArray.get(i).toString();
+List&lt;Object&gt; row = new ArrayList&lt;Object&gt;();
+JSONArray array = JSONArray.parseArray(obj);
+for (int j=0; j&lt;array.size();j++) {
+String str = array.get(j).toString();
+row.add(str);
+}
+data.add(row);
+}
+//字段拼接
+String flieds = &quot;id&quot;;
+List&lt;ChartElementData&gt; list = this.chartElementDataService.getChartElementDataByFkId(num);
+Database database = this.dataBaseService.get(info.getDatabaseId());
+this.getConnection(database);
+Statement statement = null; 
+//拿到需要添加数据的字段名称
+for (ChartElementData chartElementData : list) {
+flieds = flieds+&quot;,&quot;+chartElementData.getFieldName();
+String type = chartElementData.getDataType();
+}
+//拼接需要添加的数据
+for (List&lt;Object&gt; list2 : data) {
+//数据拼接
+String datas = &quot;&apos;&quot;+UuidUtil.uuids()+&quot;&apos;&quot;;
+for (Object object : list2) {
+if(object instanceof java.lang.String){
+datas = datas+&quot;,&apos;&quot;+object+&quot;&apos;&quot;;
+}else{
+datas = datas+&quot;,&quot;+object;
+}
+}
+
+try {
+
+statement = connection.getConn().createStatement();
+String sql = &quot;insert into &quot;+dataTable+&quot;(&quot;+flieds+&quot;) values(&quot;+datas+&quot;)&quot;;
+statement.executeUpdate(sql);
+} catch (Exception e) {
+// TODO Auto-generated catch block
+e.printStackTrace();
+}finally{
+if (statement != null) {
+try {
+statement.close();
+} catch (SQLException e) {
+e.printStackTrace();
+}
+}
+}
+
+}
+//关闭连接
+connection.closeConn();
+
+}
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.juedigulang.com/2018/01/21/sql插入语句拼接/" data-id="cjcogmr5h0011dgp6du2aokln" class="article-share-link">分享</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-js模糊查询" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/21/js模糊查询/" class="article-date">
+  <time class="post-time" datetime="2018-01-21T07:14:45.316Z" itemprop="datePublished">
+    <span class="post-month">1月</span><br/>
+    <span class="post-day">21</span>
+  </time>
+</a>
+   
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/21/js模糊查询/">js写的模糊查询</a>
+    </h1>
+  
+
+        <div>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/js/">js</a>
+  </div>
+
+          
+              
+  &nbsp; | &nbsp;
+  <div class="view-box">
+    <span id="/2018/01/21/js模糊查询/" class="leancloud_visitors" data-flag-title="js写的模糊查询">
+      &nbsp;阅读次数<span class="leancloud-visitors-count"></span>
+    </span>
+  </div>
+
+
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3>
+        
+          <p class="article-more-link">
+            <a href="/2018/01/21/js模糊查询/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.juedigulang.com/2018/01/21/js模糊查询/" data-id="cjcogmr4p000udgp63l2a126z" class="article-share-link">分享</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/">js</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-获取表格中每列的值" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/21/获取表格中每列的值/" class="article-date">
+  <time class="post-time" datetime="2018-01-21T07:10:59.407Z" itemprop="datePublished">
+    <span class="post-month">1月</span><br/>
+    <span class="post-day">21</span>
+  </time>
+</a>
+   
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/21/获取表格中每列的值/">获取表格中每一列的值</a>
+    </h1>
+  
+
+        <div>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/js/">js</a>
+  </div>
+
+          
+              
+  &nbsp; | &nbsp;
+  <div class="view-box">
+    <span id="/2018/01/21/获取表格中每列的值/" class="leancloud_visitors" data-flag-title="获取表格中每一列的值">
+      &nbsp;阅读次数<span class="leancloud-visitors-count"></span>
+    </span>
+  </div>
+
+
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3>
+        
+          <p class="article-more-link">
+            <a href="/2018/01/21/获取表格中每列的值/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.juedigulang.com/2018/01/21/获取表格中每列的值/" data-id="cjcogmr9b001tdgp6c4b83gp1" class="article-share-link">分享</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js、table/">js、table</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-表格实现按照年龄排序" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/21/表格实现按照年龄排序/" class="article-date">
+  <time class="post-time" datetime="2018-01-21T07:05:07.970Z" itemprop="datePublished">
+    <span class="post-month">1月</span><br/>
+    <span class="post-day">21</span>
+  </time>
+</a>
+   
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/21/表格实现按照年龄排序/">表格实现按年龄排序</a>
+    </h1>
+  
+
+        <div>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/js/">js</a>
+  </div>
+
+          
+              
+  &nbsp; | &nbsp;
+  <div class="view-box">
+    <span id="/2018/01/21/表格实现按照年龄排序/" class="leancloud_visitors" data-flag-title="表格实现按年龄排序">
+      &nbsp;阅读次数<span class="leancloud-visitors-count"></span>
+    </span>
+  </div>
+
+
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3>
+        
+          <p class="article-more-link">
+            <a href="/2018/01/21/表格实现按照年龄排序/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.juedigulang.com/2018/01/21/表格实现按照年龄排序/" data-id="cjcogmr9t001wdgp6ie5v1sg0" class="article-share-link">分享</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js、table/">js、table</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-js动态拼接表格" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/21/js动态拼接表格/" class="article-date">
+  <time class="post-time" datetime="2018-01-21T06:58:53.007Z" itemprop="datePublished">
+    <span class="post-month">1月</span><br/>
+    <span class="post-day">21</span>
+  </time>
+</a>
+   
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/21/js动态拼接表格/">js动态创建表格</a>
+    </h1>
+  
+
+        <div>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/js/">js</a>
+  </div>
+
+          
+              
+  &nbsp; | &nbsp;
+  <div class="view-box">
+    <span id="/2018/01/21/js动态拼接表格/" class="leancloud_visitors" data-flag-title="js动态创建表格">
+      &nbsp;阅读次数<span class="leancloud-visitors-count"></span>
+    </span>
+  </div>
+
+
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3>
+        
+          <p class="article-more-link">
+            <a href="/2018/01/21/js动态拼接表格/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.juedigulang.com/2018/01/21/js动态拼接表格/" data-id="cjcogmr4j000sdgp6vt4cvz2z" class="article-share-link">分享</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js、table/">js、table</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-就是、" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/21/就是、/" class="article-date">
+  <time class="post-time" datetime="2018-01-21T06:51:02.903Z" itemprop="datePublished">
+    <span class="post-month">1月</span><br/>
+    <span class="post-day">21</span>
+  </time>
+</a>
+   
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/21/就是、/">搜索框使用插件出搜索提示</a>
+    </h1>
+  
+
+        <div>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/js/">js</a>
+  </div>
+
+          
+              
+  &nbsp; | &nbsp;
+  <div class="view-box">
+    <span id="/2018/01/21/就是、/" class="leancloud_visitors" data-flag-title="搜索框使用插件出搜索提示">
+      &nbsp;阅读次数<span class="leancloud-visitors-count"></span>
+    </span>
+  </div>
+
+
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="首先需要在jsp页面上导入两个js"><a href="#首先需要在jsp页面上导入两个js" class="headerlink" title="首先需要在jsp页面上导入两个js"></a>首先需要在jsp页面上导入两个js</h3>
+        
+          <p class="article-more-link">
+            <a href="/2018/01/21/就是、/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.juedigulang.com/2018/01/21/就是、/" data-id="cjcogmr8l001pdgp64a6ecq8e" class="article-share-link">分享</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/">js</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-js提示框" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/21/js提示框/" class="article-date">
+  <time class="post-time" datetime="2018-01-21T06:50:05.205Z" itemprop="datePublished">
+    <span class="post-month">1月</span><br/>
+    <span class="post-day">21</span>
+  </time>
+</a>
+   
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/21/js提示框/">搜索框使用插件出搜索提示</a>
+    </h1>
+  
+
+        <div>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/js/">js</a>
+  </div>
+
+          
+              
+  &nbsp; | &nbsp;
+  <div class="view-box">
+    <span id="/2018/01/21/js提示框/" class="leancloud_visitors" data-flag-title="搜索框使用插件出搜索提示">
+      &nbsp;阅读次数<span class="leancloud-visitors-count"></span>
+    </span>
+  </div>
+
+
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="首先需要在jsp页面上导入两个js"><a href="#首先需要在jsp页面上导入两个js" class="headerlink" title="首先需要在jsp页面上导入两个js"></a>首先需要在jsp页面上导入两个js</h3>
+        
+          <p class="article-more-link">
+            <a href="/2018/01/21/js提示框/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.juedigulang.com/2018/01/21/js提示框/" data-id="cjcogmr4u000wdgp6t1otz7d9" class="article-share-link">分享</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/">js</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
   
     <article id="post-js中map使用" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -127,7 +679,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.juedigulang.com/2018/01/21/js中map使用/" data-id="cjcoe23yn000nngp6yfk7igje" class="article-share-link">分享</a>
+      <a data-url="http://www.juedigulang.com/2018/01/21/js中map使用/" data-id="cjcogmr41000ldgp6vibxncwq" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js、map/">js、map</a></li></ul>
@@ -192,7 +744,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.juedigulang.com/2018/01/21/java中excel导入/" data-id="cjcoe23xo000bngp6xg082jh9" class="article-share-link">分享</a>
+      <a data-url="http://www.juedigulang.com/2018/01/21/java中excel导入/" data-id="cjcogmr32000bdgp6ckgvmhjn" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
@@ -257,438 +809,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.juedigulang.com/2018/01/21/maven编译解决符号找不到问题/" data-id="cjcoe23yu000rngp60n62ry1s" class="article-share-link">分享</a>
+      <a data-url="http://www.juedigulang.com/2018/01/21/maven编译解决符号找不到问题/" data-id="cjcogmr6u0017dgp6xnt0fzg0" class="article-share-link">分享</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-java递归与反递归" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/01/21/java递归与反递归/" class="article-date">
-  <time class="post-time" datetime="2018-01-21T05:33:48.427Z" itemprop="datePublished">
-    <span class="post-month">1月</span><br/>
-    <span class="post-day">21</span>
-  </time>
-</a>
-   
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<p>title: java递归和反向递归<br>tags: java<br>categories: java</p>
-<h2 id="archives-archives"><a href="#archives-archives" class="headerlink" title="archives: /archives"></a>archives: /archives</h2><h3 id="递归查询树tree结构有两种做法"><a href="#递归查询树tree结构有两种做法" class="headerlink" title="递归查询树tree结构有两种做法"></a>递归查询树tree结构有两种做法</h3><p>第一种，递归查询数据库结构，<br>
-        
-          <p class="article-more-link">
-            <a href="/2018/01/21/java递归与反递归/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.juedigulang.com/2018/01/21/java递归与反递归/" data-id="cjcoe23xg000angp6ado69e6z" class="article-share-link">分享</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Mysql5中大数据错误" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/01/21/Mysql5中大数据错误/" class="article-date">
-  <time class="post-time" datetime="2018-01-21T05:20:45.645Z" itemprop="datePublished">
-    <span class="post-month">1月</span><br/>
-    <span class="post-day">21</span>
-  </time>
-</a>
-   
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/21/Mysql5中大数据错误/">解决MySQL中mysql5中大数据错误：Packet for query is too large ().</a>
-    </h1>
-  
-
-        <div>
-          
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/mysql/">mysql</a>
-  </div>
-
-          
-              
-  &nbsp; | &nbsp;
-  <div class="view-box">
-    <span id="/2018/01/21/Mysql5中大数据错误/" class="leancloud_visitors" data-flag-title="解决MySQL中mysql5中大数据错误：Packet for query is too large ().">
-      &nbsp;阅读次数<span class="leancloud-visitors-count"></span>
-    </span>
-  </div>
-
-
-          
-        </div>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="报错信息"><a href="#报错信息" class="headerlink" title="报错信息"></a>报错信息</h3><p>解决MySQL中mysql5中大数据错误：Packet for query is too large ().<br>
-        
-          <p class="article-more-link">
-            <a href="/2018/01/21/Mysql5中大数据错误/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.juedigulang.com/2018/01/21/Mysql5中大数据错误/" data-id="cjcoe23yk000lngp6634esepc" class="article-share-link">分享</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-jdk比较器问题" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/01/21/jdk比较器问题/" class="article-date">
-  <time class="post-time" datetime="2018-01-21T05:11:46.166Z" itemprop="datePublished">
-    <span class="post-month">1月</span><br/>
-    <span class="post-day">21</span>
-  </time>
-</a>
-   
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/21/jdk比较器问题/">jdk1.6和jdk1.7中比较器的问题</a>
-    </h1>
-  
-
-        <div>
-          
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/java/">java</a>
-  </div>
-
-          
-              
-  &nbsp; | &nbsp;
-  <div class="view-box">
-    <span id="/2018/01/21/jdk比较器问题/" class="leancloud_visitors" data-flag-title="jdk1.6和jdk1.7中比较器的问题">
-      &nbsp;阅读次数<span class="leancloud-visitors-count"></span>
-    </span>
-  </div>
-
-
-          
-        </div>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>为了统一线上服务器运行环境，将两台服务器的Tomcat6+JDK6升级到Tomcat7+JDK7，
-        
-          <p class="article-more-link">
-            <a href="/2018/01/21/jdk比较器问题/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.juedigulang.com/2018/01/21/jdk比较器问题/" data-id="cjcoe23y9000hngp66x8bb05n" class="article-share-link">分享</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-伪登录实现" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/01/21/伪登录实现/" class="article-date">
-  <time class="post-time" datetime="2018-01-21T04:56:10.979Z" itemprop="datePublished">
-    <span class="post-month">1月</span><br/>
-    <span class="post-day">21</span>
-  </time>
-</a>
-   
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/21/伪登录实现/">a系统跳转到b系统伪登录实现</a>
-    </h1>
-  
-
-        <div>
-          
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/java/">java</a>
-  </div>
-
-          
-              
-  &nbsp; | &nbsp;
-  <div class="view-box">
-    <span id="/2018/01/21/伪登录实现/" class="leancloud_visitors" data-flag-title="a系统跳转到b系统伪登录实现">
-      &nbsp;阅读次数<span class="leancloud-visitors-count"></span>
-    </span>
-  </div>
-
-
-          
-        </div>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="需求实现"><a href="#需求实现" class="headerlink" title="需求实现"></a>需求实现</h3><p>点击a系统的舆情，直接跳转到b系统的首页，跳过登陆页面，直接跳转到b系统<br>
-        
-          <p class="article-more-link">
-            <a href="/2018/01/21/伪登录实现/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.juedigulang.com/2018/01/21/伪登录实现/" data-id="cjcoe242h0023ngp61cpkl5na" class="article-share-link">分享</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-前台页面配置数据库连接" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/11/18/前台页面配置数据库连接/" class="article-date">
-  <time class="post-time" datetime="2017-11-18T08:45:42.000Z" itemprop="datePublished">
-    <span class="post-month">11月</span><br/>
-    <span class="post-day">18</span>
-  </time>
-</a>
-   
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/18/前台页面配置数据库连接/">前台页面配置sql连接</a>
-    </h1>
-  
-
-        <div>
-          
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/java/">java</a>
-  </div>
-
-          
-              
-  &nbsp; | &nbsp;
-  <div class="view-box">
-    <span id="/2017/11/18/前台页面配置数据库连接/" class="leancloud_visitors" data-flag-title="前台页面配置sql连接">
-      &nbsp;阅读次数<span class="leancloud-visitors-count"></span>
-    </span>
-  </div>
-
-
-          
-        </div>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>###<br>在前台页面配置sql的数据库连接，然后将其数据导入到数据库中，页面上的配置如下图所示<br>
-        
-          <p class="article-more-link">
-            <a href="/2017/11/18/前台页面配置数据库连接/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.juedigulang.com/2017/11/18/前台页面配置数据库连接/" data-id="cjcoe23z2000xngp6bbr09667" class="article-share-link">分享</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql/">sql</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-调用百度地址匹配接口和获取经纬度坐标" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/11/18/调用百度地址匹配接口和获取经纬度坐标/" class="article-date">
-  <time class="post-time" datetime="2017-11-18T08:22:15.000Z" itemprop="datePublished">
-    <span class="post-month">11月</span><br/>
-    <span class="post-day">18</span>
-  </time>
-</a>
-   
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/18/调用百度地址匹配接口和获取经纬度坐标/">将java调用百度地址匹配接口获取经纬度坐标</a>
-    </h1>
-  
-
-        <div>
-          
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/java/">java</a>
-  </div>
-
-          
-              
-  &nbsp; | &nbsp;
-  <div class="view-box">
-    <span id="/2017/11/18/调用百度地址匹配接口和获取经纬度坐标/" class="leancloud_visitors" data-flag-title="将java调用百度地址匹配接口获取经纬度坐标">
-      &nbsp;阅读次数<span class="leancloud-visitors-count"></span>
-    </span>
-  </div>
-
-
-          
-        </div>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>做项目中经常要调用 百度地图，遇到要根据坐标得到地址名称，或根据名称匹配得到经纬度坐标，所以提取出来写了两个通用方法。<br>需要依赖 json.jar 包。</p>
-<p>代码如下：<br>
-        
-          <p class="article-more-link">
-            <a href="/2017/11/18/调用百度地址匹配接口和获取经纬度坐标/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.juedigulang.com/2017/11/18/调用百度地址匹配接口和获取经纬度坐标/" data-id="cjcoe23zx0019ngp6mw2ikw2t" class="article-share-link">分享</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-将标准的sql脚本导入数据库" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/11/18/将标准的sql脚本导入数据库/" class="article-date">
-  <time class="post-time" datetime="2017-11-18T08:22:15.000Z" itemprop="datePublished">
-    <span class="post-month">11月</span><br/>
-    <span class="post-day">18</span>
-  </time>
-</a>
-   
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/18/将标准的sql脚本导入数据库/">将标准sql语句导入到数据库中</a>
-    </h1>
-  
-
-        <div>
-          
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/java/">java</a>
-  </div>
-
-          
-              
-  &nbsp; | &nbsp;
-  <div class="view-box">
-    <span id="/2017/11/18/将标准的sql脚本导入数据库/" class="leancloud_visitors" data-flag-title="将标准sql语句导入到数据库中">
-      &nbsp;阅读次数<span class="leancloud-visitors-count"></span>
-    </span>
-  </div>
-
-
-          
-        </div>
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="将转换为标准的sql文件导入到数据库中"><a href="#将转换为标准的sql文件导入到数据库中" class="headerlink" title="将转换为标准的sql文件导入到数据库中"></a>将转换为标准的sql文件导入到数据库中</h3>
-        
-          <p class="article-more-link">
-            <a href="/2017/11/18/将标准的sql脚本导入数据库/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.juedigulang.com/2017/11/18/将标准的sql脚本导入数据库/" data-id="cjcoe23zc0010ngp6sbz32bst" class="article-share-link">分享</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sql/">sql</a></li></ul>
 
     </footer>
   </div>
@@ -701,7 +825,7 @@
 
 
   <nav id="page-nav">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"> &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"> &raquo;</a>
   </nav>
 </section>
         
@@ -750,9 +874,9 @@
     <h2 class="author">Mo</h2>
     <h3 class="description">精彩不是顺着风直达，而逆风却刻服了害怕</h3>
     <div class="count-box">
-      <a href="/archives"><div><strong>19</strong><br>文章</div></a>
+      <a href="/archives"><div><strong>26</strong><br>文章</div></a>
       <a href="/categories"><div><strong>6</strong><br>分类</div></a>
-      <a href="/tags"><div><strong>11</strong><br>标签</div></a>
+      <a href="/tags"><div><strong>13</strong><br>标签</div></a>
     </div>
 
 

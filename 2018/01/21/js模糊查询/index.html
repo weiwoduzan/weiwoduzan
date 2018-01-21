@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>js写的模糊查询 | Mo的个人博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="需求">
+<meta name="keywords" content="js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="js写的模糊查询">
+<meta property="og:url" content="http://www.juedigulang.com/2018/01/21/js模糊查询/index.html">
+<meta property="og:site_name" content="Mo的个人博客">
+<meta property="og:description" content="需求">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.imgur.com/J6bwvoX.png">
+<meta property="og:updated_time" content="2018-01-21T07:19:44.047Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="js写的模糊查询">
+<meta name="twitter:description" content="需求">
+<meta name="twitter:image" content="https://i.imgur.com/J6bwvoX.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/plugin/bganimation/bg.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <div class="widget-wrap mobile-header">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <img class="avatar" src="https://avatars0.githubusercontent.com/u/20333903?v=3&amp;s=460">
+    <h2 class="author">Mo</h2>
+    <h3 class="description">精彩不是顺着风直达，而逆风却刻服了害怕</h3>
+    <div class="count-box">
+      <a href="/archives"><div><strong>26</strong><br>文章</div></a>
+      <a href="/categories"><div><strong>6</strong><br>分类</div></a>
+      <a href="/tags"><div><strong>13</strong><br>标签</div></a>
+    </div>
+    <ul class="blog-link">
+     
+          <a href="/" title="Home">
+            <li>主页</li>
+          </a>
+        
+          <a href="/archives" title="Archives">
+            <li>归档</li>
+          </a>
+        
+          <a href="/categories" title="Categories">
+            <li>分类</li>
+          </a>
+        
+          <a href="/tags" title="Tags">
+            <li>标签</li>
+          </a>
+        
+          <a href="/about" title="about">
+            <li>about</li>
+          </a>
+        
+          <a href="/atom.xml" title="rss">
+            <li>rss</li>
+          </a>
+        
+    </ul>
+  </div>
+</div>
+
+        <section id="main"><article id="post-js模糊查询" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/21/js模糊查询/" class="article-date">
+  <time class="post-time" datetime="2018-01-21T07:14:45.316Z" itemprop="datePublished">
+    <span class="post-month">1月</span><br/>
+    <span class="post-day">21</span>
+  </time>
+</a>
+   
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      js写的模糊查询
+    </h1>
+  
+
+        <div>
+          
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/js/">js</a>
+  </div>
+
+          
+              
+  &nbsp; | &nbsp;
+  <div class="view-box">
+    <span id="/2018/01/21/js模糊查询/" class="leancloud_visitors" data-flag-title="js写的模糊查询">
+      &nbsp;阅读次数<span class="leancloud-visitors-count"></span>
+    </span>
+  </div>
+
+
+          
+        </div>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><a id="more"></a>
+<p>页面上需要进行模糊查询匹配，使用js完成，效果如下：<br><img src="https://i.imgur.com/J6bwvoX.png" alt=""></p>
+<h3 id="通过主题和名称组成的多条件查询"><a href="#通过主题和名称组成的多条件查询" class="headerlink" title="通过主题和名称组成的多条件查询"></a>通过主题和名称组成的多条件查询</h3><p>首先，要把数据组装成下面的格式：</p>
+<pre><code>var treejson=[{
+id:&apos;theme0&apos;,
+nodename:&apos;经济主题&apos;,//节点名称
+children:[{id:&apos;1&apos;,nodename:&apos;规模增长及增速&apos;},{id:&apos;2&apos;,nodename:&apos;产业构成&apos;},{id:&apos;3&apos;,nodename:&apos;社会消费品构成&apos;}]
+},{
+id:&apos;theme1&apos;,
+nodename:&apos;人口主题&apos;,//节点名称
+children:[{id:&apos;4&apos;,nodename:&apos;规模增长及增速&apos;},{id:&apos;5&apos;,nodename:&apos;贫困特征&apos;}]
+}]
+</code></pre><p>前端js代码的格式如上面的格式，由于在前端不好组装数据，所以在后台进行数据的组装，后台代码 如下：</p>
+<pre><code>List&lt;Map&lt;String,Object&gt;&gt; list = themeService.getThemes();
+List&lt;Map&lt;String,Object&gt;&gt; listJson = new ArrayList&lt;Map&lt;String,Object&gt;&gt;();
+for (Map&lt;String, Object&gt; map2 : list) {
+String themeId = map2.get(&quot;id&quot;).toString();
+//获取图元数据
+List&lt;Map&lt;String, Object&gt;&gt; info = service.getInfo(themeId);
+
+//查询数据的组装
+Map&lt;String,Object&gt; jmap = new HashMap&lt;String, Object&gt;();
+Object obj = map2.get(&quot;id&quot;);
+jmap.put(&quot;id&quot;, obj);
+Object obj1 = map2.get(&quot;name&quot;);
+jmap.put(&quot;nodename&quot;, obj1);
+jmap.put(&quot;children&quot;, info);
+listJson.add(jmap);
+}
+
+//查询数据
+setAttribute(&quot;charInfoListJson&quot;, JsonUtil.toJson(listJson));
+</code></pre><p>这样就可以把数据组装成上面所对应的格式了，下面就是所对应的前端代码了，jsp代码如下</p>
+<pre><code>&lt;div class=&quot;message&quot; id=&quot;animate&quot;&gt;
+&lt;div class=&quot;line&quot;&gt;
+&lt;div class=&quot;lineC&quot; id=&quot;1&quot;&gt;
+&lt;span class=&quot;text&quot;&gt;人口主题&lt;/span&gt; &lt;em&gt;&lt;/em&gt;
+&lt;/div&gt;
+&lt;ul style=&quot;display: block;&quot;&gt;
+&lt;li class=&quot;active&quot; id=&quot;1&quot; onclick=&quot;gb1(this);&quot;&gt;人口流入&lt;/li&gt;
+&lt;li id=&quot;2&quot; onclick=&quot;gb1(this);&quot;&gt;就业人口行业分布&lt;/li&gt;
+&lt;li id=&quot;3&quot; onclick=&quot;gb1(this);&quot;&gt;近年人口增长率&lt;/li&gt;
+&lt;li id=&quot;4&quot; onclick=&quot;gb1(this);&quot;&gt;人口流出&lt;/li&gt;
+&lt;li id=&quot;5&quot; onclick=&quot;gb1(this);&quot;&gt;近年失业率统计&lt;/li&gt;
+&lt;li id=&quot;6&quot; onclick=&quot;gb1(this);&quot;&gt;文化程度分析&lt;/li&gt;
+&lt;li id=&quot;7&quot; onclick=&quot;gb1(this);&quot;&gt;近年婚姻状况分析&lt;/li&gt;
+&lt;li id=&quot;8&quot; onclick=&quot;gb1(this);&quot;&gt;各年龄段人口数&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;div class=&quot;rightInfo fr w84 economic-left&quot;&gt;
+&lt;div class=&quot;tuyuan w100&quot; id=&quot;tuyuan&quot;&gt;
+&lt;div class=&quot;fonud&quot;&gt;
+&lt;span&gt;主题：&lt;/span&gt; &lt;select name=&quot;&quot; id=&quot;father&quot;&gt;
+&lt;option value=&quot;main&quot;&gt;全部&lt;/option&gt;
+&lt;option value=&quot;1&quot;&gt;人口主题&lt;/option&gt;
+&lt;option value=&quot;8a90fb266095aca7016095d66fff0006&quot;&gt;法人主题&lt;/option&gt;
+&lt;option value=&quot;8a90fb266095aca7016095d688f80007&quot;&gt;农业主题&lt;/option&gt;
+&lt;option value=&quot;8a90fb266095aca7016095d6ac6f0008&quot;&gt;经济主题&lt;/option&gt;
+&lt;option value=&quot;8a90fb266095aca7016095d6c2770009&quot;&gt;旅游主题&lt;/option&gt;
+&lt;/select&gt; &lt;span&gt;名称：&lt;/span&gt; &lt;input id=&quot;son&quot; type=&quot;text&quot; class=&quot;form-control&quot;
+value=&quot;&quot;&gt; &lt;a href=&quot;javascript:search()&quot;&gt;查询&lt;/a&gt;
+&lt;/div&gt;
+&lt;div class=&quot;chart&quot; id=&quot;chart&quot; style=&quot;overflow: auto;&quot;&gt;
+&lt;div id=&quot;box&quot;&gt;
+&lt;div class=&quot;ztBox&quot; id=&quot;1&quot;&gt;
+&lt;div class=&quot;zt-title&quot;&gt;
+&lt;i&gt;&lt;/i&gt; &lt;span&gt;人口主题&lt;/span&gt;
+&lt;/div&gt;
+&lt;div class=&quot;ztinfo clearfix&quot;&gt;
+&lt;div class=&quot;w33 fl checked&quot; data-num=&quot;1&quot; data-type=&quot;10&quot;&gt;
+&lt;div class=&quot;pixel&quot; onclick=&quot;preview(this);&quot;&gt;
+&lt;div id=&quot;drop11&quot; class=&quot;w100&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;pixel-txt&quot; onclick=&quot;revise(this);&quot;&gt;人口流入&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;w33 fl&quot; data-num=&quot;2&quot; data-type=&quot;1&quot;&gt;
+&lt;div class=&quot;pixel&quot; onclick=&quot;preview(this);&quot;&gt;
+&lt;div id=&quot;drop12&quot; class=&quot;w100&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;pixel-txt&quot; onclick=&quot;revise(this);&quot;&gt;就业人口行业分布&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;w33 fl&quot; style=&quot;margin-right: 0px;&quot; data-num=&quot;3&quot;
+data-type=&quot;2&quot;&gt;
+&lt;div class=&quot;pixel&quot; onclick=&quot;preview(this);&quot;&gt;
+&lt;div id=&quot;drop13&quot; class=&quot;w100&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;pixel-txt&quot; onclick=&quot;revise(this);&quot;&gt;近年人口增长率&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;w33 fl&quot; data-num=&quot;4&quot; data-type=&quot;11&quot;&gt;
+&lt;div class=&quot;pixel&quot; onclick=&quot;preview(this);&quot;&gt;
+&lt;div id=&quot;drop14&quot; class=&quot;w100&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;pixel-txt&quot; onclick=&quot;revise(this);&quot;&gt;人口流出&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;w33 fl&quot; data-num=&quot;5&quot; data-type=&quot;8&quot;&gt;
+&lt;div class=&quot;pixel&quot; onclick=&quot;preview(this);&quot;&gt;
+&lt;div id=&quot;drop15&quot; class=&quot;w100&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;pixel-txt&quot; onclick=&quot;revise(this);&quot;&gt;近年失业率统计&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;w33 fl&quot; style=&quot;margin-right: 0px;&quot; data-num=&quot;6&quot;
+data-type=&quot;9&quot;&gt;
+&lt;div class=&quot;pixel&quot; onclick=&quot;preview(this);&quot;&gt;
+&lt;div id=&quot;drop16&quot; class=&quot;w100&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;pixel-txt&quot; onclick=&quot;revise(this);&quot;&gt;文化程度分析&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;w33 fl&quot; data-num=&quot;7&quot; data-type=&quot;8&quot;&gt;
+&lt;div class=&quot;pixel&quot; onclick=&quot;preview(this);&quot;&gt;
+&lt;div id=&quot;drop17&quot; class=&quot;w100&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;pixel-txt&quot; onclick=&quot;revise(this);&quot;&gt;近年婚姻状况分析&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;w33 fl&quot; data-num=&quot;8&quot; data-type=&quot;5&quot;&gt;
+&lt;div class=&quot;pixel&quot; onclick=&quot;preview(this);&quot;&gt;
+&lt;div id=&quot;drop18&quot; class=&quot;w100&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;pixel-txt&quot; onclick=&quot;revise(this);&quot;&gt;各年龄段人口数&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;/div&gt;
+&lt;/div&gt;
+</code></pre><p>对应的js代码如下：</p>
+<pre><code>function search(){
+var theme=$(&apos;#father&apos;).find(&quot;option:selected&quot;).text(); 
+var value=$(&apos;#son&apos;).val(); 
+//删除列表及图元的选中状态
+$(&apos;#box .w33&apos;).removeClass(&quot;checked&quot;);
+$(&apos;#animate li&apos;).removeClass(&quot;active&quot;); 
+//隐藏主题及下属的chart
+if(theme==&quot;全部&quot;){//全部主题时的查询方法 
+if(value.length==0){
+$(&quot;#box .ztBox&quot;).css(&quot;display&quot;,&quot;block&quot;);
+$(&quot;#box .w33&quot;).css(&quot;display&quot;,&quot;block&quot;); 
+//根据主题的索引index去匹配左侧树，及右侧树的层级结构：
+$(&quot;#box .ztBox&quot;).each(function(i,v){
+if($(v).index()==0){
+$(v).find(&quot;.w33&quot;).each(function(i1,v1){
+if($(v1).index()==0){
+$(v1).css(&quot;display&quot;,&quot;block&quot;);
+$(v1).addClass(&quot;checked&quot;);
+}
+else{
+$(v1).css(&quot;display&quot;,&quot;block&quot;);
+}
+})
+}
+});
+$(&quot;#animate .line&quot;).each(function(i,v){
+if($(v).index()==0){
+$(v).find(&quot;ul li&quot;).each(function(i1,v1){
+if($(v1).index()==0){
+$(v1).addClass(&quot;active&quot;);
+}
+});
+}
+});
+}
+else{
+$(&quot;#box .ztBox&quot;).css(&quot;display&quot;,&quot;none&quot;);
+$(&quot;#box .w33&quot;).css(&quot;display&quot;,&quot;none&quot;); 
+for(var t=0;t&lt;treejson.length;t++){
+var children=treejson[t].children;
+var id=treejson[t].id; 
+var index;
+
+for(var i=0;i&lt;children.length;i++ ){
+//模糊匹配
+if(children[i].nodename.indexOf(value)&gt;=0){
+var theme=treejson[t].nodename; 
+var child_id=children[i].id;
+$(&apos;#box .ztBox&apos;).each(function(i,v){
+if($(v).find(&apos;span&apos;).text()==theme){
+$(this).css(&quot;display&quot;,&quot;block&quot;);
+}
+});
+$(&quot;#box .w33&quot;).each(function(i,v){
+if ($(v).attr(&quot;data-num&quot;) == child_id) {
+$(this).css(&quot;display&quot;,&quot;block&quot;); 
+$(this).addClass(&quot;checked&quot;);
+}
+})
+$(&quot;#animate li&quot;).each(function(i1,v1){
+if($(v1).attr(&quot;id&quot;) == child_id){ 
+$(this).addClass(&quot;active&quot;); 
+}
+}) 
+}
+}
+}
+} 
+}
+else{//有特定主题的查询方法
+$(&quot;#box .ztBox&quot;).css(&quot;display&quot;,&quot;none&quot;);
+$(&quot;#box .w33&quot;).css(&quot;display&quot;,&quot;none&quot;); 
+
+for(var j=0;j&lt;treejson.length;j++){
+if(treejson[j].nodename==theme){
+var children=treejson[j].children;
+var id=treejson[j].id; 
+var index;
+$(&quot;#box .ztBox&quot;).each(function(i,v){
+if ($(v).attr(&quot;id&quot;) == id) {
+$(this).css(&quot;display&quot;,&quot;block&quot;);
+index=$(this).index();
+}
+})
+if(value.length&gt;0){ 
+var flag=0;
+for(var i=0;i&lt;children.length;i++ ){
+//模糊匹配
+if(children[i].nodename.indexOf(value)&gt;=0){
+flag++;
+var child_id=children[i].id;
+$(&quot;#box .w33&quot;).each(function(i,v){
+if ($(v).attr(&quot;data-num&quot;) == child_id) {
+$(this).css(&quot;display&quot;,&quot;block&quot;); 
+$(this).addClass(&quot;checked&quot;);
+}
+})
+$(&quot;#animate li&quot;).each(function(i1,v1){
+if($(v1).attr(&quot;id&quot;) == child_id){ 
+$(this).addClass(&quot;active&quot;); 
+}
+}) 
+}
+} 
+}
+else if(value.length==0){
+
+//根据主题的索引index去匹配左侧树，及右侧树的层级结构：
+$(&quot;#box .ztBox&quot;).each(function(i,v){
+if($(v).index()==index){
+$(v).find(&quot;.w33&quot;).each(function(i1,v1){
+if($(v1).index()==0){
+$(v1).css(&quot;display&quot;,&quot;block&quot;);
+$(v1).addClass(&quot;checked&quot;);
+}
+else{
+$(v1).css(&quot;display&quot;,&quot;block&quot;);
+}
+})
+}
+});
+$(&quot;#animate .line&quot;).each(function(i,v){
+if($(v).index()==index){
+$(v).find(&quot;ul li&quot;).each(function(i1,v1){
+if($(v1).index()==0){
+$(v1).addClass(&quot;active&quot;);
+}
+});
+}
+});
+
+}
+
+}
+}
+//主题循环查询结束
+} 
+//else结束
+
+}
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.juedigulang.com/2018/01/21/js模糊查询/" data-id="cjcogmr4p000udgp63l2a126z" class="article-share-link">分享</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/">js</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/01/21/sql插入语句拼接/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          插入sql语句的拼接
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/01/21/获取表格中每列的值/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">获取表格中每一列的值</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <h1 class="blog-title">Mo的个人博客</h1>
+    <h2 class="blog-subtitle"></h2>
+    <ul class="blog-link">
+     
+          <a href="/" title="Home">
+            <li>主页</li>
+          </a>
+        
+          <a href="/archives" title="Archives">
+            <li>归档</li>
+          </a>
+        
+          <a href="/categories" title="Categories">
+            <li>分类</li>
+          </a>
+        
+          <a href="/tags" title="Tags">
+            <li>标签</li>
+          </a>
+        
+          <a href="/about" title="about">
+            <li>about</li>
+          </a>
+        
+          <a href="/atom.xml" title="rss">
+            <li>rss</li>
+          </a>
+        
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <img class="avatar" src="https://avatars0.githubusercontent.com/u/20333903?v=3&amp;s=460">
+    <h2 class="author">Mo</h2>
+    <h3 class="description">精彩不是顺着风直达，而逆风却刻服了害怕</h3>
+    <div class="count-box">
+      <a href="/archives"><div><strong>26</strong><br>文章</div></a>
+      <a href="/categories"><div><strong>6</strong><br>分类</div></a>
+      <a href="/tags"><div><strong>13</strong><br>标签</div></a>
+    </div>
+
+
+
+    <div class="social-link">
+      
+        <a class="hvr-bounce-in" href="http://github.com/ShanaMaid" target="_blank" title="Github">
+          Github
+        </a>
+      
+    </div>
+
+    <div class="friend-link">
+      <h2>友情链接</h2>
+      
+        <a class="hvr-bounce-in" href="http://blog.sina.com.cn/u/2953388753" target="_blank" title="新浪博客">
+          新浪博客
+        </a>
+      
+    </div>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy;2017 - 2018 Mo<br>
+      由<a href="http://hexo.io/" target="_blank">Hexo</a>强力驱动 | 
+      主题-<a href="https://github.com/ShanaMaid/hexo-theme-shana">Shana</a>
+      
+        |<script src="http://s11.cnzz.com/z_stat.php?id=1267336678&web_id=1267336678" language="JavaScript"></script>
+      
+	  <i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+<script src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="//apps.bdimg.com/libs/wow/0.1.6/wow.min.js"></script>
+<script>
+new WOW().init();
+</script>   
+
+
+  <link rel="stylesheet" href="/plugin/fancybox/jquery.fancybox.css">
+  <script src="/plugin/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+  <link rel="stylesheet" href="/plugin/galmenu/GalMenu.css">
+  <script src="/plugin/galmenu/GalMenu.js"></script>
+  <div class="GalMenu GalDropDown">
+      <div class="circle" id="gal">
+        <div class="ring">
+          
+            <a href="/" title="" class="menuItem">首页</a>
+          
+            <a href="/tags" title="" class="menuItem">标签</a>
+          
+            <a href="/archives" title="" class="menuItem">分类</a>
+          
+            <a href="/categories" title="" class="menuItem">归档</a>
+          
+            <a href="/about" title="" class="menuItem">关于我</a>
+          
+            <a href="/blog/atom.xml" title="" class="menuItem">rss</a>
+          
+        </div>
+        
+          <audio id="audio" src="#"></audio>
+        
+      </div> 
+</div>
+<div id="overlay" style="opacity: 1; cursor: pointer;"></div>
+  <script type="text/javascript">var items = document.querySelectorAll('.menuItem');
+    for (var i = 0,
+    l = items.length; i < l; i++) {
+      items[i].style.left = (50 - 35 * Math.cos( - 0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
+      items[i].style.top = (50 + 35 * Math.sin( - 0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%"
+    }</script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('body').GalMenu({
+      'menu': 'GalDropDown'
+    })
+  });
+</script>
+
+  <section class="hidden-xs"> 
+  <ul class="cb-slideshow"> 
+    <li><span>苟利</span></li> 
+    <li><span>国家</span></li> 
+    <li><span>生死以</span></li> 
+    <li><span>岂能</span></li> 
+    <li><span>祸福</span></li> 
+    <li><span>趋避之</span></li> 
+  </ul>
+</section>
+<script src="/js/script.js"></script>
+
+
+
+
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("6Cl1oPEl3c4iSTfuYhWSG65n-gzGzoHsz", "JrWDh6iQeKQs1BVxD2u54pVA");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.article-title').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?20d1ce54b975b19479b82f518336315c";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+  </div>
+</body>
+</html>
