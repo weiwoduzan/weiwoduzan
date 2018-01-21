@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.juedigulang.com/"/>
-  <updated>2017-11-18T08:54:08.363Z</updated>
+  <updated>2018-01-21T05:56:56.788Z</updated>
   <id>http://www.juedigulang.com/</id>
   
   <author>
@@ -15,6 +15,158 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>js中map的使用</title>
+    <link href="http://www.juedigulang.com/2018/01/21/js%E4%B8%ADmap%E4%BD%BF%E7%94%A8/"/>
+    <id>http://www.juedigulang.com/2018/01/21/js中map使用/</id>
+    <published>2018-01-21T05:56:56.705Z</published>
+    <updated>2018-01-21T05:56:56.788Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="js中map使用"><a href="#js中map使用" class="headerlink" title="js中map使用"></a>js中map使用</h3><p>HashMap是一种非常使用的、应用广泛的数据类型。代码如下：<br><a id="more"></a><br>    function HashMap(){<br>    this.map = {};<br>    }<br>    HashMap.prototype = {<br>    put : function(key , value){<br>    this.map[key] = value;<br>    },<br>    get : function(key){<br>    if(this.map.hasOwnProperty(key)){<br>    return this.map[key];<br>    }<br>    return null;<br>    },<br>    remove : function(key){<br>    if(this.map.hasOwnProperty(key)){<br>    return delete this.map[key];<br>    }<br>    return false;<br>    },<br>    removeAll : function(){<br>    this.map = {};<br>    },<br>    keySet : function(){<br>    var _keys = [];<br>    for(var i in this.map){<br>    _keys.push(i);<br>    }<br>    return _keys;<br>    }<br>    };<br>    HashMap.prototype.constructor = HashMap;</p><h3 id="hashmap的使用"><a href="#hashmap的使用" class="headerlink" title="hashmap的使用"></a>hashmap的使用</h3><blockquote><p>var hashMap = new HashMap();<br>//向hashmap中存放值<br>hashMap.put(a,b);<br>//从map中取值<br>hashMap.get(a);</p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;js中map使用&quot;&gt;&lt;a href=&quot;#js中map使用&quot; class=&quot;headerlink&quot; title=&quot;js中map使用&quot;&gt;&lt;/a&gt;js中map使用&lt;/h3&gt;&lt;p&gt;HashMap是一种非常使用的、应用广泛的数据类型。代码如下：&lt;br&gt;
+    
+    </summary>
+    
+      <category term="js" scheme="http://www.juedigulang.com/categories/js/"/>
+    
+    
+      <category term="js、map" scheme="http://www.juedigulang.com/tags/js%E3%80%81map/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>java导入excel表格</title>
+    <link href="http://www.juedigulang.com/2018/01/21/java%E4%B8%ADexcel%E5%AF%BC%E5%85%A5/"/>
+    <id>http://www.juedigulang.com/2018/01/21/java中excel导入/</id>
+    <published>2018-01-21T05:50:28.074Z</published>
+    <updated>2018-01-21T05:55:37.358Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="excel表格内容"><a href="#excel表格内容" class="headerlink" title="excel表格内容"></a>excel表格内容</h3><a id="more"></a><p><img src="https://i.imgur.com/6mn4N6c.png" alt=""></p><h3 id="java代码如下："><a href="#java代码如下：" class="headerlink" title="java代码如下："></a>java代码如下：</h3><pre><code>public void aaa(){List&lt;SchoolZcxx&gt; list = new ArrayList&lt;SchoolZcxx&gt;();File file = new File(&quot;d:\\school.xlsx&quot;);InputStream in = null;try {in = new FileInputStream(file);} catch (FileNotFoundException e1) {// TODO Auto-generated catch blocke1.printStackTrace();}ExcelReader&lt;SchoolZcxx&gt; excelReader = new ExcelReader&lt;SchoolZcxx&gt;(0, 3, 0, null, SchoolZcxx.class);try {list = excelReader.read(in);} catch (Exception e) {// TODO Auto-generated catch blocke.printStackTrace();}for (SchoolZcxx schoolZcxx : list) {//封装对象SchoolInfo jbxxPojo = new SchoolInfo();String str = Dzppzb.geocode(schoolZcxx.getDz());if (!StringUtil.isEmpty(str)) {String[] xxx =str.split(&quot; &quot;);if(xxx != null &amp;&amp; xxx.length==2){String x = xxx[0];String y = xxx[1];if (!StringUtil.isEmpty(x) &amp;&amp; !StringUtil.isEmpty(y)) {x = x.substring(0, 10);y = y.substring(0, 9);jbxxPojo.setX(new BigDecimal(x));jbxxPojo.setY(new BigDecimal(y));}}    }jbxxPojo.setXxmc(schoolZcxx.getMc());jbxxPojo.setXxbh(schoolZcxx.dm);if (schoolZcxx.getMc().contains(&quot;武山县&quot;) || schoolZcxx.getDz().contains(&quot;武山县&quot;)) {jbxxPojo.setSzdxzqhmc(&quot;武山县&quot;);jbxxPojo.setSzdxzqhbm(&quot;620524&quot;);}if (schoolZcxx.getMc().contains(&quot;甘谷县&quot;) || schoolZcxx.getDz().contains(&quot;甘谷县&quot;)) {jbxxPojo.setSzdxzqhmc(&quot;甘谷县&quot;);jbxxPojo.setSzdxzqhbm(&quot;620523&quot;);}if (schoolZcxx.getMc().contains(&quot;秦州区&quot;) || schoolZcxx.getDz().contains(&quot;秦州区&quot;)) {jbxxPojo.setSzdxzqhmc(&quot;秦州区&quot;);jbxxPojo.setSzdxzqhbm(&quot;620502&quot;);}if (schoolZcxx.getMc().contains(&quot;麦积区&quot;) || schoolZcxx.getDz().contains(&quot;麦积区&quot;)) {jbxxPojo.setSzdxzqhmc(&quot;麦积区&quot;);jbxxPojo.setSzdxzqhbm(&quot;620503&quot;);}if (schoolZcxx.getMc().contains(&quot;秦安县&quot;) || schoolZcxx.getDz().contains(&quot;秦安县&quot;)) {jbxxPojo.setSzdxzqhmc(&quot;秦安县&quot;);jbxxPojo.setSzdxzqhbm(&quot;620522&quot;);}if (schoolZcxx.getMc().contains(&quot;清水县&quot;) || schoolZcxx.getDz().contains(&quot;清水县&quot;)) {jbxxPojo.setSzdxzqhmc(&quot;清水县&quot;);jbxxPojo.setSzdxzqhbm(&quot;620521&quot;);}if (schoolZcxx.getMc().contains(&quot;张家川&quot;) || schoolZcxx.getDz().contains(&quot;张家川&quot;)) {jbxxPojo.setSzdxzqhmc(&quot;张家川&quot;);jbxxPojo.setSzdxzqhbm(&quot;620525&quot;);}jbxxPojo.setXxlx(&quot;6&quot;);jbxxPojo.setDizhi(schoolZcxx.getDz());jbxxPojo.setXxb(schoolZcxx.tb);this.schoolInfoService.add(jbxxPojo);System.out.println(&quot;$$$$$$$$$$$$$$$$$$$$$$$$&quot;);}System.out.println(&quot;GAME OVER!!!&quot;);}</code></pre><h3 id="用到的工具类如下："><a href="#用到的工具类如下：" class="headerlink" title="用到的工具类如下："></a>用到的工具类如下：</h3><pre><code>package com.cloud.icenter.yyzx.common.util.excel.reader;import java.io.InputStream;import java.lang.reflect.Field;import java.math.BigDecimal;import java.math.BigInteger;import java.util.ArrayList;import java.util.Date;import java.util.List;import java.util.Map;import org.apache.poi.ss.usermodel.Cell;import org.apache.poi.ss.usermodel.Row;import org.apache.poi.ss.usermodel.Sheet;import org.apache.poi.ss.usermodel.Workbook;import com.cloud.icenter.yyzx.common.util.excel.AnnotationFieldUtil;import com.cloud.icenter.yyzx.common.util.excel.ExcelFieldInfo;import com.cloud.icenter.yyzx.common.util.excel.WorkBookUtil;import com.cloud.icenter.yyzx.common.util.excel.annotation.ExcelObject;/*** * Excel读取器*/public class ExcelReader&lt;T&gt; {private Integer startColumn;private Integer endColumn;private Integer startRow;private Integer endRow;private Class&lt;T&gt; clazz;private Map&lt;String, ExcelFieldInfo&gt; fieldMaps;public void setStartColumn(Integer startColumn) {this.startColumn = startColumn;}public void setEndColumn(Integer endColumn) {this.endColumn = endColumn;}public void setStartRow(Integer startRow) {this.startRow = startRow;}public void setEndRow(Integer endRow) {this.endRow = endRow;}/*** Excel数据读取器* * @param startColumn* 起始列（必填，从0开始）* @param endColumn* 终止列（必填）* @param startRow* 起始行 （可以为NULL，从0开始，默认从第0行开始）* @param endRow* 终止行 （可以为NULL）* @param clazz*/public ExcelReader(Integer startColumn, Integer endColumn,Integer startRow, Integer endRow, Class&lt;T&gt; clazz) {this.startColumn = startColumn;this.endColumn = endColumn;this.startRow = startRow;this.endRow = endRow;this.clazz = clazz;this.fieldMaps = AnnotationFieldUtil.fieldMaps(this.clazz);}/*** Excel数据读取器* * @param startColumn* 起始列（必填，从0开始）* @param endColumn* 终止列（必填）* @param startRow* 起始行 （可以为NULL，从0开始，默认从第0行开始）* @param clazz*/public ExcelReader(Integer startColumn, Integer endColumn,Integer startRow, Class&lt;T&gt; clazz) {this(startColumn, endColumn, startRow, null, clazz);}/*** Excel数据读取器* * @param startColumn* 起始列（必填，从0开始）* @param endColumn* 终止列（必填）* @param clazz*/public ExcelReader(Integer startColumn, Integer endColumn, Class&lt;T&gt; clazz) {this(startColumn, endColumn, null, null, clazz);}/*** 读取Excel数据* * @Title read* @Description TODO* @param in* Excel数据流* @return 读取结果* @throws Exception* @date 2015年11月16日-上午9:33:35* @update**/public List&lt;T&gt; read(InputStream in) throws Exception {Workbook hssfWorkbook = WorkBookUtil.createWorkBook(in);List&lt;T&gt; list = new ArrayList&lt;T&gt;();if (null == startColumn) {throw new NullPointerException(&quot;Please set startColumn！&quot;);}if (null == endColumn) {throw new NullPointerException(&quot;Please set endColumn！&quot;);}for (int numSheet = 0; numSheet &lt; hssfWorkbook.getNumberOfSheets(); numSheet++) {Sheet sheet = hssfWorkbook.getSheetAt(numSheet);if (sheet == null) {continue;}int lastRowNum = null != endRow ? endRow : sheet.getLastRowNum();int rowNum = null != startRow ? startRow : 0;if (clazz == List.class) {readToList(sheet, list, lastRowNum, rowNum);} else {readToBean(sheet, list, lastRowNum, rowNum);}}return list;}/*** 读取数据为List&amp;lt;List&amp;lt;Object&amp;gt;&amp;gt;类型* * @Title readToList* @Description TODO* @param sheet* @param list* @param lastRowNum* @param rowNum* @throws Exception* @date 2015年11月16日-上午9:34:12* @update**/@SuppressWarnings(&quot;unchecked&quot;)private void readToList(Sheet sheet, List&lt;T&gt; list, int lastRowNum,int rowNum) throws Exception {for (; rowNum &lt;= lastRowNum; rowNum++) {Row hssfRow = sheet.getRow(rowNum);if (null == hssfRow) {break;}List&lt;Object&gt; inList = new ArrayList&lt;Object&gt;();for (int column = startColumn; column &lt;= endColumn; column++) {Cell cell = hssfRow.getCell(column);String str = WorkBookUtil.getValue(cell);inList.add(str);}list.add((T) inList);}}/*** 读取数据为List&amp;lt;Object&amp;gt;类型,其中Object为通过泛型设置的类型* * @Title readToBean* @Description TODO* @param sheet* @param list* @param lastRowNum* @param rowNum* @throws Exception* @date 2015年11月16日-上午9:35:44* @update**/private void readToBean(Sheet sheet, List&lt;T&gt; list, int lastRowNum,int rowNum) throws Exception {ExcelObject excelObject = clazz.getAnnotation(ExcelObject.class);if (null == excelObject || !excelObject.value()) {return;}for (; rowNum &lt;= lastRowNum; rowNum++) {Row hssfRow = sheet.getRow(rowNum);if (null == hssfRow) {break;}if (WorkBookUtil.rowIsNull(hssfRow, startColumn, endColumn)) {return;}T obj = (T) Class.forName(clazz.getName()).newInstance();int excelColumn = 1;for (int column = startColumn; column &lt;= endColumn; column++) {Cell cell = hssfRow.getCell(column);ExcelFieldInfo excelField = fieldMaps.get(excelColumn++ + &quot;&quot;);String strValue = WorkBookUtil.getValue(cell);if (null == strValue || strValue.trim().length()==0) {continue;}Field field = excelField.getField();Class&lt;?&gt; fieldClazz = field.getType();if (fieldClazz == String.class) {field.set(obj, strValue);} else if (fieldClazz == Integer.class|| fieldClazz == int.class) {field.set(obj, CellDataReader.readInt(strValue));} else if (fieldClazz == short.class|| fieldClazz == Short.class) {field.set(obj, CellDataReader.readShort(strValue));} else if (fieldClazz == long.class || fieldClazz == Long.class) {field.set(obj, CellDataReader.readLong(strValue));} else if (fieldClazz == float.class|| fieldClazz == Float.class) {int decimal = Integer.parseInt(excelField.getExcelField().decimal());field.set(obj, CellDataReader.readFloat(strValue, decimal));} else if (fieldClazz == double.class|| fieldClazz == Double.class) {int decimal = Integer.parseInt(excelField.getExcelField().decimal());field.set(obj, CellDataReader.readDouble(strValue, decimal));} else if (fieldClazz == BigInteger.class) {field.set(obj, CellDataReader.readBigInteger(strValue));} else if (fieldClazz == BigDecimal.class) {int decimal = Integer.parseInt(excelField.getExcelField().decimal());field.set(obj,CellDataReader.readBigDecimal(strValue, decimal));} else if (fieldClazz == Date.class) {String dateFormat = excelField.getExcelField().dateFormat();field.set(obj,CellDataReader.readDate(strValue, dateFormat));}}list.add(obj);}}}</code></pre><h3 id="对应的pojo"><a href="#对应的pojo" class="headerlink" title="对应的pojo"></a>对应的pojo</h3><pre><code>package com.cloud.icenter.yyzx.fzjc.rk.pojo;import com.cloud.icenter.yyzx.common.util.excel.annotation.ExcelField;public class SchoolZcxx {@ExcelField(index = &quot;1&quot;)private String dm;@ExcelField(index = &quot;1&quot;)private String mc;@ExcelField(index = &quot;1&quot;)private String jbxx;@ExcelField(index = &quot;1&quot;)private String address;}</code></pre><h3 id="自定义注解如下"><a href="#自定义注解如下" class="headerlink" title="自定义注解如下"></a>自定义注解如下</h3><pre><code>package com.cloud.icenter.yyzx.common.util.excel.annotation;import java.lang.annotation.ElementType;import java.lang.annotation.Retention;import java.lang.annotation.RetentionPolicy;import java.lang.annotation.Target;@Retention(RetentionPolicy.RUNTIME)@Target(ElementType.FIELD)public @interface ExcelField {/*** Excel列位置* @Title index* @Description TODO* @return* @date 2015年11月11日-下午6:46:03* @update**/String index();/*** 小数位数* @Title decimal* @Description TODO* @return* @date 2015年11月11日-下午6:45:45* @update**/String decimal() default &quot;0&quot;;/*** 日期格式* @Title dateFormat* @Description TODO* @return* @date 2015年11月16日-上午9:24:25* @update**/String dateFormat() default &quot;yyyy-MM-dd&quot;;}</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;excel表格内容&quot;&gt;&lt;a href=&quot;#excel表格内容&quot; class=&quot;headerlink&quot; title=&quot;excel表格内容&quot;&gt;&lt;/a&gt;excel表格内容&lt;/h3&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="http://www.juedigulang.com/categories/java/"/>
+    
+    
+      <category term="java" scheme="http://www.juedigulang.com/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>解决maven编译出现找不到符号问题</title>
+    <link href="http://www.juedigulang.com/2018/01/21/maven%E7%BC%96%E8%AF%91%E8%A7%A3%E5%86%B3%E7%AC%A6%E5%8F%B7%E6%89%BE%E4%B8%8D%E5%88%B0%E9%97%AE%E9%A2%98/"/>
+    <id>http://www.juedigulang.com/2018/01/21/maven编译解决符号找不到问题/</id>
+    <published>2018-01-21T05:40:39.361Z</published>
+    <updated>2018-01-21T05:55:31.196Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>搞了半天，Tomcat可以正常启动，就是Maven编译的时候一直出现“找不到符号”，网上到处找方法，说什么执行一下maven clear之类的，根本没用。<br><a id="more"></a><br>于是自己想了想，看到出错的行，是jdk内的代码，并不是额外的jar文件。</p><p>所以初步判断问题出现在jdk上，经过一番查询，发现这个坑人的maven用的是jre，而我配置的项目jdk是JDK，并不是jre。</p><h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>所以果断改成jre，再编译，成功！改完不要忘记了update一下项目。<br><img src="https://i.imgur.com/dPTTvSA.png" alt=""><br><img src="https://i.imgur.com/12IGl5s.png" alt=""><br><img src="https://i.imgur.com/X8h5taG.png" alt=""></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;问题描述&quot;&gt;&lt;a href=&quot;#问题描述&quot; class=&quot;headerlink&quot; title=&quot;问题描述&quot;&gt;&lt;/a&gt;问题描述&lt;/h3&gt;&lt;p&gt;搞了半天，Tomcat可以正常启动，就是Maven编译的时候一直出现“找不到符号”，网上到处找方法，说什么执行一下maven clear之类的，根本没用。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="mysql" scheme="http://www.juedigulang.com/categories/mysql/"/>
+    
+    
+      <category term="mysql" scheme="http://www.juedigulang.com/tags/mysql/"/>
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="http://www.juedigulang.com/2018/01/21/java%E9%80%92%E5%BD%92%E4%B8%8E%E5%8F%8D%E9%80%92%E5%BD%92/"/>
+    <id>http://www.juedigulang.com/2018/01/21/java递归与反递归/</id>
+    <published>2018-01-21T05:33:48.427Z</published>
+    <updated>2018-01-21T05:55:24.792Z</updated>
+    
+    <content type="html"><![CDATA[<hr><p>title: java递归和反向递归<br>tags: mysql<br>categories: mysql</p><h2 id="archives-archives"><a href="#archives-archives" class="headerlink" title="archives: /archives"></a>archives: /archives</h2><h3 id="递归查询树tree结构有两种做法"><a href="#递归查询树tree结构有两种做法" class="headerlink" title="递归查询树tree结构有两种做法"></a>递归查询树tree结构有两种做法</h3><p>第一种，递归查询数据库结构，<br><a id="more"></a><br>第二种，一次性将数据库表中的所有数据查出来，然后再递归查出来的list集合，<br>第一种做法适合数据量较少的tree结构，因为要一直查询数据库数据量大时速度回相对较慢，所以数据量大时建议使用第二种方法，如图1所示是一个常见的树tree结构。图如下：<br><img src="https://i.imgur.com/OSLw7V3.png" alt=""></p><h3 id="反向递归（逆向递归）查询树tree结构根据关键字过滤数据"><a href="#反向递归（逆向递归）查询树tree结构根据关键字过滤数据" class="headerlink" title="反向递归（逆向递归）查询树tree结构根据关键字过滤数据"></a>反向递归（逆向递归）查询树tree结构根据关键字过滤数据</h3><p>大家有么有遇到过这个问题：我想要根据关键字过滤查询出相关数据和它的上级结构，得到图1所示结果，可往往不知道怎么做，查不出上级结构总是得到图3类似的结构，要解决这个比较常见的问题就要用到反向递归的算法，网上我那个网搜不到类似的解决方案，本人一时兴趣来了，做了一套递归和反递归的解决方案，简单易懂，大家可以相互交流一下，图如下：<br><img src="https://i.imgur.com/Jflkbgg.png" alt=""><br><img src="https://i.imgur.com/tgOOwPo.png" alt=""></p><h3 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h3><pre><code>  1. /**   2. * 说明方法描述：将list转为树tree结构   3. *    4. * @param allRrecords   5. * @return   6. * @time 2016年5月10日 下午6:00:35   7. * @author yangdong   8. */    9.public List&lt;Record&gt; useListRecordToTree(List&lt;Record&gt; allRrecords) {    10.     11.List&lt;Record&gt; listParentRecord = new ArrayList&lt;Record&gt;();    12.List&lt;Record&gt; listNotParentRecord = new ArrayList&lt;Record&gt;();    13.// 第一步：遍历allRrecords保存所有数据的uuid用于判断是不是根节点    14.Map&lt;String, String&gt; mapAllUuid = new HashMap&lt;String, String&gt;();    15.Map&lt;String, Record&gt; allRecordMap = new HashMap&lt;String, Record&gt;();    16.for (Record record : allRrecords) {    17.mapAllUuid.put(record.getStr(&quot;uuid&quot;), record.getStr(&quot;uuid&quot;));    18.allRecordMap.put(record.getStr(&quot;uuid&quot;), record);    19.}    20.// 第二步：遍历allRrecords找出所有的根节点和非根节点    21.if (allRrecords != null &amp;&amp; allRrecords.size() &gt; 0) {    22.for (Record record : allRrecords) {    23.if (StringUtil.isBlank(record.getStr(&quot;parent_uuid&quot;))    24.|| !mapAllUuid.containsKey(record.getStr(&quot;parent_uuid&quot;))) {    25.listParentRecord.add(record);    26.} else {    27.listNotParentRecord.add(record);    28.}    29.}    30.}    31.     32.// 第三步： 递归获取所有子节点    33.if (listParentRecord.size() &gt; 0) {    34.for (Record record : listParentRecord) {    35.// 添加所有子级    36.record.set(&quot;childs&quot;, this.getTreeChildRecord(listNotParentRecord, record.getStr(&quot;uuid&quot;)));    37.}    38.}    39.return listParentRecord;    40.}    41.     42./**   43. * 说明方法描述：使list转换为树并根据关键字和节点名称过滤   44. *    45. * @param allRecords 所有节点   46. * @param keywords 要过滤的关键字   47. * @param filterFields 要过滤的字段   48. * @return   49. * @time 2016年5月19日 下午3:27:32   50. * @author yangdong   51. */    52.public List&lt;Record&gt; useListRecordToTreeByKeywords(List&lt;Record&gt; allRecords, String keywords, String... filterFields) {    53.List&lt;Record&gt; listRecord = new ArrayList&lt;Record&gt;();    54.Map&lt;String, Record&gt; allRecordMap = new HashMap&lt;String, Record&gt;();    55.for (Record record : allRecords) {    56.allRecordMap.put(record.getStr(&quot;uuid&quot;), record);    57.}    58.// 遍历allRrecords找出所有的nodeName和关键字keywords相关的数据    59.if (allRecords != null &amp;&amp; allRecords.size() &gt; 0) {    60.if (filterFields.length &gt; 1) {    61.for (Record record : allRecords) {    62.for (String field : filterFields) {    63.// 比较    64.if (record.getStr(field).toLowerCase().indexOf(keywords.toLowerCase()) != -1) {    65.listRecord.add(record);    66.}    67.}    68.}    69.} else {    70.for (Record record : allRecords) {    71.// 比较    72.if (record.getStr(filterFields[0]).toLowerCase().indexOf(keywords.toLowerCase()) != -1) {    73.listRecord.add(record);    74.}    75.}    76.}    77.}    78.// 查找过滤出来的节点和他们的父节点    79.listRecord = this.getSelfAndTheirParentRecord(listRecord, new ArrayList&lt;Record&gt;(),    80.  new HashMap&lt;String, Record&gt;(), allRecordMap);    81.// 将过滤出来的数据变成树tree结构    82.listRecord = this.useListRecordToTree(listRecord);    83.return listRecord;    84.}    85.     86./**   87. * 说明方法描述：递归查询子节点   88. *    89. * @param childList 子节点   90. * @param parentUuid 父节点id   91. * @return   92. * @time 2016年5月10日 下午3:29:35   93. * @author yangdong   94. */    95.private List&lt;Record&gt; getTreeChildRecord(List&lt;Record&gt; childList, String parentUuid) {    96.List&lt;Record&gt; listParentRecord = new ArrayList&lt;Record&gt;();    97.List&lt;Record&gt; listNotParentRecord = new ArrayList&lt;Record&gt;();    98.// 遍历tmpList，找出所有的根节点和非根节点    99.if (childList != null &amp;&amp; childList.size() &gt; 0) {    100.for (Record record : childList) {    101.// 对比找出父节点    102.if (StringUtil.equals(record.getStr(&quot;parent_uuid&quot;), parentUuid)) {    103.listParentRecord.add(record);    104.} else {    105.listNotParentRecord.add(record);    106.}    107.     108.}    109.}    110.// 查询子节点    111.if (listParentRecord.size() &gt; 0) {    112.for (Record record : listParentRecord) {    113.// 递归查询子节点    114.record.set(&quot;childs&quot;, getTreeChildRecord(listNotParentRecord, record.getStr(&quot;uuid&quot;)));    115.}    116.}    117.return listParentRecord;    118.}    119.     120./**   121. * 说明方法描述：递归找出本节点和他们的父节点   122. *    123. * @param parentList 根据关键字过滤出来的相关节点的父节点   124. * @param resultList 返回的过滤出来的节点   125. * @param filterRecordMap 已经过滤出来的节点   126. * @param allRecordMap 所有节点   127. * @return   128. * @time 2016年5月19日 上午9:53:56   129. * @author yangdong   130. */    131.private List&lt;Record&gt; getSelfAndTheirParentRecord(List&lt;Record&gt; parentList, List&lt;Record&gt; resultList,    132. Map&lt;String, Record&gt; filterRecordMap,    133. Map&lt;String, Record&gt; allRecordMap) {    134.// 当父节点为null或者节点数量为0时返回结果，退出递归    135.if (parentList == null || parentList.size() == 0) {    136.return resultList;    137.}    138.// 重新创建父节点集合    139.List&lt;Record&gt; listParentRecord = new ArrayList&lt;Record&gt;();    140.// 遍历已经过滤出来的节点    141.for (Record record : parentList) {    142.     143.String uuid = record.getStr(&quot;uuid&quot;);    144.String parent_uuid = record.getStr(&quot;parent_uuid&quot;);    145.     146.// 如果已经过滤出来的节点不存在则添加到list中    147.if (!filterRecordMap.containsKey(uuid)) {    148.listParentRecord.add(record);// 添加到父节点中    149.filterRecordMap.put(uuid, record);// 添加到已过滤的map中    150.allRecordMap.remove(uuid);// 移除集合中相应的元素    151.resultList.add(record);// 添加到结果集中    152.}    153.     154.// 找出本节点的父节点并添加到listParentRecord父节点集合中，并移除集合中相应的元素    155.if (StringUtil.isNotBlank(parent_uuid)) {    156.Record parentRecord = allRecordMap.get(parent_uuid);    157.if (parentRecord != null) {    158.listParentRecord.add(parentRecord);    159.allRecordMap.remove(parent_uuid);    160.}    161.}    162.     163.}    164.// 递归调用    165.getSelfAndTheirParentRecord(listParentRecord, resultList, filterRecordMap, allRecordMap);    166.     167.return resultList;    168.}  /**  * 说明方法描述：递归查询所有权限  *   * @param keyword  * @param is_deleted  * @return  * @time 2016年5月10日 下午3:47:50  * @author yangdong  */  public List&lt;Record&gt; getRecordByKeywordRecursive(String keyword, String is_deleted) {  // 第一步：查询所有的数据  StringBuffer sql = new StringBuffer(  &quot; select pa.uuid,pa.parent_uuid,pa.author_code,pa.author_name,pa.is_menu,pa.sort_number,pa.is_enable,pa.menu_icon &quot;);  sql.append(&quot;  from s_author pa&quot;);  List&lt;Object&gt; params = new ArrayList&lt;Object&gt;();  sql.append(&quot; where  pa.is_deleted=? &quot;);  params.add(is_deleted);  sql.append(&quot; order by pa.sort_number asc &quot;);  List&lt;Record&gt; allRrecords = Db.use(AppConst.DB_DATASOURCE_MAIN).find(sql.toString(), ParamUtil.listToArray(params));  //第二步：将list变为树tree结构  if (StringUtil.isNotBlank(keyword)) {  return super.useListRecordToTreeByKeywords(allRrecords, keyword, &quot;author_name&quot;);  } else {  return super.useListRecordToTree(allRrecords);  }  }  </code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;hr&gt;
+&lt;p&gt;title: java递归和反向递归&lt;br&gt;tags: mysql&lt;br&gt;categories: mysql&lt;/p&gt;
+&lt;h2 id=&quot;archives-archives&quot;&gt;&lt;a href=&quot;#archives-archives&quot; class=&quot;headerlink&quot; title=&quot;archives: /archives&quot;&gt;&lt;/a&gt;archives: /archives&lt;/h2&gt;&lt;h3 id=&quot;递归查询树tree结构有两种做法&quot;&gt;&lt;a href=&quot;#递归查询树tree结构有两种做法&quot; class=&quot;headerlink&quot; title=&quot;递归查询树tree结构有两种做法&quot;&gt;&lt;/a&gt;递归查询树tree结构有两种做法&lt;/h3&gt;&lt;p&gt;第一种，递归查询数据库结构，&lt;br&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>解决MySQL中mysql5中大数据错误：Packet for query is too large ().</title>
+    <link href="http://www.juedigulang.com/2018/01/21/Mysql5%E4%B8%AD%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%94%99%E8%AF%AF/"/>
+    <id>http://www.juedigulang.com/2018/01/21/Mysql5中大数据错误/</id>
+    <published>2018-01-21T05:20:45.645Z</published>
+    <updated>2018-01-21T05:55:13.242Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="报错信息"><a href="#报错信息" class="headerlink" title="报错信息"></a>报错信息</h3><p>解决MySQL中mysql5中大数据错误：Packet for query is too large ().<br><a id="more"></a></p><blockquote><p>SEVERE: Servlet.service() for servlet [webs] in context with path [] threw exception [Request processing failed; nested exception is org.springframework.dao.TransientDataAccessResourceException: Hibernate flushing: Could not execute JDBC batch update; SQL [update t_article set (省略部分…)author_id=? where id=?];Packet for query is too large (2048 &gt; 1024). You can change this value on the server by setting the max_allowed_packet’ variable.; nested exception is java.sql.BatchUpdateException: Packet for query is too large (1117260 &gt; 1048576). You can change this value on the server by setting the max_allowed_packet’ variable.] with root cause java.sql.BatchUpdateException: Packet for query is too large (1117260 &gt; 1048576). You can change this value on the server by setting the max_allowed_packet’ variable.</p></blockquote><p>开始以为是相应字段的类型设置不正确，超出了字段的最大范围，网上查询后发现是mysql默认加载的数据文件不超过1M，可以通过更改mysql的配置文件my.cnf（Linux，或windows的my.ini）来更改这一默认值，从而达到插入大数据的目的。 </p><h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><blockquote><p>MySQL的一个系统参数：max_allowed_packet，其默认值为1048576(1M)，<br>可以先查询一下：show VARIABLES like ‘%max_allowed_packet%’;<br>修改此变量的值：MySQL安装目录下的my.ini文件中的[mysqld]段中的＂max_allowed_packet = 1M＂，如更改为4M(如果没有这行内容，增加一行)，保存，重新启动MySQL服务。现在可以load大于1M的文件了。<br>有时候命令“<br>SET GLOBA Lmax_allowed_packet = 16<em>1024</em>1024”无效，需要使用如下命令：<br>set@@max_allowed_packet=5<em>1024</em>1024</p></blockquote><h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>MySQL的一个系统参数：max_allowed_packet，其默认值为1048576(1M)，<br>可以先查询一下：show VARIABLES like ‘%max_allowed_packet%’;<br>修改此变量的值：MySQL安装目录下的my.ini文件中的[mysqld]段中的＂max_allowed_packet = 1M＂，如更改为4M(如果没有这行内容，增加一行)，保存，重新启动MySQL服务。现在可以load大于1M的文件了。<br>有时候命令“<br>SET GLOBA Lmax_allowed_packet = 16<em>1024</em>1024”无效，需要使用如下命令：<br>set@@max_allowed_packet=5<em>1024</em>1024</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;报错信息&quot;&gt;&lt;a href=&quot;#报错信息&quot; class=&quot;headerlink&quot; title=&quot;报错信息&quot;&gt;&lt;/a&gt;报错信息&lt;/h3&gt;&lt;p&gt;解决MySQL中mysql5中大数据错误：Packet for query is too large ().&lt;br&gt;
+    
+    </summary>
+    
+      <category term="mysql" scheme="http://www.juedigulang.com/categories/mysql/"/>
+    
+    
+      <category term="mysql" scheme="http://www.juedigulang.com/tags/mysql/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>jdk1.6和jdk1.7中比较器的问题</title>
+    <link href="http://www.juedigulang.com/2018/01/21/jdk%E6%AF%94%E8%BE%83%E5%99%A8%E9%97%AE%E9%A2%98/"/>
+    <id>http://www.juedigulang.com/2018/01/21/jdk比较器问题/</id>
+    <published>2018-01-21T05:11:46.166Z</published>
+    <updated>2018-01-21T05:55:07.960Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>为了统一线上服务器运行环境，将两台服务器的Tomcat6+JDK6升级到Tomcat7+JDK7，<a id="more"></a>本以为很简单的事情，升级后自己验证也没问题，没想到却悲剧了。升级后，过了半小时运营就找过来反馈问题，部分角色无法登陆系统，由于异常日志没有输出，没有找到问题，无奈回滚。今天我们就来说说JDK6升级到JDK7会遇到的坑。本文为了方便搜索，就直接以异常信息作为文章标题了。</p><h3 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h3><p>回滚后，到测试环境按照线上的权限设置，复现改问题，加上error日志输出，输出了异常，这个异常是在类似如下代码中抛出的：</p><pre><code>Collections.sort(list, new Comparator&lt;Integer&gt;() {  @Override  public int compare(Integer o1, Integer o2) {  return o1 &gt; o2 ? 1 : -1;// 错误的方式  }  });</code></pre><h3 id="不修改代码"><a href="#不修改代码" class="headerlink" title="不修改代码"></a>不修改代码</h3><p>那么问题来了。为什么上面代码在JDK6中运行中无问题.而在JDK7中却会抛异常呢？这是因为JDK7底层的排序算法换了，如果要继续使用JDK6的排序算法，可以在JVM的启动参数中加入如下参数：</p><pre><code>-Djava.util.Arrays.useLegacyMergeSort=true </code></pre><p>这样就会照旧使用JDK6的排序算法，在不能修改代码的情况下，解决这个兼容的问题。</p><h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>在我以前的认知中，高版本的JDK是可以兼容之前的代码的，与同事讨论了一番另加搜索了一番，事实证明，JDK6到JDK7确实存在兼容问题（不兼容列表）。在不兼容列表中我们可以找到关于Collections.sort的不兼容说明，如下：</p><pre><code>Area: API: Utilities  Synopsis: Updated sort behavior for Arrays and Collections may throw an IllegalArgumentException  Description: The sorting algorithm used by java.util.Arrays.sort and (indirectly) by java.util.Collections.sort has been replaced.   The new sort implementation may throw an IllegalArgumentException if it detects a Comparable that violates the Comparable contract.   The previous implementation silently ignored such a situation.  If the previous behavior is desired, you can use the new system property, java.util.Arrays.useLegacyMergeSort,   to restore previous mergesort behavior.  Nature of Incompatibility: behavioral  RFE: 6804124  </code></pre><p>描述的意思是说，java.util.Arrays.sort(java.util.Collections.sort调用的也是此方法)方法中的排序算法在JDK7中已经被替换了。如果违法了比较的约束新的排序算法也许会抛出llegalArgumentException异常。JDK6中的实现则忽略了这种情况。那么比较的约束是什么呢？看这里，大体如下：<br><img src="https://i.imgur.com/4NKXCk0.png" alt=""></p><pre><code>sgn(compare(x, y)) == -sgn(compare(y, x))((compare(x, y)&gt;0) &amp;&amp; (compare(y, z)&gt;0)) implies compare(x, z)&gt;0compare(x, y)==0 implies that sgn(compare(x, z))==sgn(compare(y, z)) for all z</code></pre><p>再回过头来看我们开篇有问题的实现：</p><blockquote><p>return x y ? 1 : -1;  </p></blockquote><p>当x == y时，sgn(compare(x, y))  = -1，-sgn(compare(y, x)) = 1，这违背了sgn(compare(x, y)) == -sgn(compare(y, x))约束，所以在JDK7中抛出了本文标题的异常。</p><h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>那么现在是否可以盖棺定论了，按照上面的分析来看，使用这种比较方式（return x &gt; y ? 1 : -1;），只要集合或数组中有相同的元素，就会抛出本文标题的异常。实则不然，什么情况下抛出异常，还取决于JDK7底层排序算法的实现，也就是大名鼎鼎的TimSort。后面文章会分析TimSort。本文给出一个会引发该异常的Case，以便有心人共同研究，如下：</p><blockquote><p>Integer[] array =<br>{0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,<br>0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 2, 1, 0, 0, 0, 2, 30, 0, 3};  </p></blockquote><p>在window中，需要在Tomcat中的bin目录里catalina.bat文件中加入这个：<br><img src="https://i.imgur.com/mGdIrbH.png" alt=""><br>在Linux系统中，同样是在bin目录里catalina.sh文件中加入如下：<br><img src="https://i.imgur.com/C7TX3nf.png" alt=""></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h3&gt;&lt;p&gt;为了统一线上服务器运行环境，将两台服务器的Tomcat6+JDK6升级到Tomcat7+JDK7，
+    
+    </summary>
+    
+      <category term="java" scheme="http://www.juedigulang.com/categories/java/"/>
+    
+    
+      <category term="java" scheme="http://www.juedigulang.com/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>a系统跳转到b系统伪登录实现</title>
+    <link href="http://www.juedigulang.com/2018/01/21/%E4%BC%AA%E7%99%BB%E5%BD%95%E5%AE%9E%E7%8E%B0/"/>
+    <id>http://www.juedigulang.com/2018/01/21/伪登录实现/</id>
+    <published>2018-01-21T04:56:10.979Z</published>
+    <updated>2018-01-21T04:57:19.236Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="需求实现"><a href="#需求实现" class="headerlink" title="需求实现"></a>需求实现</h3><p>点击a系统的舆情，直接跳转到b系统的首页，跳过登陆页面，直接跳转到b系统<br><a id="more"></a><br><img src="https://i.imgur.com/TMOBS0q.png" alt=""><br><img src="https://i.imgur.com/3yEdUsg.png" alt=""></p><p>a系统页面代码如下：<br>    <html></html></p><pre><code>&lt;head&gt;&lt;script type=&quot;text/javascript&quot; src=&quot;jquery/jquery-1.8.3.min.js&quot;&gt;&lt;/script&gt;&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;&lt;title&gt;Insert title here&lt;/title&gt;&lt;/head&gt;&lt;body&gt;    &lt;a target=&quot;_blank&quot; onclick=&quot;loadInfo();&quot;&gt;舆情&lt;/a&gt;    &lt;!--  &lt;a id = &quot;dwadaw&quot; onclick = &quot;&quot;&gt;adwa&lt;/a&gt; --&gt;&lt;/body&gt;&lt;script type=&quot;text/javascript&quot;&gt; function loadInfo() { //alert(1111111111111111111111111);$.getJSON(&quot;http://localhost:8011/jeecg/loginController.do?checkuser&amp;userNames=bigwise&amp;passWords=123456&amp;userKey=D1B5CC2FE46C4CC983C073BCA897935608D926CD32992B5900&amp;statuss=&apos;1&apos;&quot;, function(data) {   //$.getJSON(&quot;http://localhost:8011/jeecg/loginController.do?checkuser&amp;userNames=bigwise&amp;passWords=123456&amp;statuss=&apos;1&apos;&quot;, function(data) {$(data).each(function(i, item) {console.log(item);//alert(item);if(item.success == true){window.location.href=&apos;http://localhost:8011/jeecg/loginController.do?login&apos;;}   /* $(&quot;#info&quot;).append(&quot;&lt;div&gt;&quot; + item.id + &quot;&lt;/div&gt;&quot; + &quot;&lt;div&gt;&quot; + item.nickname+ &quot;&lt;/div&gt;&quot; +&quot;&lt;div&gt;&quot; + item.content + &quot;&lt;/div&gt;&lt;hr/&gt;&quot;);  */});});}</code></pre><h3 id="b系统后台代码："><a href="#b系统后台代码：" class="headerlink" title="b系统后台代码："></a>b系统后台代码：</h3><p>在登陆后台代码上加上如下代码：</p><pre><code> String one = req.getParameter(&quot;statuss&quot;);if(one != null){String userNames = req.getParameter(&quot;userNames&quot;);String passWords = req.getParameter(&quot;passWords&quot;);String userKey = req.getParameter(&quot;userKey&quot;);user.setPassword(passWords);user.setUserName(userNames);user.setUserKey(userKey);}</code></pre><p>即可</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;需求实现&quot;&gt;&lt;a href=&quot;#需求实现&quot; class=&quot;headerlink&quot; title=&quot;需求实现&quot;&gt;&lt;/a&gt;需求实现&lt;/h3&gt;&lt;p&gt;点击a系统的舆情，直接跳转到b系统的首页，跳过登陆页面，直接跳转到b系统&lt;br&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="http://www.juedigulang.com/categories/java/"/>
+    
+    
+      <category term="java" scheme="http://www.juedigulang.com/tags/java/"/>
+    
+  </entry>
   
   <entry>
     <title>前台页面配置sql连接</title>
@@ -28,28 +180,6 @@
     <summary type="html">
     
       &lt;p&gt;###&lt;br&gt;在前台页面配置sql的数据库连接，然后将其数据导入到数据库中，页面上的配置如下图所示&lt;br&gt;
-    
-    </summary>
-    
-      <category term="java" scheme="http://www.juedigulang.com/categories/java/"/>
-    
-    
-      <category term="sql" scheme="http://www.juedigulang.com/tags/sql/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>将标准sql语句导入到数据库中</title>
-    <link href="http://www.juedigulang.com/2017/11/18/%E5%B0%86%E6%A0%87%E5%87%86%E7%9A%84sql%E8%84%9A%E6%9C%AC%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    <id>http://www.juedigulang.com/2017/11/18/将标准的sql脚本导入数据库/</id>
-    <published>2017-11-18T08:22:15.000Z</published>
-    <updated>2017-11-18T08:54:24.213Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="将转换为标准的sql文件导入到数据库中"><a href="#将转换为标准的sql文件导入到数据库中" class="headerlink" title="将转换为标准的sql文件导入到数据库中"></a>将转换为标准的sql文件导入到数据库中</h3><a id="more"></a><pre><code>/** * 将标准sql脚本导入本地数据库，导入前需清空数据库 *  */public class SqlImp {    static Logger logger = Logger.getLogger(SqlImp.class);    public static String exec(String db,String driver,String url,String user,String password) {        String str = &quot;&quot;;        try {            String jdbcUrl = url;            Class.forName(driver);            Connection conn = DriverManager.getConnection(jdbcUrl, user, password);            ScriptRunner runner = new ScriptRunner(conn);            Writer result = new StringWriter();            PrintWriter printWriter = new PrintWriter(result);            // runner.setLogWriter(printWriter);            runner.setErrorLogWriter(printWriter);            runner.setAutoCommit(true);            runner.setStopOnError(false);            // 构建流集合            Vector&lt;InputStream&gt; vector = new Vector&lt;InputStream&gt;();            InputStream standard = new FileInputStream(PathKit.getWebRootPath() + &quot;/WEB-INF/dbsql/&quot;+db+&quot;.sql&quot;);            // InputStream testdata = new            // FileInputStream(PathKit.getWebRootPath() + &quot;/doc/testdata.sql&quot;);            vector.addElement(standard);            // vector.addElement(testdata);            Enumeration&lt;InputStream&gt; enu = vector.elements();            // 合并流            SequenceInputStream sis = new SequenceInputStream(enu);            InputStreamReader isr = new InputStreamReader(sis, &quot;utf-8&quot;);            Reader reader = new BufferedReader(isr);            runner.runScript(reader);            str = result.toString();        }catch (IOException e) {            e.printStackTrace();        }catch (ClassNotFoundException e) {            logger.info(e.getMessage());            str=&quot;数据库驱动错误&quot;;        }catch (SQLException e) {            logger.info(e.getMessage());            str=&quot;数据库连接错误&quot;;        }         return str;    }    public static String stringToHexString(String strPart) {String hexString = &quot;&quot;;for (int i = 0; i &lt; strPart.length(); i++) {int ch = (int) strPart.charAt(i);String strHex = Integer.toHexString(ch); hexString = hexString + strHex;}return hexString;}    /**     * 执行sql文件     *      * @return     */    public static String exec() {        String str = &quot;&quot;;        PropertiesConfiguration myconfig;        try {            myconfig = new PropertiesConfiguration(&quot;myconfig.properties&quot;);            String db = myconfig.getString(&quot;db&quot;);            String jdbcUrl = myconfig.getString(db + &quot;Url&quot;);            exec(db, jdbcUrl, myconfig.getString(db + &quot;Driver&quot;), myconfig.getString(db + &quot;User&quot;), myconfig.getString(db + &quot;Password&quot;));        } catch (ConfigurationException e) {            e.printStackTrace();        }        return str;    }    public static void main(String[] args) {        MyConfig mc = new MyConfig();        mc.initConsole();        String str = exec();        System.out.println(str);    }}</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;将转换为标准的sql文件导入到数据库中&quot;&gt;&lt;a href=&quot;#将转换为标准的sql文件导入到数据库中&quot; class=&quot;headerlink&quot; title=&quot;将转换为标准的sql文件导入到数据库中&quot;&gt;&lt;/a&gt;将转换为标准的sql文件导入到数据库中&lt;/h3&gt;
     
     </summary>
     
@@ -80,6 +210,28 @@
     
     
       <category term="java" scheme="http://www.juedigulang.com/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>将标准sql语句导入到数据库中</title>
+    <link href="http://www.juedigulang.com/2017/11/18/%E5%B0%86%E6%A0%87%E5%87%86%E7%9A%84sql%E8%84%9A%E6%9C%AC%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    <id>http://www.juedigulang.com/2017/11/18/将标准的sql脚本导入数据库/</id>
+    <published>2017-11-18T08:22:15.000Z</published>
+    <updated>2017-11-18T08:54:24.213Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="将转换为标准的sql文件导入到数据库中"><a href="#将转换为标准的sql文件导入到数据库中" class="headerlink" title="将转换为标准的sql文件导入到数据库中"></a>将转换为标准的sql文件导入到数据库中</h3><a id="more"></a><pre><code>/** * 将标准sql脚本导入本地数据库，导入前需清空数据库 *  */public class SqlImp {    static Logger logger = Logger.getLogger(SqlImp.class);    public static String exec(String db,String driver,String url,String user,String password) {        String str = &quot;&quot;;        try {            String jdbcUrl = url;            Class.forName(driver);            Connection conn = DriverManager.getConnection(jdbcUrl, user, password);            ScriptRunner runner = new ScriptRunner(conn);            Writer result = new StringWriter();            PrintWriter printWriter = new PrintWriter(result);            // runner.setLogWriter(printWriter);            runner.setErrorLogWriter(printWriter);            runner.setAutoCommit(true);            runner.setStopOnError(false);            // 构建流集合            Vector&lt;InputStream&gt; vector = new Vector&lt;InputStream&gt;();            InputStream standard = new FileInputStream(PathKit.getWebRootPath() + &quot;/WEB-INF/dbsql/&quot;+db+&quot;.sql&quot;);            // InputStream testdata = new            // FileInputStream(PathKit.getWebRootPath() + &quot;/doc/testdata.sql&quot;);            vector.addElement(standard);            // vector.addElement(testdata);            Enumeration&lt;InputStream&gt; enu = vector.elements();            // 合并流            SequenceInputStream sis = new SequenceInputStream(enu);            InputStreamReader isr = new InputStreamReader(sis, &quot;utf-8&quot;);            Reader reader = new BufferedReader(isr);            runner.runScript(reader);            str = result.toString();        }catch (IOException e) {            e.printStackTrace();        }catch (ClassNotFoundException e) {            logger.info(e.getMessage());            str=&quot;数据库驱动错误&quot;;        }catch (SQLException e) {            logger.info(e.getMessage());            str=&quot;数据库连接错误&quot;;        }         return str;    }    public static String stringToHexString(String strPart) {String hexString = &quot;&quot;;for (int i = 0; i &lt; strPart.length(); i++) {int ch = (int) strPart.charAt(i);String strHex = Integer.toHexString(ch); hexString = hexString + strHex;}return hexString;}    /**     * 执行sql文件     *      * @return     */    public static String exec() {        String str = &quot;&quot;;        PropertiesConfiguration myconfig;        try {            myconfig = new PropertiesConfiguration(&quot;myconfig.properties&quot;);            String db = myconfig.getString(&quot;db&quot;);            String jdbcUrl = myconfig.getString(db + &quot;Url&quot;);            exec(db, jdbcUrl, myconfig.getString(db + &quot;Driver&quot;), myconfig.getString(db + &quot;User&quot;), myconfig.getString(db + &quot;Password&quot;));        } catch (ConfigurationException e) {            e.printStackTrace();        }        return str;    }    public static void main(String[] args) {        MyConfig mc = new MyConfig();        mc.initConsole();        String str = exec();        System.out.println(str);    }}</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;将转换为标准的sql文件导入到数据库中&quot;&gt;&lt;a href=&quot;#将转换为标准的sql文件导入到数据库中&quot; class=&quot;headerlink&quot; title=&quot;将转换为标准的sql文件导入到数据库中&quot;&gt;&lt;/a&gt;将转换为标准的sql文件导入到数据库中&lt;/h3&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="http://www.juedigulang.com/categories/java/"/>
+    
+    
+      <category term="sql" scheme="http://www.juedigulang.com/tags/sql/"/>
     
   </entry>
   

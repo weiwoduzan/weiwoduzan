@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Mo的个人博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="title: java递归和反向递归tags: mysqlcategories: mysql archives: /archives递归查询树tree结构有两种做法第一种，递归查询数据库结构，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mo的个人博客">
+<meta property="og:url" content="http://www.juedigulang.com/2018/01/21/java递归与反递归/index.html">
+<meta property="og:site_name" content="Mo的个人博客">
+<meta property="og:description" content="title: java递归和反向递归tags: mysqlcategories: mysql archives: /archives递归查询树tree结构有两种做法第一种，递归查询数据库结构，">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.imgur.com/OSLw7V3.png">
+<meta property="og:image" content="https://i.imgur.com/Jflkbgg.png">
+<meta property="og:image" content="https://i.imgur.com/tgOOwPo.png">
+<meta property="og:updated_time" content="2018-01-21T05:55:24.792Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mo的个人博客">
+<meta name="twitter:description" content="title: java递归和反向递归tags: mysqlcategories: mysql archives: /archives递归查询树tree结构有两种做法第一种，递归查询数据库结构，">
+<meta name="twitter:image" content="https://i.imgur.com/OSLw7V3.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/plugin/bganimation/bg.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div class="outer">
+        <div class="widget-wrap mobile-header">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <img class="avatar" src="https://avatars0.githubusercontent.com/u/20333903?v=3&amp;s=460">
+    <h2 class="author">Mo</h2>
+    <h3 class="description">精彩不是顺着风直达，而逆风却刻服了害怕</h3>
+    <div class="count-box">
+      <a href="/archives"><div><strong>19</strong><br>文章</div></a>
+      <a href="/categories"><div><strong>6</strong><br>分类</div></a>
+      <a href="/tags"><div><strong>11</strong><br>标签</div></a>
+    </div>
+    <ul class="blog-link">
+     
+          <a href="/" title="Home">
+            <li>主页</li>
+          </a>
+        
+          <a href="/archives" title="Archives">
+            <li>归档</li>
+          </a>
+        
+          <a href="/categories" title="Categories">
+            <li>分类</li>
+          </a>
+        
+          <a href="/tags" title="Tags">
+            <li>标签</li>
+          </a>
+        
+          <a href="/about" title="about">
+            <li>about</li>
+          </a>
+        
+          <a href="/atom.xml" title="rss">
+            <li>rss</li>
+          </a>
+        
+    </ul>
+  </div>
+</div>
+
+        <section id="main"><article id="post-java递归与反递归" class="wow slideInRight article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/21/java递归与反递归/" class="article-date">
+  <time class="post-time" datetime="2018-01-21T05:33:48.427Z" itemprop="datePublished">
+    <span class="post-month">1月</span><br/>
+    <span class="post-day">21</span>
+  </time>
+</a>
+   
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>title: java递归和反向递归<br>tags: mysql<br>categories: mysql</p>
+<h2 id="archives-archives"><a href="#archives-archives" class="headerlink" title="archives: /archives"></a>archives: /archives</h2><h3 id="递归查询树tree结构有两种做法"><a href="#递归查询树tree结构有两种做法" class="headerlink" title="递归查询树tree结构有两种做法"></a>递归查询树tree结构有两种做法</h3><p>第一种，递归查询数据库结构，<br><a id="more"></a><br>第二种，一次性将数据库表中的所有数据查出来，然后再递归查出来的list集合，<br>第一种做法适合数据量较少的tree结构，因为要一直查询数据库数据量大时速度回相对较慢，所以数据量大时建议使用第二种方法，如图1所示是一个常见的树tree结构。图如下：<br><img src="https://i.imgur.com/OSLw7V3.png" alt=""></p>
+<h3 id="反向递归（逆向递归）查询树tree结构根据关键字过滤数据"><a href="#反向递归（逆向递归）查询树tree结构根据关键字过滤数据" class="headerlink" title="反向递归（逆向递归）查询树tree结构根据关键字过滤数据"></a>反向递归（逆向递归）查询树tree结构根据关键字过滤数据</h3><p>大家有么有遇到过这个问题：我想要根据关键字过滤查询出相关数据和它的上级结构，得到图1所示结果，可往往不知道怎么做，查不出上级结构总是得到图3类似的结构，要解决这个比较常见的问题就要用到反向递归的算法，网上我那个网搜不到类似的解决方案，本人一时兴趣来了，做了一套递归和反递归的解决方案，简单易懂，大家可以相互交流一下，图如下：<br><img src="https://i.imgur.com/Jflkbgg.png" alt=""><br><img src="https://i.imgur.com/tgOOwPo.png" alt=""></p>
+<h3 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h3><pre><code>  1. /** 
+  2. * 说明方法描述：将list转为树tree结构 
+  3. *  
+  4. * @param allRrecords 
+  5. * @return 
+  6. * @time 2016年5月10日 下午6:00:35 
+  7. * @author yangdong 
+  8. */  
+  9.public List&lt;Record&gt; useListRecordToTree(List&lt;Record&gt; allRrecords) {  
+  10.   
+  11.List&lt;Record&gt; listParentRecord = new ArrayList&lt;Record&gt;();  
+  12.List&lt;Record&gt; listNotParentRecord = new ArrayList&lt;Record&gt;();  
+  13.// 第一步：遍历allRrecords保存所有数据的uuid用于判断是不是根节点  
+  14.Map&lt;String, String&gt; mapAllUuid = new HashMap&lt;String, String&gt;();  
+  15.Map&lt;String, Record&gt; allRecordMap = new HashMap&lt;String, Record&gt;();  
+  16.for (Record record : allRrecords) {  
+  17.mapAllUuid.put(record.getStr(&quot;uuid&quot;), record.getStr(&quot;uuid&quot;));  
+  18.allRecordMap.put(record.getStr(&quot;uuid&quot;), record);  
+  19.}  
+  20.// 第二步：遍历allRrecords找出所有的根节点和非根节点  
+  21.if (allRrecords != null &amp;&amp; allRrecords.size() &gt; 0) {  
+  22.for (Record record : allRrecords) {  
+  23.if (StringUtil.isBlank(record.getStr(&quot;parent_uuid&quot;))  
+  24.|| !mapAllUuid.containsKey(record.getStr(&quot;parent_uuid&quot;))) {  
+  25.listParentRecord.add(record);  
+  26.} else {  
+  27.listNotParentRecord.add(record);  
+  28.}  
+  29.}  
+  30.}  
+  31.   
+  32.// 第三步： 递归获取所有子节点  
+  33.if (listParentRecord.size() &gt; 0) {  
+  34.for (Record record : listParentRecord) {  
+  35.// 添加所有子级  
+  36.record.set(&quot;childs&quot;, this.getTreeChildRecord(listNotParentRecord, record.getStr(&quot;uuid&quot;)));  
+  37.}  
+  38.}  
+  39.return listParentRecord;  
+  40.}  
+  41.   
+  42./** 
+  43. * 说明方法描述：使list转换为树并根据关键字和节点名称过滤 
+  44. *  
+  45. * @param allRecords 所有节点 
+  46. * @param keywords 要过滤的关键字 
+  47. * @param filterFields 要过滤的字段 
+  48. * @return 
+  49. * @time 2016年5月19日 下午3:27:32 
+  50. * @author yangdong 
+  51. */  
+  52.public List&lt;Record&gt; useListRecordToTreeByKeywords(List&lt;Record&gt; allRecords, String keywords, String... filterFields) {  
+  53.List&lt;Record&gt; listRecord = new ArrayList&lt;Record&gt;();  
+  54.Map&lt;String, Record&gt; allRecordMap = new HashMap&lt;String, Record&gt;();  
+  55.for (Record record : allRecords) {  
+  56.allRecordMap.put(record.getStr(&quot;uuid&quot;), record);  
+  57.}  
+  58.// 遍历allRrecords找出所有的nodeName和关键字keywords相关的数据  
+  59.if (allRecords != null &amp;&amp; allRecords.size() &gt; 0) {  
+  60.if (filterFields.length &gt; 1) {  
+  61.for (Record record : allRecords) {  
+  62.for (String field : filterFields) {  
+  63.// 比较  
+  64.if (record.getStr(field).toLowerCase().indexOf(keywords.toLowerCase()) != -1) {  
+  65.listRecord.add(record);  
+  66.}  
+  67.}  
+  68.}  
+  69.} else {  
+  70.for (Record record : allRecords) {  
+  71.// 比较  
+  72.if (record.getStr(filterFields[0]).toLowerCase().indexOf(keywords.toLowerCase()) != -1) {  
+  73.listRecord.add(record);  
+  74.}  
+  75.}  
+  76.}  
+  77.}  
+  78.// 查找过滤出来的节点和他们的父节点  
+  79.listRecord = this.getSelfAndTheirParentRecord(listRecord, new ArrayList&lt;Record&gt;(),  
+  80.  new HashMap&lt;String, Record&gt;(), allRecordMap);  
+  81.// 将过滤出来的数据变成树tree结构  
+  82.listRecord = this.useListRecordToTree(listRecord);  
+  83.return listRecord;  
+  84.}  
+  85.   
+  86./** 
+  87. * 说明方法描述：递归查询子节点 
+  88. *  
+  89. * @param childList 子节点 
+  90. * @param parentUuid 父节点id 
+  91. * @return 
+  92. * @time 2016年5月10日 下午3:29:35 
+  93. * @author yangdong 
+  94. */  
+  95.private List&lt;Record&gt; getTreeChildRecord(List&lt;Record&gt; childList, String parentUuid) {  
+  96.List&lt;Record&gt; listParentRecord = new ArrayList&lt;Record&gt;();  
+  97.List&lt;Record&gt; listNotParentRecord = new ArrayList&lt;Record&gt;();  
+  98.// 遍历tmpList，找出所有的根节点和非根节点  
+  99.if (childList != null &amp;&amp; childList.size() &gt; 0) {  
+  100.for (Record record : childList) {  
+  101.// 对比找出父节点  
+  102.if (StringUtil.equals(record.getStr(&quot;parent_uuid&quot;), parentUuid)) {  
+  103.listParentRecord.add(record);  
+  104.} else {  
+  105.listNotParentRecord.add(record);  
+  106.}  
+  107.   
+  108.}  
+  109.}  
+  110.// 查询子节点  
+  111.if (listParentRecord.size() &gt; 0) {  
+  112.for (Record record : listParentRecord) {  
+  113.// 递归查询子节点  
+  114.record.set(&quot;childs&quot;, getTreeChildRecord(listNotParentRecord, record.getStr(&quot;uuid&quot;)));  
+  115.}  
+  116.}  
+  117.return listParentRecord;  
+  118.}  
+  119.   
+  120./** 
+  121. * 说明方法描述：递归找出本节点和他们的父节点 
+  122. *  
+  123. * @param parentList 根据关键字过滤出来的相关节点的父节点 
+  124. * @param resultList 返回的过滤出来的节点 
+  125. * @param filterRecordMap 已经过滤出来的节点 
+  126. * @param allRecordMap 所有节点 
+  127. * @return 
+  128. * @time 2016年5月19日 上午9:53:56 
+  129. * @author yangdong 
+  130. */  
+  131.private List&lt;Record&gt; getSelfAndTheirParentRecord(List&lt;Record&gt; parentList, List&lt;Record&gt; resultList,  
+  132. Map&lt;String, Record&gt; filterRecordMap,  
+  133. Map&lt;String, Record&gt; allRecordMap) {  
+  134.// 当父节点为null或者节点数量为0时返回结果，退出递归  
+  135.if (parentList == null || parentList.size() == 0) {  
+  136.return resultList;  
+  137.}  
+  138.// 重新创建父节点集合  
+  139.List&lt;Record&gt; listParentRecord = new ArrayList&lt;Record&gt;();  
+  140.// 遍历已经过滤出来的节点  
+  141.for (Record record : parentList) {  
+  142.   
+  143.String uuid = record.getStr(&quot;uuid&quot;);  
+  144.String parent_uuid = record.getStr(&quot;parent_uuid&quot;);  
+  145.   
+  146.// 如果已经过滤出来的节点不存在则添加到list中  
+  147.if (!filterRecordMap.containsKey(uuid)) {  
+  148.listParentRecord.add(record);// 添加到父节点中  
+  149.filterRecordMap.put(uuid, record);// 添加到已过滤的map中  
+  150.allRecordMap.remove(uuid);// 移除集合中相应的元素  
+  151.resultList.add(record);// 添加到结果集中  
+  152.}  
+  153.   
+  154.// 找出本节点的父节点并添加到listParentRecord父节点集合中，并移除集合中相应的元素  
+  155.if (StringUtil.isNotBlank(parent_uuid)) {  
+  156.Record parentRecord = allRecordMap.get(parent_uuid);  
+  157.if (parentRecord != null) {  
+  158.listParentRecord.add(parentRecord);  
+  159.allRecordMap.remove(parent_uuid);  
+  160.}  
+  161.}  
+  162.   
+  163.}  
+  164.// 递归调用  
+  165.getSelfAndTheirParentRecord(listParentRecord, resultList, filterRecordMap, allRecordMap);  
+  166.   
+  167.return resultList;  
+  168.}  
+
+/** 
+ * 说明方法描述：递归查询所有权限 
+ *  
+ * @param keyword 
+ * @param is_deleted 
+ * @return 
+ * @time 2016年5月10日 下午3:47:50 
+ * @author yangdong 
+ */  
+public List&lt;Record&gt; getRecordByKeywordRecursive(String keyword, String is_deleted) {  
+// 第一步：查询所有的数据  
+StringBuffer sql = new StringBuffer(  
+&quot; select pa.uuid,pa.parent_uuid,pa.author_code,pa.author_name,pa.is_menu,pa.sort_number,pa.is_enable,pa.menu_icon &quot;);  
+sql.append(&quot;  from s_author pa&quot;);  
+List&lt;Object&gt; params = new ArrayList&lt;Object&gt;();  
+sql.append(&quot; where  pa.is_deleted=? &quot;);  
+params.add(is_deleted);  
+sql.append(&quot; order by pa.sort_number asc &quot;);  
+
+
+List&lt;Record&gt; allRrecords = Db.use(AppConst.DB_DATASOURCE_MAIN).find(sql.toString(), ParamUtil.listToArray(params));  
+
+
+//第二步：将list变为树tree结构  
+if (StringUtil.isNotBlank(keyword)) {  
+return super.useListRecordToTreeByKeywords(allRrecords, keyword, &quot;author_name&quot;);  
+} else {  
+return super.useListRecordToTree(allRrecords);  
+}  
+}  
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.juedigulang.com/2018/01/21/java递归与反递归/" data-id="cjcodijbv000dfcp6ke0vdutd" class="article-share-link">分享</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/01/21/maven编译解决符号找不到问题/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          解决maven编译出现找不到符号问题
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/01/21/Mysql5中大数据错误/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">解决MySQL中mysql5中大数据错误：Packet for query is too large ().</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <h1 class="blog-title">Mo的个人博客</h1>
+    <h2 class="blog-subtitle"></h2>
+    <ul class="blog-link">
+     
+          <a href="/" title="Home">
+            <li>主页</li>
+          </a>
+        
+          <a href="/archives" title="Archives">
+            <li>归档</li>
+          </a>
+        
+          <a href="/categories" title="Categories">
+            <li>分类</li>
+          </a>
+        
+          <a href="/tags" title="Tags">
+            <li>标签</li>
+          </a>
+        
+          <a href="/about" title="about">
+            <li>about</li>
+          </a>
+        
+          <a href="/atom.xml" title="rss">
+            <li>rss</li>
+          </a>
+        
+    </ul>
+  </div>
+</div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title"></h3>
+  <div class="widget">
+    <img class="avatar" src="https://avatars0.githubusercontent.com/u/20333903?v=3&amp;s=460">
+    <h2 class="author">Mo</h2>
+    <h3 class="description">精彩不是顺着风直达，而逆风却刻服了害怕</h3>
+    <div class="count-box">
+      <a href="/archives"><div><strong>19</strong><br>文章</div></a>
+      <a href="/categories"><div><strong>6</strong><br>分类</div></a>
+      <a href="/tags"><div><strong>11</strong><br>标签</div></a>
+    </div>
+
+
+
+    <div class="social-link">
+      
+        <a class="hvr-bounce-in" href="http://github.com/ShanaMaid" target="_blank" title="Github">
+          Github
+        </a>
+      
+    </div>
+
+    <div class="friend-link">
+      <h2>友情链接</h2>
+      
+        <a class="hvr-bounce-in" href="http://blog.sina.com.cn/u/2953388753" target="_blank" title="新浪博客">
+          新浪博客
+        </a>
+      
+    </div>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy;2017 - 2018 Mo<br>
+      由<a href="http://hexo.io/" target="_blank">Hexo</a>强力驱动 | 
+      主题-<a href="https://github.com/ShanaMaid/hexo-theme-shana">Shana</a>
+      
+        |<script src="http://s11.cnzz.com/z_stat.php?id=1267336678&web_id=1267336678" language="JavaScript"></script>
+      
+	  <i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+<script src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="//apps.bdimg.com/libs/wow/0.1.6/wow.min.js"></script>
+<script>
+new WOW().init();
+</script>   
+
+
+  <link rel="stylesheet" href="/plugin/fancybox/jquery.fancybox.css">
+  <script src="/plugin/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+  <link rel="stylesheet" href="/plugin/galmenu/GalMenu.css">
+  <script src="/plugin/galmenu/GalMenu.js"></script>
+  <div class="GalMenu GalDropDown">
+      <div class="circle" id="gal">
+        <div class="ring">
+          
+            <a href="/" title="" class="menuItem">首页</a>
+          
+            <a href="/tags" title="" class="menuItem">标签</a>
+          
+            <a href="/archives" title="" class="menuItem">分类</a>
+          
+            <a href="/categories" title="" class="menuItem">归档</a>
+          
+            <a href="/about" title="" class="menuItem">关于我</a>
+          
+            <a href="/blog/atom.xml" title="" class="menuItem">rss</a>
+          
+        </div>
+        
+          <audio id="audio" src="#"></audio>
+        
+      </div> 
+</div>
+<div id="overlay" style="opacity: 1; cursor: pointer;"></div>
+  <script type="text/javascript">var items = document.querySelectorAll('.menuItem');
+    for (var i = 0,
+    l = items.length; i < l; i++) {
+      items[i].style.left = (50 - 35 * Math.cos( - 0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%";
+      items[i].style.top = (50 + 35 * Math.sin( - 0.5 * Math.PI - 2 * (1 / l) * i * Math.PI)).toFixed(4) + "%"
+    }</script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('body').GalMenu({
+      'menu': 'GalDropDown'
+    })
+  });
+</script>
+
+  <section class="hidden-xs"> 
+  <ul class="cb-slideshow"> 
+    <li><span>苟利</span></li> 
+    <li><span>国家</span></li> 
+    <li><span>生死以</span></li> 
+    <li><span>岂能</span></li> 
+    <li><span>祸福</span></li> 
+    <li><span>趋避之</span></li> 
+  </ul>
+</section>
+<script src="/js/script.js"></script>
+
+
+
+
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("6Cl1oPEl3c4iSTfuYhWSG65n-gzGzoHsz", "JrWDh6iQeKQs1BVxD2u54pVA");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.article-title').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?20d1ce54b975b19479b82f518336315c";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+  </div>
+</body>
+</html>
