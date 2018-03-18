@@ -389,6 +389,28 @@
   </entry>
   
   <entry>
+    <title>将标准sql语句导入到数据库中</title>
+    <link href="http://www.juedigulang.com/2017/11/18/%E5%B0%86%E6%A0%87%E5%87%86%E7%9A%84sql%E8%84%9A%E6%9C%AC%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    <id>http://www.juedigulang.com/2017/11/18/将标准的sql脚本导入数据库/</id>
+    <published>2017-11-18T08:22:15.000Z</published>
+    <updated>2017-11-18T08:54:24.213Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="将转换为标准的sql文件导入到数据库中"><a href="#将转换为标准的sql文件导入到数据库中" class="headerlink" title="将转换为标准的sql文件导入到数据库中"></a>将转换为标准的sql文件导入到数据库中</h3><a id="more"></a><pre><code>/** * 将标准sql脚本导入本地数据库，导入前需清空数据库 *  */public class SqlImp {    static Logger logger = Logger.getLogger(SqlImp.class);    public static String exec(String db,String driver,String url,String user,String password) {        String str = &quot;&quot;;        try {            String jdbcUrl = url;            Class.forName(driver);            Connection conn = DriverManager.getConnection(jdbcUrl, user, password);            ScriptRunner runner = new ScriptRunner(conn);            Writer result = new StringWriter();            PrintWriter printWriter = new PrintWriter(result);            // runner.setLogWriter(printWriter);            runner.setErrorLogWriter(printWriter);            runner.setAutoCommit(true);            runner.setStopOnError(false);            // 构建流集合            Vector&lt;InputStream&gt; vector = new Vector&lt;InputStream&gt;();            InputStream standard = new FileInputStream(PathKit.getWebRootPath() + &quot;/WEB-INF/dbsql/&quot;+db+&quot;.sql&quot;);            // InputStream testdata = new            // FileInputStream(PathKit.getWebRootPath() + &quot;/doc/testdata.sql&quot;);            vector.addElement(standard);            // vector.addElement(testdata);            Enumeration&lt;InputStream&gt; enu = vector.elements();            // 合并流            SequenceInputStream sis = new SequenceInputStream(enu);            InputStreamReader isr = new InputStreamReader(sis, &quot;utf-8&quot;);            Reader reader = new BufferedReader(isr);            runner.runScript(reader);            str = result.toString();        }catch (IOException e) {            e.printStackTrace();        }catch (ClassNotFoundException e) {            logger.info(e.getMessage());            str=&quot;数据库驱动错误&quot;;        }catch (SQLException e) {            logger.info(e.getMessage());            str=&quot;数据库连接错误&quot;;        }         return str;    }    public static String stringToHexString(String strPart) {String hexString = &quot;&quot;;for (int i = 0; i &lt; strPart.length(); i++) {int ch = (int) strPart.charAt(i);String strHex = Integer.toHexString(ch); hexString = hexString + strHex;}return hexString;}    /**     * 执行sql文件     *      * @return     */    public static String exec() {        String str = &quot;&quot;;        PropertiesConfiguration myconfig;        try {            myconfig = new PropertiesConfiguration(&quot;myconfig.properties&quot;);            String db = myconfig.getString(&quot;db&quot;);            String jdbcUrl = myconfig.getString(db + &quot;Url&quot;);            exec(db, jdbcUrl, myconfig.getString(db + &quot;Driver&quot;), myconfig.getString(db + &quot;User&quot;), myconfig.getString(db + &quot;Password&quot;));        } catch (ConfigurationException e) {            e.printStackTrace();        }        return str;    }    public static void main(String[] args) {        MyConfig mc = new MyConfig();        mc.initConsole();        String str = exec();        System.out.println(str);    }}</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;将转换为标准的sql文件导入到数据库中&quot;&gt;&lt;a href=&quot;#将转换为标准的sql文件导入到数据库中&quot; class=&quot;headerlink&quot; title=&quot;将转换为标准的sql文件导入到数据库中&quot;&gt;&lt;/a&gt;将转换为标准的sql文件导入到数据库中&lt;/h3&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="http://www.juedigulang.com/categories/java/"/>
+    
+    
+      <category term="sql" scheme="http://www.juedigulang.com/tags/sql/"/>
+    
+  </entry>
+  
+  <entry>
     <title>将java调用百度地址匹配接口获取经纬度坐标</title>
     <link href="http://www.juedigulang.com/2017/11/18/%E8%B0%83%E7%94%A8%E7%99%BE%E5%BA%A6%E5%9C%B0%E5%9D%80%E5%8C%B9%E9%85%8D%E6%8E%A5%E5%8F%A3%E5%92%8C%E8%8E%B7%E5%8F%96%E7%BB%8F%E7%BA%AC%E5%BA%A6%E5%9D%90%E6%A0%87/"/>
     <id>http://www.juedigulang.com/2017/11/18/调用百度地址匹配接口和获取经纬度坐标/</id>
@@ -408,28 +430,6 @@
     
     
       <category term="java" scheme="http://www.juedigulang.com/tags/java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>将标准sql语句导入到数据库中</title>
-    <link href="http://www.juedigulang.com/2017/11/18/%E5%B0%86%E6%A0%87%E5%87%86%E7%9A%84sql%E8%84%9A%E6%9C%AC%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    <id>http://www.juedigulang.com/2017/11/18/将标准的sql脚本导入数据库/</id>
-    <published>2017-11-18T08:22:15.000Z</published>
-    <updated>2017-11-18T08:54:24.213Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="将转换为标准的sql文件导入到数据库中"><a href="#将转换为标准的sql文件导入到数据库中" class="headerlink" title="将转换为标准的sql文件导入到数据库中"></a>将转换为标准的sql文件导入到数据库中</h3><a id="more"></a><pre><code>/** * 将标准sql脚本导入本地数据库，导入前需清空数据库 *  */public class SqlImp {    static Logger logger = Logger.getLogger(SqlImp.class);    public static String exec(String db,String driver,String url,String user,String password) {        String str = &quot;&quot;;        try {            String jdbcUrl = url;            Class.forName(driver);            Connection conn = DriverManager.getConnection(jdbcUrl, user, password);            ScriptRunner runner = new ScriptRunner(conn);            Writer result = new StringWriter();            PrintWriter printWriter = new PrintWriter(result);            // runner.setLogWriter(printWriter);            runner.setErrorLogWriter(printWriter);            runner.setAutoCommit(true);            runner.setStopOnError(false);            // 构建流集合            Vector&lt;InputStream&gt; vector = new Vector&lt;InputStream&gt;();            InputStream standard = new FileInputStream(PathKit.getWebRootPath() + &quot;/WEB-INF/dbsql/&quot;+db+&quot;.sql&quot;);            // InputStream testdata = new            // FileInputStream(PathKit.getWebRootPath() + &quot;/doc/testdata.sql&quot;);            vector.addElement(standard);            // vector.addElement(testdata);            Enumeration&lt;InputStream&gt; enu = vector.elements();            // 合并流            SequenceInputStream sis = new SequenceInputStream(enu);            InputStreamReader isr = new InputStreamReader(sis, &quot;utf-8&quot;);            Reader reader = new BufferedReader(isr);            runner.runScript(reader);            str = result.toString();        }catch (IOException e) {            e.printStackTrace();        }catch (ClassNotFoundException e) {            logger.info(e.getMessage());            str=&quot;数据库驱动错误&quot;;        }catch (SQLException e) {            logger.info(e.getMessage());            str=&quot;数据库连接错误&quot;;        }         return str;    }    public static String stringToHexString(String strPart) {String hexString = &quot;&quot;;for (int i = 0; i &lt; strPart.length(); i++) {int ch = (int) strPart.charAt(i);String strHex = Integer.toHexString(ch); hexString = hexString + strHex;}return hexString;}    /**     * 执行sql文件     *      * @return     */    public static String exec() {        String str = &quot;&quot;;        PropertiesConfiguration myconfig;        try {            myconfig = new PropertiesConfiguration(&quot;myconfig.properties&quot;);            String db = myconfig.getString(&quot;db&quot;);            String jdbcUrl = myconfig.getString(db + &quot;Url&quot;);            exec(db, jdbcUrl, myconfig.getString(db + &quot;Driver&quot;), myconfig.getString(db + &quot;User&quot;), myconfig.getString(db + &quot;Password&quot;));        } catch (ConfigurationException e) {            e.printStackTrace();        }        return str;    }    public static void main(String[] args) {        MyConfig mc = new MyConfig();        mc.initConsole();        String str = exec();        System.out.println(str);    }}</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;将转换为标准的sql文件导入到数据库中&quot;&gt;&lt;a href=&quot;#将转换为标准的sql文件导入到数据库中&quot; class=&quot;headerlink&quot; title=&quot;将转换为标准的sql文件导入到数据库中&quot;&gt;&lt;/a&gt;将转换为标准的sql文件导入到数据库中&lt;/h3&gt;
-    
-    </summary>
-    
-      <category term="java" scheme="http://www.juedigulang.com/categories/java/"/>
-    
-    
-      <category term="sql" scheme="http://www.juedigulang.com/tags/sql/"/>
     
   </entry>
   
