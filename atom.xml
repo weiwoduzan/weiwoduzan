@@ -1,20 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Mo的个人博客</title>
+  <title>强子Mo的个人博客</title>
   
   
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.juedigulang.com/"/>
-  <updated>2018-01-21T07:29:09.748Z</updated>
+  <updated>2018-03-18T08:06:19.128Z</updated>
   <id>http://www.juedigulang.com/</id>
   
   <author>
-    <name>Mo</name>
+    <name>强子Mo</name>
     
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>后端分页工具类</title>
+    <link href="http://www.juedigulang.com/2018/03/18/%E5%90%8E%E7%AB%AF%E5%88%86%E9%A1%B5%E5%B7%A5%E5%85%B7%E7%B1%BB/"/>
+    <id>http://www.juedigulang.com/2018/03/18/后端分页工具类/</id>
+    <published>2018-03-18T07:53:05.000Z</published>
+    <updated>2018-03-18T08:06:19.128Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="后端分页实现"><a href="#后端分页实现" class="headerlink" title="后端分页实现"></a>后端分页实现</h3><p>作下面的分页查询<br><img src="https://i.imgur.com/MWVwuti.png" alt=""></p><h3 id="后台代码如下："><a href="#后台代码如下：" class="headerlink" title="后台代码如下："></a>后台代码如下：</h3><pre><code>/*** 查询*/@RequestMapping(method = RequestMethod.POST, value = &quot;/query&quot;)public void query(Database db) {DetachedCriteria criteria=getPagination().getCriteria();if(!StringUtils.isEmpty(db.getInstanceName())) {criteria.add(Restrictions.like(&quot;database_name&quot;,db.getInstanceName().trim(),MatchMode.ANYWHERE));}if(!StringUtils.isEmpty(db.getIsConnect())) {criteria.add(Restrictions.like(&quot;isConnect&quot;,db.getIsConnect().trim(),MatchMode.ANYWHERE));}databaseService.find(getPagination());printJson(getPagination());}</code></pre><h3 id="getPagination代码如下："><a href="#getPagination代码如下：" class="headerlink" title="getPagination代码如下："></a>getPagination代码如下：</h3><pre><code>import org.apache.commons.beanutils.BeanUtils;import org.springframework.core.ResolvableType;import com.cloud.icenter.common.utils.Pagination;public abstract class ModelAction&lt;T&gt; extends BaseAction {private Class&lt;T&gt; clazz;public ModelAction() {ResolvableType resolvableType = ResolvableType.forClass(getClass());this.clazz=(Class&lt;T&gt;) resolvableType.getSuperType().getGeneric(0).resolve();}/*** 获取页号* @return*/public int getPage() {return getIntParameter(&quot;page&quot;, 1);}/*** 获取每页查询多少行* @return*/public int getPageSize() {return getIntParameter(&quot;rows&quot;, Pagination.DEFAULT_PAGE_SIZE);}/*** 获取分页器* @return*/public Pagination&lt;T&gt; getPagination() {Pagination&lt;T&gt; pagin=(Pagination&lt;T&gt;) getAttribute(&quot;pagin&quot;);if(pagin==null) {pagin=new Pagination&lt;T&gt;(getPage(),getPageSize());pagin.buildCriteria(clazz);setAttribute(&quot;pagin&quot;, pagin);}return pagin;}/*** 获取分页器* @return*/public &lt;E&gt; Pagination&lt;E&gt; newPagination(Class&lt;E&gt; e) {Pagination&lt;E&gt; pagin=new Pagination&lt;E&gt;(getPage(),getPageSize());pagin.buildCriteria(e);return pagin;}public T getModel() {T model=(T) getAttribute(&quot;model&quot;);if(model==null) {try {model = clazz.newInstance();BeanUtils.populate(model, getRequest().getParameterMap());setAttribute(&quot;model&quot;, model);} catch (Exception e) {throw new RuntimeException(&quot;获取模型对象失败!&quot;, e);}}return model;}/*** 快速获取id参数* @return*/protected String getId() {return getParameter(&quot;id&quot;);}}</code></pre><h3 id="Pagination代码如下："><a href="#Pagination代码如下：" class="headerlink" title="Pagination代码如下："></a>Pagination代码如下：</h3><pre><code>/*** 分页器* 页号从1开始,page==1就是第一页* 行号从0开始* @author zhangle*/public class Pagination&lt;T&gt; {public static final int DEFAULT_PAGE_SIZE=20;    //默认分页行数private int page;    //当前页号,从1开始private int pageSize;    //每页多少行private long totalCount;    //总共有多少行private List&lt;T&gt; dataList = new ArrayList&lt;T&gt;();    //数据列表private DetachedCriteria criteria; //查询条件public Pagination(int page) {this(page,DEFAULT_PAGE_SIZE);}public Pagination(int page,int pageSize) {this.page=page;this.pageSize=pageSize;}public int getPage() {return page;}public void setPage(int page) {this.page = page;}public int getPageSize() {return pageSize;}public void setPageSize(int pageSize) {this.pageSize = pageSize;}public long getTotalCount() {return totalCount;}public void setTotalCount(long totalCount) {this.totalCount = totalCount;}public List&lt;T&gt; getDataList() {return dataList;}public void setDataList(List&lt;T&gt; dataList) {this.dataList = dataList;}/*** 获得首页页号* @return*/public int getFirstPage() {return 1;}/*** 获得上一页页号* @return*/public int getPrevPage() {return page&lt;=getFirstPage()?getFirstPage():page-1;}/*** 获得下一页页号* @return*/public int getNextPage() {return page&gt;=getLastPage()?getLastPage():page+1;}/*** 获得最后一页页号* @return*/public int getLastPage() {return ((int)Math.ceil(((double)totalCount)/((double)pageSize)));}/*** 判断是否第一页* @return*/public boolean getIsFirstPage() {return page&lt;=getFirstPage();}/*** 判断是否最后一页* @return*/public boolean getIsLastPage() {return page&gt;=getLastPage();}/*** 获取当前页的起始行号* @return*/public int getStartResult() {return (page-1)*pageSize;}/*** 获取当前页的结束行号* @return*/public long getEndResult() {int endResult=page*pageSize;if(endResult&gt;=totalCount) return totalCount;return endResult;}/*** 获取总共多少页* @return*/public int getPageCount() {return getLastPage();}/*** 获取查询条件对象* @return*/public DetachedCriteria getCriteria() {return criteria;}/*** 设置查询条件对象* @param criteria*/public void setCriteria(DetachedCriteria criteria) {this.criteria = criteria;}/*** 构造一个查询条件对象,并返回* @param clazz* @return*/public DetachedCriteria buildCriteria(Class&lt;T&gt; clazz) {criteria=DetachedCriteria.forClass(clazz);return criteria;}}</code></pre><h3 id="分页工具类另一种写法"><a href="#分页工具类另一种写法" class="headerlink" title="分页工具类另一种写法"></a>分页工具类另一种写法</h3><pre><code>/*** @description 自定义分页* @author wangbin* @date 2015/12/22**/public class PagingUtil {public static final int MAX_PAGE_SIZE = 50;// 每页最大记录数限制private int page = 1;// 当前页private int pages = 0;// 总页数private int rows = 15;// 每页记录数private int total = 0;// 总记录数private int pageStart;// 分页开始数private List&lt;Object&gt; list;// 数据Listpublic int getPage() {return page;}public void setPage(int page) {if (page &lt; 1) {page = 1;}this.page = page;}public int getPages() {pages = this.getTotal() / this.getRows();if (this.getTotal() % this.getRows() &gt; 0) {pages++;}return pages;}public void setPages(int pages) {this.pages = pages;}public int getRows() {return rows;}public void setRows(int rows) {if (rows &lt; 1) {rows = 1;} else if (rows &gt; MAX_PAGE_SIZE) {rows = MAX_PAGE_SIZE;}this.rows = rows;}public int getTotal() {return total;}public void setTotal(int total) {this.total = total;}public int getPageStart() {return (page - 1) * rows;}public void setPageStart(int pageStart) {this.pageStart = pageStart;}public List&lt;Object&gt; getList() {return list;}public void setList(List&lt;Object&gt; list) {this.list = list;}/**** @param pageNo 当前页码* @param pageSize 页数* @param list 所有集合* @return* @throws Exception*/public static List&lt;?&gt; page(int pageNo, int pageSize, List&lt;?&gt; list)throws Exception {List&lt;Object&gt; result = new ArrayList&lt;Object&gt;();if (list != null &amp;&amp; list.size() &gt; 0) {int allCount = list.size();int pageCount = (allCount + pageSize - 1) / pageSize;if (pageNo &gt;= pageCount) {pageNo = pageCount;}int start = (pageNo - 1) * pageSize;int end = pageNo * pageSize;if (end &gt;= allCount) {end = allCount;}for (int i = start; i &lt; end; i++) {result.add(list.get(i));}}return result;}}</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      此分页是使用前端代码实现的
+    
+    </summary>
+    
+      <category term="js" scheme="http://www.juedigulang.com/categories/js/"/>
+    
+    
+      <category term="js" scheme="http://www.juedigulang.com/tags/js/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>纯js分页</title>
+    <link href="http://www.juedigulang.com/2018/03/18/%E7%BA%AFjs%E5%89%8D%E7%AB%AF%E5%88%86%E9%A1%B5/"/>
+    <id>http://www.juedigulang.com/2018/03/18/纯js前端分页/</id>
+    <published>2018-03-18T07:52:42.000Z</published>
+    <updated>2018-03-18T08:05:53.837Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="纯js分页实质是数据行全部加载，通过是否显示属性完成分页功能"><a href="#纯js分页实质是数据行全部加载，通过是否显示属性完成分页功能" class="headerlink" title="纯js分页实质是数据行全部加载，通过是否显示属性完成分页功能"></a>纯js分页实质是数据行全部加载，通过是否显示属性完成分页功能</h3><blockquote><p>加载所有的数据，代码如下：</p></blockquote><pre><code>//查询结果数据表格显示function addTable(district,data,queryType){//移除页面中默认的ul$(&quot;#info-shool ul&quot;).remove();var str = &apos;&lt;ul&gt;&apos;for(var i=0;i&lt;data.length;i++){str = str +&apos;&lt;li&gt;&apos;+&apos;&lt;div class=&quot;tipNum&quot;&gt;&apos;+data[i].count+&apos;&lt;/div&gt;&apos;+&apos;&lt;p class=&quot;fl num num1&quot;&gt;&apos;+(i+1)+&apos;&lt;/p&gt;&apos;+&apos;&lt;div class=&quot;fl list&quot;&gt;&apos;+&apos;&lt;p class=&quot;list-txt&quot;&gt;&apos;+data[i].street+&apos;&lt;/p&gt;&apos;+&apos;&lt;p class=&quot;min-txt&quot;&gt;&apos;+data[i].street+&apos;&lt;/p&gt;&apos;+&apos;&lt;/div&gt;&apos;+&apos;&lt;/li&gt;&apos;}str = str +&apos;&lt;/ul&gt;&apos;;$(&quot;#info-shool&quot;).append(str);goPage(1);//调用分页的函数，默认显示第一页}</code></pre><h3 id="分页代码如下："><a href="#分页代码如下：" class="headerlink" title="分页代码如下："></a>分页代码如下：</h3><pre><code>//分页设置数据，含rows,totalfunction goPage(pno){var num = $(&quot;#info-shool&quot;).find(&quot;li&quot;).length;//所有li的统计(所有记录数)console.log(num);var totalPage = 0;//总页数var pageSize = 15;//每页显示行数//总共分几页if(num/pageSize &gt; parseInt(num/pageSize)){totalPage=parseInt(num/pageSize)+1;}else{totalPage=parseInt(num/pageSize);}var currentPage = pno;//当前页数var startRow = (currentPage - 1) * pageSize+1;//开始显示的行 31var endRow = currentPage * pageSize;//结束显示的行 40endRow = (endRow &gt; num)? num : endRow; //40console.log(endRow);//遍历显示数据实现分页for(var i=1;i&lt;(num+1);i++){var irow = $(&quot;#info-shool&quot;).find(&quot;li&quot;).eq(i-1);if(i&gt;=startRow &amp;&amp; i&lt;=endRow){$(irow).css(&quot;display&quot;,&quot;block&quot;);//根据条数来显示}else{$(irow).css(&quot;display&quot;,&quot;none&quot;);//隐藏所有的}}var pageEnd = document.getElementById(&quot;pageEnd&quot;);var tempStr=&apos;&apos;//.bind(&quot;click&quot;,{&quot;newPage&quot;:pageIndex},function(event){//    goPage((pageIndex-1)*pageSize+1,(pageIndex-1)*pageSize+pageSize);//    }).appendTo(&apos;#pages&apos;);//上一页if(currentPage&gt;1){tempStr += &quot;&lt;div class=&apos;one o-left&apos; onClick=\&quot;goPage(&quot;+(currentPage-1)+&quot;)\&quot;&gt;&lt;/div&gt;&quot;}else{tempStr += &quot;&lt;div class=&apos;one o-left&apos;&gt;&lt;/div&gt;&quot;;}//模仿百度的分页var b;//开始var e;//结束//当总页数 &lt;=10时候，说明一共不超过10页，让begin=1 end=总页数if(totalPage&lt;=10){b =1;e = totalPage;//如果总页数 &gt; 10，让begin=当前页 - 5 end=当前页+4    }else if(totalPage&gt;10){b = pno-5;e = pno+4;//头溢出：如果当前页=3，begin=3-5=-2 头溢出 如果begin&lt;1 让begin=1 end=10if(b&lt;1){b=1;e=10;//尾溢出 如果end &gt; 总页数，让end=总页数 begin=总页数-9    }else if(e&gt;totalPage){b= totalPage-9;e = totalPage;}}//显示分页页码for(var pageIndex= b;pageIndex&lt;e+1;pageIndex++){tempStr += &quot;&lt;li class=&apos;pageno&apos; onclick=\&quot;goPage(&quot;+pageIndex+&quot;)\&quot;&gt;&quot;+ pageIndex +&quot;&lt;/li&gt;&quot;;}//下一页if(currentPage&lt;totalPage){tempStr += &quot;&lt;div class=&apos;one o-right&apos; onClick=\&quot;goPage(&quot;+(currentPage+1)+&quot;)\&quot;&gt;&lt;/div&gt;&quot;;}else{tempStr += &quot;&lt;div class=&apos;one o-right&apos;&gt;&lt;/div&gt;&quot;;}//为了给点击事件添加选中状态document.getElementById(&quot;page&quot;).innerHTML = tempStr;$(&quot;.pageno&quot;).each(function(i,v){if($(v).text() ==pno){$(v).addClass(&quot;activeLi&quot;);}})}</code></pre><h3 id="jsp页面中代码如下："><a href="#jsp页面中代码如下：" class="headerlink" title="jsp页面中代码如下："></a>jsp页面中代码如下：</h3><pre><code>&lt;ul id=&quot;page&quot;&gt;&lt;/ul&gt;</code></pre><h3 id="分页的逻辑如下"><a href="#分页的逻辑如下" class="headerlink" title="分页的逻辑如下"></a>分页的逻辑如下</h3><ul><li>如果totalPage &lt;= 10 ，那说明总页数一共都没有10页。begin=1  end=totalPage<ul><li>如果totalPage &gt; 10，说明总页数超过10页了。begin=pageCode-5  end=pageCode+4<ul><li>头部溢出      当begin &lt; 1  begin=1  end=10</li><li>尾部溢出      当end&gt;totalPage的时候，end=totalPage  begin=totalPage-9</li></ul></li></ul></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      此分页是使用前端代码实现的
+    
+    </summary>
+    
+      <category term="js" scheme="http://www.juedigulang.com/categories/js/"/>
+    
+    
+      <category term="js" scheme="http://www.juedigulang.com/tags/js/"/>
+    
+  </entry>
   
   <entry>
     <title>插入sql语句的拼接</title>
@@ -345,28 +389,6 @@
   </entry>
   
   <entry>
-    <title>将标准sql语句导入到数据库中</title>
-    <link href="http://www.juedigulang.com/2017/11/18/%E5%B0%86%E6%A0%87%E5%87%86%E7%9A%84sql%E8%84%9A%E6%9C%AC%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    <id>http://www.juedigulang.com/2017/11/18/将标准的sql脚本导入数据库/</id>
-    <published>2017-11-18T08:22:15.000Z</published>
-    <updated>2017-11-18T08:54:24.213Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="将转换为标准的sql文件导入到数据库中"><a href="#将转换为标准的sql文件导入到数据库中" class="headerlink" title="将转换为标准的sql文件导入到数据库中"></a>将转换为标准的sql文件导入到数据库中</h3><a id="more"></a><pre><code>/** * 将标准sql脚本导入本地数据库，导入前需清空数据库 *  */public class SqlImp {    static Logger logger = Logger.getLogger(SqlImp.class);    public static String exec(String db,String driver,String url,String user,String password) {        String str = &quot;&quot;;        try {            String jdbcUrl = url;            Class.forName(driver);            Connection conn = DriverManager.getConnection(jdbcUrl, user, password);            ScriptRunner runner = new ScriptRunner(conn);            Writer result = new StringWriter();            PrintWriter printWriter = new PrintWriter(result);            // runner.setLogWriter(printWriter);            runner.setErrorLogWriter(printWriter);            runner.setAutoCommit(true);            runner.setStopOnError(false);            // 构建流集合            Vector&lt;InputStream&gt; vector = new Vector&lt;InputStream&gt;();            InputStream standard = new FileInputStream(PathKit.getWebRootPath() + &quot;/WEB-INF/dbsql/&quot;+db+&quot;.sql&quot;);            // InputStream testdata = new            // FileInputStream(PathKit.getWebRootPath() + &quot;/doc/testdata.sql&quot;);            vector.addElement(standard);            // vector.addElement(testdata);            Enumeration&lt;InputStream&gt; enu = vector.elements();            // 合并流            SequenceInputStream sis = new SequenceInputStream(enu);            InputStreamReader isr = new InputStreamReader(sis, &quot;utf-8&quot;);            Reader reader = new BufferedReader(isr);            runner.runScript(reader);            str = result.toString();        }catch (IOException e) {            e.printStackTrace();        }catch (ClassNotFoundException e) {            logger.info(e.getMessage());            str=&quot;数据库驱动错误&quot;;        }catch (SQLException e) {            logger.info(e.getMessage());            str=&quot;数据库连接错误&quot;;        }         return str;    }    public static String stringToHexString(String strPart) {String hexString = &quot;&quot;;for (int i = 0; i &lt; strPart.length(); i++) {int ch = (int) strPart.charAt(i);String strHex = Integer.toHexString(ch); hexString = hexString + strHex;}return hexString;}    /**     * 执行sql文件     *      * @return     */    public static String exec() {        String str = &quot;&quot;;        PropertiesConfiguration myconfig;        try {            myconfig = new PropertiesConfiguration(&quot;myconfig.properties&quot;);            String db = myconfig.getString(&quot;db&quot;);            String jdbcUrl = myconfig.getString(db + &quot;Url&quot;);            exec(db, jdbcUrl, myconfig.getString(db + &quot;Driver&quot;), myconfig.getString(db + &quot;User&quot;), myconfig.getString(db + &quot;Password&quot;));        } catch (ConfigurationException e) {            e.printStackTrace();        }        return str;    }    public static void main(String[] args) {        MyConfig mc = new MyConfig();        mc.initConsole();        String str = exec();        System.out.println(str);    }}</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;将转换为标准的sql文件导入到数据库中&quot;&gt;&lt;a href=&quot;#将转换为标准的sql文件导入到数据库中&quot; class=&quot;headerlink&quot; title=&quot;将转换为标准的sql文件导入到数据库中&quot;&gt;&lt;/a&gt;将转换为标准的sql文件导入到数据库中&lt;/h3&gt;
-    
-    </summary>
-    
-      <category term="java" scheme="http://www.juedigulang.com/categories/java/"/>
-    
-    
-      <category term="sql" scheme="http://www.juedigulang.com/tags/sql/"/>
-    
-  </entry>
-  
-  <entry>
     <title>将java调用百度地址匹配接口获取经纬度坐标</title>
     <link href="http://www.juedigulang.com/2017/11/18/%E8%B0%83%E7%94%A8%E7%99%BE%E5%BA%A6%E5%9C%B0%E5%9D%80%E5%8C%B9%E9%85%8D%E6%8E%A5%E5%8F%A3%E5%92%8C%E8%8E%B7%E5%8F%96%E7%BB%8F%E7%BA%AC%E5%BA%A6%E5%9D%90%E6%A0%87/"/>
     <id>http://www.juedigulang.com/2017/11/18/调用百度地址匹配接口和获取经纬度坐标/</id>
@@ -390,6 +412,28 @@
   </entry>
   
   <entry>
+    <title>将标准sql语句导入到数据库中</title>
+    <link href="http://www.juedigulang.com/2017/11/18/%E5%B0%86%E6%A0%87%E5%87%86%E7%9A%84sql%E8%84%9A%E6%9C%AC%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    <id>http://www.juedigulang.com/2017/11/18/将标准的sql脚本导入数据库/</id>
+    <published>2017-11-18T08:22:15.000Z</published>
+    <updated>2017-11-18T08:54:24.213Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="将转换为标准的sql文件导入到数据库中"><a href="#将转换为标准的sql文件导入到数据库中" class="headerlink" title="将转换为标准的sql文件导入到数据库中"></a>将转换为标准的sql文件导入到数据库中</h3><a id="more"></a><pre><code>/** * 将标准sql脚本导入本地数据库，导入前需清空数据库 *  */public class SqlImp {    static Logger logger = Logger.getLogger(SqlImp.class);    public static String exec(String db,String driver,String url,String user,String password) {        String str = &quot;&quot;;        try {            String jdbcUrl = url;            Class.forName(driver);            Connection conn = DriverManager.getConnection(jdbcUrl, user, password);            ScriptRunner runner = new ScriptRunner(conn);            Writer result = new StringWriter();            PrintWriter printWriter = new PrintWriter(result);            // runner.setLogWriter(printWriter);            runner.setErrorLogWriter(printWriter);            runner.setAutoCommit(true);            runner.setStopOnError(false);            // 构建流集合            Vector&lt;InputStream&gt; vector = new Vector&lt;InputStream&gt;();            InputStream standard = new FileInputStream(PathKit.getWebRootPath() + &quot;/WEB-INF/dbsql/&quot;+db+&quot;.sql&quot;);            // InputStream testdata = new            // FileInputStream(PathKit.getWebRootPath() + &quot;/doc/testdata.sql&quot;);            vector.addElement(standard);            // vector.addElement(testdata);            Enumeration&lt;InputStream&gt; enu = vector.elements();            // 合并流            SequenceInputStream sis = new SequenceInputStream(enu);            InputStreamReader isr = new InputStreamReader(sis, &quot;utf-8&quot;);            Reader reader = new BufferedReader(isr);            runner.runScript(reader);            str = result.toString();        }catch (IOException e) {            e.printStackTrace();        }catch (ClassNotFoundException e) {            logger.info(e.getMessage());            str=&quot;数据库驱动错误&quot;;        }catch (SQLException e) {            logger.info(e.getMessage());            str=&quot;数据库连接错误&quot;;        }         return str;    }    public static String stringToHexString(String strPart) {String hexString = &quot;&quot;;for (int i = 0; i &lt; strPart.length(); i++) {int ch = (int) strPart.charAt(i);String strHex = Integer.toHexString(ch); hexString = hexString + strHex;}return hexString;}    /**     * 执行sql文件     *      * @return     */    public static String exec() {        String str = &quot;&quot;;        PropertiesConfiguration myconfig;        try {            myconfig = new PropertiesConfiguration(&quot;myconfig.properties&quot;);            String db = myconfig.getString(&quot;db&quot;);            String jdbcUrl = myconfig.getString(db + &quot;Url&quot;);            exec(db, jdbcUrl, myconfig.getString(db + &quot;Driver&quot;), myconfig.getString(db + &quot;User&quot;), myconfig.getString(db + &quot;Password&quot;));        } catch (ConfigurationException e) {            e.printStackTrace();        }        return str;    }    public static void main(String[] args) {        MyConfig mc = new MyConfig();        mc.initConsole();        String str = exec();        System.out.println(str);    }}</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;将转换为标准的sql文件导入到数据库中&quot;&gt;&lt;a href=&quot;#将转换为标准的sql文件导入到数据库中&quot; class=&quot;headerlink&quot; title=&quot;将转换为标准的sql文件导入到数据库中&quot;&gt;&lt;/a&gt;将转换为标准的sql文件导入到数据库中&lt;/h3&gt;
+    
+    </summary>
+    
+      <category term="java" scheme="http://www.juedigulang.com/categories/java/"/>
+    
+    
+      <category term="sql" scheme="http://www.juedigulang.com/tags/sql/"/>
+    
+  </entry>
+  
+  <entry>
     <title>处理sql为标准sql</title>
     <link href="http://www.juedigulang.com/2017/11/18/%E5%B0%86sql%E5%A4%84%E7%90%86%E4%B8%BA%E6%A0%87%E5%87%86%E7%9A%84sql%E8%84%9A%E6%9C%AC/"/>
     <id>http://www.juedigulang.com/2017/11/18/将sql处理为标准的sql脚本/</id>
@@ -408,50 +452,6 @@
     
     
       <category term="sql" scheme="http://www.juedigulang.com/tags/sql/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>JFinal和DataTasbles实现增删改</title>
-    <link href="http://www.juedigulang.com/2017/11/18/datatables%E5%A2%9E%E5%88%A0%E6%94%B9/"/>
-    <id>http://www.juedigulang.com/2017/11/18/datatables增删改/</id>
-    <published>2017-11-18T07:51:11.000Z</published>
-    <updated>2017-11-18T08:55:03.833Z</updated>
-    
-    <content type="html"><![CDATA[<p>下面记录下个人在使用过程中的一些难点，顺带一些没有解决的问题。先看下插件的页面效果：<br><img src="https://i.imgur.com/FxDoZ8F.png" alt=""><br><a id="more"></a><br>如果仅仅作为表格的载体，其实有很多插件可以选择。我更看重的是它的编辑功能，后台为维护更多的是对单跳数据进行操作，具体场景是客服和客户 1V1的交流，而dataTables对于单条数据的编辑，是相当不错的，具体来说，采用bootstrap的模态窗口（插件自动生成）实现了修改功能。 对于开发人员来说，省去了另写编辑页面的繁琐。 </p><p>话不多说，下面慢慢粘代码以及效果图。 </p><p>对于一个和后台交互的插件，最重要其实就两件事情，需要什么样的数据格式，提交给后台的又是怎样的数据格式，搞清楚这两点，其实就没什么了。 </p><p>dataTables支持很多数据源，官方有详细介绍，项目采用了轻量级的json数据进行传输，以下是插件填充表格时所需的数据格式：<br><img src="https://i.imgur.com/vcPgDLZ.png" alt=""></p><p>对于增删改查，dataTable默认传给后台的数据相当蛋疼，这里费了不少心思，最后重新封装了下数据格式，先看一下默认的数据格式：<br><img src="https://i.imgur.com/GliHauJ.png" alt=""></p><p>想要看懂上面的数据，还需要知道一个知识点，如果想使用dataTables的编辑功能，返回数据中，需要包括”DT_RowId”这个键，这个键值对需要放在每一行的数据中，充当表格的主键，当然，重复也没关系，这就是让人困惑的地方； </p><p>有了这个知识点，在看编辑数据时，默认的数据格式，这些都是键值对，对于键的命名，action表示操作行为，包括 remove,edit,create三种键值，支持自定义，详细的可以参考官方文档；剩下的便是每个单元格的表示，“data[row1] [accountId]”中，data是固定的，row1是选中行DT_RowId的值，accountId是选中行列的别称，关于列名和json数据源 键名的匹配，以下会有详细代码。 </p><p>看懂这个之后，再去思考后台如何拿数据，后台不可能去遍历request中的所有参数，所以比较好的方法就是在前台二次封装这些数据，通过对json数据的重新封装，即可，以下是个人的封装方法：<br>javaScript代码：<br>    ajax: {<br>        url:”/charge-manage/individualMember/edit”,<br>        data:function(data){<br>        var result={};<br>        for(var i in data.data){<br>        var result=data.data[i];<br>        result.DT_RowId=i;<br>        result.action=data.action;<br>        console.log(result);<br>        }<br>        return result;<br>        },<br>    },  </p><p>经过这样的封装，参数类型如下：<br><img src="https://i.imgur.com/7lUiKTX.png" alt=""></p><p>这样后台就方便拿参数进行操作了。 </p><p>解决了数据流向问题，在看页面本身的问题，表格列名如何与数据源匹配，这个比较简单，代码如下：<br>js代码如下：<br>    $(‘#member’).DataTable( {<br>    dom: “Bfrtip”,<br>    ajax:”/charge-manage/individualMember/getMember?”+”phoneNum=”+phoneNum,<br>    columns:[{data:”memberCode”},<br>             {data:”accountId”},<br>             {data:”phoneNum”},<br>             {data:”password”},<br>             {data:”lastLoginTime”}<br>             ],<br>    select:true,<br>       buttons: [<br>            { extend: “create”, editor: editor },<br>            { extend: “edit”,   editor: editor },<br>            { extend: “remove”, editor: editor }]<br>   } );</p><p>columns集合中的顺序，对应表格列的顺序，data的值，对应json数据源中的键；<br>以下是表格的实际图形： </p><p>编辑操作有自己的操作对象，也就是上面buttons栏引用的，代码如下：<br>js代码如下：<br>        var editor = new $.fn.dataTable.Editor( {<br>        ajax: {<br>    url:”/charge-manage/individualMember/edit”,<br>    data:function(data){<br>    var result={};<br>    for(var i in data.data){<br>    var result=data.data[i];<br>    result.DT_RowId=i;<br>    result.action=data.action;<br>    console.log(result);<br>    }<br>    return result;<br>    },<br>    },  </p><pre><code> fields: [{          label: &quot;会员编码:&quot;,          name: &quot;memberCode&quot;      }, {          label: &quot;账户编码:&quot;,          name: &quot;accountId&quot;      },{          label: &quot;手机号:&quot;,          name: &quot;phoneNum&quot;      },{          label: &quot;密码:&quot;,          name: &quot;password&quot;                          },{          label: &quot;最后登录时间:&quot;,          name: &quot;lastLoginTime&quot;                         }],  table: &quot;#member&quot;  </code></pre><p> });</p><p>fields集合中，label值是模态窗口对应的名称，细心的同学可以看到加了冒号，name对应向后台传入参数的键名。<br>下面是该模态的实际图片，再次强调，这玩意是自动生成的<br><img src="https://i.imgur.com/G2Dc1Hr.png" alt="">  </p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;下面记录下个人在使用过程中的一些难点，顺带一些没有解决的问题。先看下插件的页面效果：&lt;br&gt;&lt;img src=&quot;https://i.imgur.com/FxDoZ8F.png&quot; alt=&quot;&quot;&gt;&lt;br&gt;
-    
-    </summary>
-    
-      <category term="jfinal" scheme="http://www.juedigulang.com/categories/jfinal/"/>
-    
-    
-      <category term="jfinal、datatables" scheme="http://www.juedigulang.com/tags/jfinal%E3%80%81datatables/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>JFinal和datatales-editor增删改</title>
-    <link href="http://www.juedigulang.com/2017/11/18/jfinal%E5%92%8Cdatatables-editor/"/>
-    <id>http://www.juedigulang.com/2017/11/18/jfinal和datatables-editor/</id>
-    <published>2017-11-18T07:37:15.000Z</published>
-    <updated>2017-11-18T08:54:51.063Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="页面js代码如下："><a href="#页面js代码如下：" class="headerlink" title="页面js代码如下："></a>页面js代码如下：</h3><a id="more"></a><pre><code>editor = new $.fn.dataTable.Editor( {            ajax: {                url:&quot;${ctx}/console/job/dtAction?job.orgID=&quot;+orgID,                  data:function(data){                    var result = {};                    for(var i in data.data){                      //封装json的格式                         var result=data.data[i];                         result.DT_Rowid=i;                         result.action=data.action;                         console.log(result);                          $.each(result,function (index, value) {                             //console.log(index);                             if(index!=&quot;action&quot; &amp;&amp; index!=&quot;DT_Rowid&quot;){                                 modifyJosnKey(result,index,&quot;job.&quot;+index);                             }                         })                    }                    return result;                },            },            table: &quot;#example&quot;,            idSrc:&quot;id&quot;,            fields: [ {                    label: &quot;主键&quot;,                    name:  &quot;id&quot;,                    type:  &quot;hidden&quot;,                }, {                    label: &quot;岗位名称&quot;,                    name:  &quot;jobname&quot;                }, {                    label: &quot;岗位描述&quot;,                    name:  &quot;jobdesc&quot;,                },{                    label: &quot;排序&quot;,                    name:  &quot;sortid&quot;,                }            ],            i18n: {                create: {                    button: &quot;新建&quot;,                    title:  &quot;新建&quot;,                    submit: &quot;保存&quot;                },                edit: {                    button: &quot;编辑&quot;,                    title:  &quot;编辑&quot;,                    submit: &quot;保存&quot;                },                remove: {                    button: &quot;删除&quot;,                    title:  &quot;删除&quot;,                    submit: &quot;删除&quot;,                    confirm: {                        _: &quot;您是不是一定希望删除%d行吗?&quot;,                        1: &quot;您是不是一定希望删除1行吗?&quot;                    }                },                error: {                    system: &quot;发生错误,请联系管理员&quot;                },                datetime: {                    previous: &apos;上一个&apos;,                    next:     &apos;下一个&apos;,                    months:   [ &apos;一月&apos;, &apos;二月&apos;, &apos;三月&apos;, &apos;四月&apos;, &apos;五月&apos;, &apos;六月&apos;, &apos;七月&apos;, &apos;八月&apos;, &apos;九月&apos;, &apos;十月&apos;, &apos;十一月&apos;, &apos;十二月&apos; ],                    weekdays: [ &apos;周一&apos;, &apos;周二&apos;, &apos;周三&apos;, &apos;周四&apos;, &apos;周五&apos;, &apos;周六&apos;, &apos;周日&apos; ]                }            }        } );        table = $(&apos;#example&apos;).DataTable( {              language: {                  &quot;sProcessing&quot;: &quot;处理中...&quot;,                  &quot;sLengthMenu&quot;: &quot;显示 _MENU_ 项结果&quot;,                  &quot;sZeroRecords&quot;: &quot;没有匹配结果&quot;,                  &quot;sInfo&quot;: &quot;显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项&quot;,                  &quot;sInfoEmpty&quot;: &quot;显示第 0 至 0 项结果，共 0 项&quot;,                  &quot;sInfoFiltered&quot;: &quot;(由 _MAX_ 项结果过滤)&quot;,                  &quot;sInfoPostFix&quot;: &quot;&quot;,                  &quot;sEmptyTable&quot;: &quot;表中数据为空&quot;,                  &quot;sLoadingRecords&quot;: &quot;载入中...&quot;,                  &quot;sInfoThousands&quot;: &quot;,&quot;,                  &quot;oPaginate&quot;: {                      &quot;sFirst&quot;: &quot;首页&quot;,                      &quot;sPrevious&quot;: &quot;上页&quot;,                      &quot;sNext&quot;: &quot;下页&quot;,                      &quot;sLast&quot;: &quot;末页&quot;                  },                  &quot;oAria&quot;: {                      &quot;sSortAscending&quot;: &quot;: 以升序排列此列&quot;,                      &quot;sSortDescending&quot;: &quot;: 以降序排列此列&quot;                  }              },              searching:false,              dom: &apos;&lt;&quot;dt-panelmenu clearfix&quot;Bfr&gt;t&lt;&quot;dt-panelfooter clearfix&quot;ip&gt;&apos;,              ajax: &quot;${ctx}/console/job/dtAction?orgID=&quot;+orgID,              columns: [                    { data: &quot;jobname&quot;, className: &quot;center&quot; },                  { data: &quot;jobdesc&quot;, className: &quot;center&quot; },                  { data: &quot;updatetime&quot;, className: &quot;center&quot; }              ],              select: true,              buttons: [                        { extend: &quot;create&quot;, editor: editor },                        { extend: &quot;edit&quot;,   editor: editor },                        { extend: &quot;remove&quot;, editor: editor }              ]           } );        $(&quot;#tree&quot;).fancytree({              source:${orgs},            icons: false, // Display node icons.            clickFolderMode: 2, // 1:activate, 2:expand, 3:activate and expand, 4:activate (dblclick expands)            activate: function(event, data) {                orgID=data.node.data.id;                //console.log(orgID);                //console.log(table);                //console.log(table.context[0]._editor.s.ajax.url);                table.context[0]._editor.s.ajax.url=&quot;${ctx}/console/job/dtAction?job.orgID=&quot;+orgID;                table.ajax.url(&quot;${ctx}/console/job/dtAction?orgID=&quot;+orgID).load();//再次加载            }        });</code></pre><h3 id="后台java代码如下："><a href="#后台java代码如下：" class="headerlink" title="后台java代码如下："></a>后台java代码如下：</h3><pre><code>public void dtAction() {    String action = getPara(&quot;action&quot;, &quot;&quot;);    switch (action) {    case &quot;create&quot;:        Job job = getModel(Job.class);        User user = getSessionAttr(&quot;User&quot;);        job.set(&quot;insertuserid&quot;, user.getStr(&quot;username&quot;));        job.set(&quot;updateuserid&quot;, user.getStr(&quot;username&quot;));        service.save(job);        JSONObject json = new JSONObject();        json.put(&quot;data&quot;, job);        //Map map1 = new HashMap();        //map1.put(&quot;data&quot;, job);        renderJson(json);        break;    case &quot;edit&quot;:        Job job1 = getModel(Job.class);        service.update(job1);        Map map2 = new HashMap();        map2.put(&quot;data&quot;, job1);        renderJson(map2);        break;    case &quot;remove&quot;:        Job job2 = getModel(Job.class);        job2.delete();        renderJson();        break;    default:        String orgID = getPara(&quot;orgID&quot;);        List&lt;Job&gt; jobs = Job.dao.find(&quot;select * from t_job where orgid=?&quot;, orgID);        Map map = new HashMap();        map.put(&quot;data&quot;, jobs);        renderJson(map);        break;    }    return;}</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;页面js代码如下：&quot;&gt;&lt;a href=&quot;#页面js代码如下：&quot; class=&quot;headerlink&quot; title=&quot;页面js代码如下：&quot;&gt;&lt;/a&gt;页面js代码如下：&lt;/h3&gt;
-    
-    </summary>
-    
-      <category term="jfinal" scheme="http://www.juedigulang.com/categories/jfinal/"/>
-    
-    
-      <category term="jfinal、datatables-editor" scheme="http://www.juedigulang.com/tags/jfinal%E3%80%81datatables-editor/"/>
     
   </entry>
   
