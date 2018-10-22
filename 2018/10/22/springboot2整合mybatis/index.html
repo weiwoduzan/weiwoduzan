@@ -1,0 +1,1988 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.6" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.6">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.6" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.0.6',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="springboot2整合mybatis">
+<meta name="keywords" content="springboot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="springboot2整合mybatis">
+<meta property="og:url" content="http://www.juedigulang.com/2018/10/22/springboot2整合mybatis/index.html">
+<meta property="og:site_name" content="强子Mo的个人博客">
+<meta property="og:description" content="springboot2整合mybatis">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.imgur.com/cmfDH6d.png">
+<meta property="og:image" content="https://i.imgur.com/BqvSnTe.png">
+<meta property="og:image" content="https://i.imgur.com/mI2uj1d.png">
+<meta property="og:image" content="https://i.imgur.com/H6MhJV4.png">
+<meta property="og:image" content="https://i.imgur.com/wWBpQmA.png">
+<meta property="og:image" content="https://i.imgur.com/dDDwmtI.png">
+<meta property="og:image" content="https://i.imgur.com/4vnEwlJ.png">
+<meta property="og:image" content="https://i.imgur.com/TXEkk3M.png">
+<meta property="og:image" content="https://i.imgur.com/1wnS9NQ.png">
+<meta property="og:image" content="https://i.imgur.com/QdxVcAx.png">
+<meta property="og:updated_time" content="2018-10-22T14:42:03.461Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="springboot2整合mybatis">
+<meta name="twitter:description" content="springboot2整合mybatis">
+<meta name="twitter:image" content="https://i.imgur.com/cmfDH6d.png">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="强子Mo的个人博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="http://www.juedigulang.com/2018/10/22/springboot2整合mybatis/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>springboot2整合mybatis | 强子Mo的个人博客</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+	<a href="https://github.com/weiwoduzan/weiwoduzan.github.io"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png" alt="Fork me on GitHub"></a>
+	
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">强子Mo的个人博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+</li>
+
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.juedigulang.com/2018/10/22/springboot2整合mybatis/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="强子Mo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/33.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="强子Mo的个人博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">springboot2整合mybatis</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-22T22:11:16+08:00">2018-10-22</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/springboot/" itemprop="url" rel="index"><span itemprop="name">springboot</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/10/22/springboot2整合mybatis/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/10/22/springboot2整合mybatis/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/10/22/springboot2整合mybatis/" class="leancloud_visitors" data-flag-title="springboot2整合mybatis">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+              <div class="post-description">springboot2整合mybatis</div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="项目使用环境"><a href="#项目使用环境" class="headerlink" title="项目使用环境"></a>项目使用环境</h3><blockquote>
+<ol>
+<li>开发工具：Intellij IDEA 2017.1.3</li>
+<li>springboot: 2.0.3</li>
+<li>jdk：1.8.0_45</li>
+<li>maven:3.0.5</li>
+</ol>
+</blockquote>
+<h3 id="额外增加功能"><a href="#额外增加功能" class="headerlink" title="额外增加功能"></a>额外增加功能</h3><blockquote>
+<ol>
+<li>PageHelper 分页插件</li>
+<li>mybatis generator 自动生成代码插件</li>
+</ol>
+</blockquote>
+<h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><h4 id="1、创建一个springboot项目"><a href="#1、创建一个springboot项目" class="headerlink" title="1、创建一个springboot项目"></a>1、创建一个springboot项目</h4><p><img src="https://i.imgur.com/cmfDH6d.png" alt=""></p>
+<h4 id="2、创建项目的文件结构以及jdk的版本"><a href="#2、创建项目的文件结构以及jdk的版本" class="headerlink" title="2、创建项目的文件结构以及jdk的版本"></a>2、创建项目的文件结构以及jdk的版本</h4><p><img src="https://i.imgur.com/BqvSnTe.png" alt=""></p>
+<h4 id="3、选择项目所需要的依赖"><a href="#3、选择项目所需要的依赖" class="headerlink" title="3、选择项目所需要的依赖"></a>3、选择项目所需要的依赖</h4><p><img src="https://i.imgur.com/mI2uj1d.png" alt=""><br><img src="https://i.imgur.com/H6MhJV4.png" alt=""></p>
+<h4 id="4、点击finish"><a href="#4、点击finish" class="headerlink" title="4、点击finish"></a>4、点击finish</h4><h4 id="5、查看pom-xml"><a href="#5、查看pom-xml" class="headerlink" title="5、查看pom.xml"></a>5、查看pom.xml</h4><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
+&lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+&lt;groupId&gt;com.nan&lt;/groupId&gt;
+&lt;artifactId&gt;blogs&lt;/artifactId&gt;
+&lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+&lt;packaging&gt;jar&lt;/packaging&gt;
+
+&lt;name&gt;blogs&lt;/name&gt;
+&lt;description&gt;Demo project for Spring Boot&lt;/description&gt;
+
+&lt;parent&gt;
+&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+&lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+&lt;version&gt;2.0.3.RELEASE&lt;/version&gt;
+&lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;
+&lt;/parent&gt;
+
+&lt;properties&gt;
+&lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+&lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;
+&lt;java.version&gt;1.8&lt;/java.version&gt;
+&lt;/properties&gt;
+
+&lt;dependencies&gt;
+&lt;dependency&gt;
+&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+&lt;artifactId&gt;spring-boot-starter-thymeleaf&lt;/artifactId&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+&lt;artifactId&gt;spring-boot-starter-jdbc&lt;/artifactId&gt;
+&lt;/dependency&gt;
+
+&lt;dependency&gt;
+&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+&lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+&lt;groupId&gt;org.mybatis.spring.boot&lt;/groupId&gt;
+&lt;artifactId&gt;mybatis-spring-boot-starter&lt;/artifactId&gt;
+&lt;version&gt;1.3.2&lt;/version&gt;
+&lt;/dependency&gt;
+
+&lt;dependency&gt;
+&lt;groupId&gt;mysql&lt;/groupId&gt;
+&lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+&lt;scope&gt;runtime&lt;/scope&gt;
+&lt;/dependency&gt;
+
+&lt;dependency&gt;
+&lt;groupId&gt;com.fasterxml.jackson.core&lt;/groupId&gt;
+&lt;artifactId&gt;jackson-annotations&lt;/artifactId&gt;
+&lt;version&gt;2.8.0&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+&lt;groupId&gt;com.fasterxml.jackson.core&lt;/groupId&gt;
+&lt;artifactId&gt;jackson-databind&lt;/artifactId&gt;
+&lt;version&gt;2.8.8&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+&lt;groupId&gt;com.fasterxml.jackson.core&lt;/groupId&gt;
+&lt;artifactId&gt;jackson-core&lt;/artifactId&gt;
+&lt;version&gt;2.8.8&lt;/version&gt;
+&lt;/dependency&gt;
+
+&lt;!-- 分页插件 --&gt;
+&lt;dependency&gt;
+&lt;groupId&gt;com.github.pagehelper&lt;/groupId&gt;
+&lt;artifactId&gt;pagehelper-spring-boot-starter&lt;/artifactId&gt;
+&lt;version&gt;1.2.3&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;!-- alibaba的druid数据库连接池 --&gt;
+&lt;dependency&gt;
+&lt;groupId&gt;com.alibaba&lt;/groupId&gt;
+&lt;artifactId&gt;druid&lt;/artifactId&gt;
+&lt;version&gt;1.1.0&lt;/version&gt;
+&lt;/dependency&gt;
+
+&lt;dependency&gt; &lt;!--添加通用Mapper依赖 --&gt;
+&lt;groupId&gt;tk.mybatis&lt;/groupId&gt;
+&lt;artifactId&gt;mapper-spring-boot-starter&lt;/artifactId&gt;
+&lt;version&gt;1.1.4&lt;/version&gt;
+&lt;/dependency&gt;
+
+
+&lt;dependency&gt;
+&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+&lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
+&lt;scope&gt;test&lt;/scope&gt;
+&lt;/dependency&gt;
+&lt;/dependencies&gt;
+
+&lt;build&gt;
+&lt;plugins&gt;
+&lt;plugin&gt;
+&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+&lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+&lt;/plugin&gt;
+&lt;!-- mybatis generator 自动生成代码插件 --&gt;
+&lt;plugin&gt;
+&lt;groupId&gt;org.mybatis.generator&lt;/groupId&gt;
+&lt;artifactId&gt;mybatis-generator-maven-plugin&lt;/artifactId&gt;
+&lt;version&gt;1.3.2&lt;/version&gt;
+&lt;configuration&gt;
+&lt;configurationFile&gt;${basedir}/src/main/resources/generator/generatorConfig.xml&lt;/configurationFile&gt;
+&lt;overwrite&gt;true&lt;/overwrite&gt;
+&lt;verbose&gt;true&lt;/verbose&gt;
+&lt;/configuration&gt;
+&lt;/plugin&gt;
+&lt;/plugins&gt;
+&lt;/build&gt;
+
+&lt;/project&gt;
+</code></pre><h4 id="6、项目不使用application-properties文件-而使用更加简洁的application-yml文件："><a href="#6、项目不使用application-properties文件-而使用更加简洁的application-yml文件：" class="headerlink" title="6、项目不使用application.properties文件 而使用更加简洁的application.yml文件："></a>6、项目不使用application.properties文件 而使用更加简洁的application.yml文件：</h4><p>将原有的resource文件夹下的application.properties文件删除，创建一个新的application.yml配置文件， 文件的内容如下：</p>
+<pre><code>#默认使用配置
+spring:
+profiles:
+active: dev
+
+#公共配置与profiles选择无关 mapperLocations指的路径是src/main/resources
+mybatis:
+typeAliasesPackage: com.nan.blogs.model
+mapperLocations: classpath:mapping/*.xml
+
+
+---
+
+#开发配置
+spring:
+profiles: dev
+
+datasource:
+url: jdbc:mysql://localhost:3306/blogs
+username: root
+password: root
+driver-class-name: com.mysql.jdbc.Driver
+# 使用druid数据源
+type: com.alibaba.druid.pool.DruidDataSource
+
+
+#pagehelper分页插件
+pagehelper:
+helperDialect: mysql
+reasonable: true
+supportMethodsArguments: true
+params: count=countSql
+</code></pre><h4 id="7、使用mybatis-generator-自动生成代码："><a href="#7、使用mybatis-generator-自动生成代码：" class="headerlink" title="7、使用mybatis generator 自动生成代码："></a>7、使用mybatis generator 自动生成代码：</h4><p>a、配置pom.xml中generator 插件所对应的配置文件 ${basedir}/src/main/resources/generator/generatorConfig.xml</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE generatorConfiguration
+PUBLIC &quot;-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN&quot;
+&quot;http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd&quot;&gt;
+&lt;generatorConfiguration&gt;
+&lt;!-- 数据库驱动:选择你的本地硬盘上面的数据库驱动包--&gt;
+&lt;classPathEntry location=&quot;D:\mavenLib\mysql\mysql-connector-java\5.1.34\mysql-connector-java-5.1.34.jar&quot;/&gt;
+&lt;context id=&quot;DB2Tables&quot; targetRuntime=&quot;MyBatis3&quot;&gt;
+&lt;commentGenerator&gt;
+&lt;property name=&quot;suppressDate&quot; value=&quot;true&quot;/&gt;
+&lt;!-- 是否去除自动生成的注释 true：是 ： false:否 --&gt;
+&lt;property name=&quot;suppressAllComments&quot; value=&quot;true&quot;/&gt;
+&lt;/commentGenerator&gt;
+&lt;!--数据库链接URL，用户名、密码 --&gt;
+&lt;jdbcConnection driverClass=&quot;com.mysql.jdbc.Driver&quot; connectionURL=&quot;jdbc:mysql://127.0.0.1/blogs&quot; userId=&quot;root&quot; password=&quot;root&quot;&gt;
+&lt;/jdbcConnection&gt;
+&lt;javaTypeResolver&gt;
+&lt;property name=&quot;forceBigDecimals&quot; value=&quot;false&quot;/&gt;
+&lt;/javaTypeResolver&gt;
+&lt;!-- 生成模型的包名和位置--&gt;
+&lt;javaModelGenerator targetPackage=&quot;com.nan.blogs.model&quot; targetProject=&quot;src/main/java&quot;&gt;
+&lt;property name=&quot;enableSubPackages&quot; value=&quot;true&quot;/&gt;
+&lt;property name=&quot;trimStrings&quot; value=&quot;true&quot;/&gt;
+&lt;/javaModelGenerator&gt;
+&lt;!-- 生成映射文件的包名和位置--&gt;
+&lt;sqlMapGenerator targetPackage=&quot;mapping&quot; targetProject=&quot;src/main/resources&quot;&gt;
+&lt;property name=&quot;enableSubPackages&quot; value=&quot;true&quot;/&gt;
+&lt;/sqlMapGenerator&gt;
+&lt;!-- 生成DAO的包名和位置--&gt;
+&lt;javaClientGenerator type=&quot;XMLMAPPER&quot; targetPackage=&quot;com.nan.blogs.mapper&quot; targetProject=&quot;src/main/java&quot;&gt;
+&lt;property name=&quot;enableSubPackages&quot; value=&quot;true&quot;/&gt;
+&lt;/javaClientGenerator&gt;
+&lt;!-- 要生成的表 tableName是数据库中的表名或视图名 domainObjectName是实体类名--&gt;
+&lt;table tableName=&quot;user&quot; domainObjectName=&quot;User&quot; enableCountByExample=&quot;false&quot; enableUpdateByExample=&quot;false&quot; enableDeleteByExample=&quot;false&quot; enableSelectByExample=&quot;false&quot; selectByExampleQueryId=&quot;false&quot;&gt;&lt;/table&gt;
+&lt;/context&gt;
+&lt;/generatorConfiguration&gt;
+</code></pre><p>此处注意可能会报URI IS NOT REGISTER,此时需要将DTD的信息添加到配置中即可</p>
+<h5 id="a、打开File—settings-即可"><a href="#a、打开File—settings-即可" class="headerlink" title="a、打开File—settings ,即可"></a>a、打开File—settings ,即可</h5><p><img src="https://i.imgur.com/wWBpQmA.png" alt=""></p>
+<h5 id="b、点击run-Edit-Configurations"><a href="#b、点击run-Edit-Configurations" class="headerlink" title="b、点击run-Edit Configurations"></a>b、点击run-Edit Configurations</h5><p><img src="https://i.imgur.com/dDDwmtI.png" alt=""></p>
+<h5 id="c、添加配置"><a href="#c、添加配置" class="headerlink" title="c、添加配置"></a>c、添加配置</h5><p><img src="https://i.imgur.com/4vnEwlJ.png" alt=""></p>
+<h5 id="d、运行"><a href="#d、运行" class="headerlink" title="d、运行"></a>d、运行</h5><p><strong>注意！！！同一张表一定不要运行多次，因为mapper的映射文件中会生成多次的代码，导致报错，切记</strong></p>
+<p><img src="https://i.imgur.com/TXEkk3M.png" alt=""></p>
+<h4 id="8、生成的文件如下："><a href="#8、生成的文件如下：" class="headerlink" title="8、生成的文件如下："></a>8、生成的文件如下：</h4><h5 id="UserMapper-java"><a href="#UserMapper-java" class="headerlink" title="UserMapper.java"></a>UserMapper.java</h5><pre><code>package com.nan.blogs.mapper;
+
+import com.nan.blogs.model.User;
+
+import java.util.List;
+
+public interface UserMapper {
+int deleteByPrimaryKey(String id);
+
+int insert(User record);
+
+int insertSelective(User record);
+
+User selectByPrimaryKey(String id);
+
+int updateByPrimaryKeySelective(User record);
+
+int updateByPrimaryKey(User record);
+//自己加的
+List&lt;User&gt; selectAllUser();
+}
+</code></pre><h5 id="user-java"><a href="#user-java" class="headerlink" title="user.java"></a>user.java</h5><pre><code>package com.nan.blogs.model;
+
+import java.util.Date;
+
+public class User {
+private String id;
+
+private String account;
+
+private Date createddate;
+
+private String email;
+
+private String password;
+
+private String username;
+
+private Integer status;
+
+private Integer blogsstatus;
+
+public String getId() {
+return id;
+}
+
+public void setId(String id) {
+this.id = id == null ? null : id.trim();
+}
+
+public String getAccount() {
+return account;
+}
+
+public void setAccount(String account) {
+this.account = account == null ? null : account.trim();
+}
+
+public Date getCreateddate() {
+return createddate;
+}
+
+public void setCreateddate(Date createddate) {
+this.createddate = createddate;
+}
+
+public String getEmail() {
+return email;
+}
+
+public void setEmail(String email) {
+this.email = email == null ? null : email.trim();
+}
+
+public String getPassword() {
+return password;
+}
+
+public void setPassword(String password) {
+this.password = password == null ? null : password.trim();
+}
+
+public String getUsername() {
+return username;
+}
+
+public void setUsername(String username) {
+this.username = username == null ? null : username.trim();
+}
+
+public Integer getStatus() {
+return status;
+}
+
+public void setStatus(Integer status) {
+this.status = status;
+}
+
+public Integer getBlogsstatus() {
+return blogsstatus;
+}
+
+public void setBlogsstatus(Integer blogsstatus) {
+this.blogsstatus = blogsstatus;
+}
+}
+</code></pre><h5 id="UserMapper-xml"><a href="#UserMapper-xml" class="headerlink" title="UserMapper.xml"></a>UserMapper.xml</h5><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;!DOCTYPE mapper PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot; &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot; &gt;
+&lt;mapper namespace=&quot;com.nan.blogs.mapper.UserMapper&quot; &gt;
+&lt;resultMap id=&quot;BaseResultMap&quot; type=&quot;com.nan.blogs.model.User&quot; &gt;
+&lt;id column=&quot;id&quot; property=&quot;id&quot; jdbcType=&quot;VARCHAR&quot; /&gt;
+&lt;result column=&quot;account&quot; property=&quot;account&quot; jdbcType=&quot;VARCHAR&quot; /&gt;
+&lt;result column=&quot;createdDate&quot; property=&quot;createddate&quot; jdbcType=&quot;TIMESTAMP&quot; /&gt;
+&lt;result column=&quot;email&quot; property=&quot;email&quot; jdbcType=&quot;VARCHAR&quot; /&gt;
+&lt;result column=&quot;password&quot; property=&quot;password&quot; jdbcType=&quot;VARCHAR&quot; /&gt;
+&lt;result column=&quot;username&quot; property=&quot;username&quot; jdbcType=&quot;VARCHAR&quot; /&gt;
+&lt;result column=&quot;status&quot; property=&quot;status&quot; jdbcType=&quot;INTEGER&quot; /&gt;
+&lt;result column=&quot;blogsStatus&quot; property=&quot;blogsstatus&quot; jdbcType=&quot;INTEGER&quot; /&gt;
+&lt;/resultMap&gt;
+&lt;sql id=&quot;Base_Column_List&quot; &gt;
+id, account, createdDate, email, password, username, status, blogsStatus
+&lt;/sql&gt;
+&lt;select id=&quot;selectByPrimaryKey&quot; resultMap=&quot;BaseResultMap&quot; parameterType=&quot;java.lang.String&quot; &gt;
+select 
+&lt;include refid=&quot;Base_Column_List&quot; /&gt;
+from user
+where id = #{id,jdbcType=VARCHAR}
+&lt;/select&gt;
+&lt;delete id=&quot;deleteByPrimaryKey&quot; parameterType=&quot;java.lang.String&quot; &gt;
+delete from user
+where id = #{id,jdbcType=VARCHAR}
+&lt;/delete&gt;
+&lt;insert id=&quot;insert&quot; parameterType=&quot;com.nan.blogs.model.User&quot; &gt;
+insert into user (id, account, createdDate, 
+email, password, username, 
+status, blogsStatus)
+values (#{id,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{createddate,jdbcType=TIMESTAMP}, 
+#{email,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
+#{status,jdbcType=INTEGER}, #{blogsstatus,jdbcType=INTEGER})
+&lt;/insert&gt;
+&lt;insert id=&quot;insertSelective&quot; parameterType=&quot;com.nan.blogs.model.User&quot; &gt;
+insert into user
+&lt;trim prefix=&quot;(&quot; suffix=&quot;)&quot; suffixOverrides=&quot;,&quot; &gt;
+&lt;if test=&quot;id != null&quot; &gt;
+id,
+&lt;/if&gt;
+&lt;if test=&quot;account != null&quot; &gt;
+account,
+&lt;/if&gt;
+&lt;if test=&quot;createddate != null&quot; &gt;
+createdDate,
+&lt;/if&gt;
+&lt;if test=&quot;email != null&quot; &gt;
+email,
+&lt;/if&gt;
+&lt;if test=&quot;password != null&quot; &gt;
+password,
+&lt;/if&gt;
+&lt;if test=&quot;username != null&quot; &gt;
+username,
+&lt;/if&gt;
+&lt;if test=&quot;status != null&quot; &gt;
+status,
+&lt;/if&gt;
+&lt;if test=&quot;blogsstatus != null&quot; &gt;
+blogsStatus,
+&lt;/if&gt;
+&lt;/trim&gt;
+&lt;trim prefix=&quot;values (&quot; suffix=&quot;)&quot; suffixOverrides=&quot;,&quot; &gt;
+&lt;if test=&quot;id != null&quot; &gt;
+#{id,jdbcType=VARCHAR},
+&lt;/if&gt;
+&lt;if test=&quot;account != null&quot; &gt;
+#{account,jdbcType=VARCHAR},
+&lt;/if&gt;
+&lt;if test=&quot;createddate != null&quot; &gt;
+#{createddate,jdbcType=TIMESTAMP},
+&lt;/if&gt;
+&lt;if test=&quot;email != null&quot; &gt;
+#{email,jdbcType=VARCHAR},
+&lt;/if&gt;
+&lt;if test=&quot;password != null&quot; &gt;
+#{password,jdbcType=VARCHAR},
+&lt;/if&gt;
+&lt;if test=&quot;username != null&quot; &gt;
+#{username,jdbcType=VARCHAR},
+&lt;/if&gt;
+&lt;if test=&quot;status != null&quot; &gt;
+#{status,jdbcType=INTEGER},
+&lt;/if&gt;
+&lt;if test=&quot;blogsstatus != null&quot; &gt;
+#{blogsstatus,jdbcType=INTEGER},
+&lt;/if&gt;
+&lt;/trim&gt;
+&lt;/insert&gt;
+
+&lt;select id=&quot;selectAllUser&quot; resultMap=&quot;BaseResultMap&quot;&gt;
+select
+&lt;include refid=&quot;Base_Column_List&quot; /&gt;
+form user
+&lt;/select&gt;
+
+&lt;update id=&quot;updateByPrimaryKeySelective&quot; parameterType=&quot;com.nan.blogs.model.User&quot; &gt;
+update user
+&lt;set &gt;
+&lt;if test=&quot;account != null&quot; &gt;
+account = #{account,jdbcType=VARCHAR},
+&lt;/if&gt;
+&lt;if test=&quot;createddate != null&quot; &gt;
+createdDate = #{createddate,jdbcType=TIMESTAMP},
+&lt;/if&gt;
+&lt;if test=&quot;email != null&quot; &gt;
+email = #{email,jdbcType=VARCHAR},
+&lt;/if&gt;
+&lt;if test=&quot;password != null&quot; &gt;
+password = #{password,jdbcType=VARCHAR},
+&lt;/if&gt;
+&lt;if test=&quot;username != null&quot; &gt;
+username = #{username,jdbcType=VARCHAR},
+&lt;/if&gt;
+&lt;if test=&quot;status != null&quot; &gt;
+status = #{status,jdbcType=INTEGER},
+&lt;/if&gt;
+&lt;if test=&quot;blogsstatus != null&quot; &gt;
+blogsStatus = #{blogsstatus,jdbcType=INTEGER},
+&lt;/if&gt;
+&lt;/set&gt;
+where id = #{id,jdbcType=VARCHAR}
+&lt;/update&gt;
+&lt;update id=&quot;updateByPrimaryKey&quot; parameterType=&quot;com.nan.blogs.model.User&quot; &gt;
+update user
+set account = #{account,jdbcType=VARCHAR},
+createdDate = #{createddate,jdbcType=TIMESTAMP},
+email = #{email,jdbcType=VARCHAR},
+password = #{password,jdbcType=VARCHAR},
+username = #{username,jdbcType=VARCHAR},
+status = #{status,jdbcType=INTEGER},
+blogsStatus = #{blogsstatus,jdbcType=INTEGER}
+where id = #{id,jdbcType=VARCHAR}
+&lt;/update&gt;
+&lt;/mapper&gt;
+</code></pre><h5 id="打开springboot的启动类，需要添加一些东西"><a href="#打开springboot的启动类，需要添加一些东西" class="headerlink" title="打开springboot的启动类，需要添加一些东西"></a>打开springboot的启动类，需要添加一些东西</h5><pre><code>package com.nan.blogs;
+
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+
+@EnableAutoConfiguration
+@SpringBootApplication
+@ComponentScan
+@MapperScan(&quot;com.nan.blogs.mapper&quot;)//项目中对应的mapper类的路径加进来就可以了
+public class BlogsApplication {
+
+public static void main(String[] args) {
+SpringApplication.run(BlogsApplication.class, args);
+}
+}
+</code></pre><p>注意：@MapperScan(“com.winter.mapper”)这个注解非常的关键，这个对应了项目中mapper（dao）所对应的包路径，很多就是这里忘了加导致异常的</p>
+<h4 id="9、编写测试类"><a href="#9、编写测试类" class="headerlink" title="9、编写测试类"></a>9、编写测试类</h4><h5 id="1、先看编写完之后的项目结构"><a href="#1、先看编写完之后的项目结构" class="headerlink" title="1、先看编写完之后的项目结构"></a>1、先看编写完之后的项目结构</h5><p><img src="https://i.imgur.com/1wnS9NQ.png" alt=""></p>
+<h5 id="2、把controller、service的代码写好"><a href="#2、把controller、service的代码写好" class="headerlink" title="2、把controller、service的代码写好"></a>2、把controller、service的代码写好</h5><h5 id="controller代码如下："><a href="#controller代码如下：" class="headerlink" title="controller代码如下："></a>controller代码如下：</h5><pre><code>package com.nan.blogs.controller;
+
+import com.nan.blogs.model.User;
+import com.nan.blogs.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+@Controller
+@RequestMapping(value = &quot;/user&quot;)
+public class UserController {
+@Autowired
+public UserService userService;
+
+/**
+* 添加方法
+* @param user
+* @return
+*/
+@ResponseBody
+@RequestMapping(value = &quot;/add&quot;,produces = {&quot;application/json;charser=UTF-8&quot;})
+public int addUser(User user){
+return userService.addUser(user);
+}
+
+/**
+* 分页方法
+* @param pageNum
+* @param pageSize
+* @return
+*/
+@ResponseBody
+@RequestMapping(value = &quot;/all/{pageNum}/{pageSize}&quot;,produces = {&quot;application/json;charser=UTF-8&quot;})
+public Object findAllUser(@PathVariable(&quot;pageNum&quot;) int pageNum, @PathVariable(&quot;pathSize&quot;) int pageSize){
+return userService.findAllUser(pageNum,pageSize);
+}
+
+/**
+* 通过id查询用户
+* @param id
+* @return
+*/
+@ResponseBody
+@RequestMapping(value = &quot;/getId&quot;,produces = {&quot;application/json;charser=UTF-8&quot;})
+public User getId(String id){
+return userService.getId(id);
+}
+}
+</code></pre><h6 id="service代码"><a href="#service代码" class="headerlink" title="service代码"></a>service代码</h6><pre><code>package com.nan.blogs.service;
+
+import com.nan.blogs.model.User;
+
+public interface UserService {
+//添加用户信息
+int addUser(User user);
+//分页查找用户
+Object findAllUser(int pageNum, int pageSize);
+//通过主键查询用户信息
+User getId(String id);
+}
+</code></pre><h6 id="serviceImpl代码"><a href="#serviceImpl代码" class="headerlink" title="serviceImpl代码"></a>serviceImpl代码</h6><pre><code>package com.nan.blogs.service.impl;
+
+import com.github.pagehelper.PageHelper;
+import com.nan.blogs.mapper.UserMapper;
+import com.nan.blogs.model.User;
+import com.nan.blogs.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserServiceImpl implements UserService{
+@Autowired
+private UserMapper userMapper;
+
+/**
+* 添加用户信息
+* @param user
+* @return
+*/
+@Override
+public int addUser(User user) {
+return userMapper.insertSelective(user);
+}
+
+/*
+* 这个方法中用到了我们开头配置依赖的分页插件pagehelper
+* 很简单，只需要在service层传入参数，然后将参数传递给一个插件的一个静态方法即可；
+* pageNum 开始页数
+* pageSize 每页显示的数据条数
+* */
+@Override
+public Object findAllUser(int pageNum, int pageSize) {
+PageHelper.startPage(pageNum,pageSize);
+return userMapper.selectAllUser();
+}
+
+/**
+* 通过主键查询用户信息
+* @param id
+* @return
+*/
+@Override
+public User getId(String id) {
+return userMapper.selectByPrimaryKey(id);
+}
+}
+</code></pre><h4 id="10、启动项目进行测试："><a href="#10、启动项目进行测试：" class="headerlink" title="10、启动项目进行测试："></a>10、启动项目进行测试：</h4><p><img src="https://i.imgur.com/QdxVcAx.png" alt=""></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+
+	
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/springboot/" rel="tag"><i class="fa fa-tag"></i> springboot</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/22/Java8中Lambda表达式/" rel="next" title="Lambda表达式基础语法">
+                <i class="fa fa-chevron-left"></i> Lambda表达式基础语法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/33.jpg"
+                alt="强子Mo" />
+            
+              <p class="site-author-name" itemprop="name">强子Mo</p>
+              <p class="site-description motion-element" itemprop="description">精彩不是顺着风直达，而逆风却刻服了害怕</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/weiwoduzan/weiwoduzan.github.io" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://weibo.com/u/2953388753" target="_blank" title="Weibo"><i class="fa fa-fw fa-globe"></i>Weibo</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#项目使用环境"><span class="nav-number">1.</span> <span class="nav-text">项目使用环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#额外增加功能"><span class="nav-number">2.</span> <span class="nav-text">额外增加功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#步骤"><span class="nav-number">3.</span> <span class="nav-text">步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、创建一个springboot项目"><span class="nav-number">3.1.</span> <span class="nav-text">1、创建一个springboot项目</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、创建项目的文件结构以及jdk的版本"><span class="nav-number">3.2.</span> <span class="nav-text">2、创建项目的文件结构以及jdk的版本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、选择项目所需要的依赖"><span class="nav-number">3.3.</span> <span class="nav-text">3、选择项目所需要的依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、点击finish"><span class="nav-number">3.4.</span> <span class="nav-text">4、点击finish</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5、查看pom-xml"><span class="nav-number">3.5.</span> <span class="nav-text">5、查看pom.xml</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6、项目不使用application-properties文件-而使用更加简洁的application-yml文件："><span class="nav-number">3.6.</span> <span class="nav-text">6、项目不使用application.properties文件 而使用更加简洁的application.yml文件：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7、使用mybatis-generator-自动生成代码："><span class="nav-number">3.7.</span> <span class="nav-text">7、使用mybatis generator 自动生成代码：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#a、打开File—settings-即可"><span class="nav-number">3.7.1.</span> <span class="nav-text">a、打开File—settings ,即可</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#b、点击run-Edit-Configurations"><span class="nav-number">3.7.2.</span> <span class="nav-text">b、点击run-Edit Configurations</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#c、添加配置"><span class="nav-number">3.7.3.</span> <span class="nav-text">c、添加配置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#d、运行"><span class="nav-number">3.7.4.</span> <span class="nav-text">d、运行</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8、生成的文件如下："><span class="nav-number">3.8.</span> <span class="nav-text">8、生成的文件如下：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#UserMapper-java"><span class="nav-number">3.8.1.</span> <span class="nav-text">UserMapper.java</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#user-java"><span class="nav-number">3.8.2.</span> <span class="nav-text">user.java</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#UserMapper-xml"><span class="nav-number">3.8.3.</span> <span class="nav-text">UserMapper.xml</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#打开springboot的启动类，需要添加一些东西"><span class="nav-number">3.8.4.</span> <span class="nav-text">打开springboot的启动类，需要添加一些东西</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9、编写测试类"><span class="nav-number">3.9.</span> <span class="nav-text">9、编写测试类</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、先看编写完之后的项目结构"><span class="nav-number">3.9.1.</span> <span class="nav-text">1、先看编写完之后的项目结构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、把controller、service的代码写好"><span class="nav-number">3.9.2.</span> <span class="nav-text">2、把controller、service的代码写好</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#controller代码如下："><span class="nav-number">3.9.3.</span> <span class="nav-text">controller代码如下：</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#service代码"><span class="nav-number">3.9.3.1.</span> <span class="nav-text">service代码</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#serviceImpl代码"><span class="nav-number">3.9.3.2.</span> <span class="nav-text">serviceImpl代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10、启动项目进行测试："><span class="nav-number">3.10.</span> <span class="nav-text">10、启动项目进行测试：</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">强子Mo</span>
+
+  
+
+  
+</div>
+
+
+
+ 
+ <div class="powered-by">
+ <span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+   <span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+
+<!--
+ 
+  <div class="powered-by">
+  <span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+</div>
+
+-->
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+  <div style="">
+    <script src="//s95.cnzz.com/z_stat.php?id=1267336678&web_id=1267336678" language="JavaScript"></script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.6"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.0.6"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.6"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: '6Cl1oPEl3c4iSTfuYhWSG65n-gzGzoHsz',
+        appKey: 'JrWDh6iQeKQs1BVxD2u54pVA',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("6Cl1oPEl3c4iSTfuYhWSG65n-gzGzoHsz", "JrWDh6iQeKQs1BVxD2u54pVA");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            
+            counter.save(null, {
+              success: function(counter) {
+                
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            
+              var newcounter = new Counter();
+              /* Set ACL */
+              var acl = new AV.ACL();
+              acl.setPublicReadAccess(true);
+              acl.setPublicWriteAccess(true);
+              newcounter.setACL(acl);
+              /* End Set ACL */
+              newcounter.set("title", title);
+              newcounter.set("url", url);
+              newcounter.set("time", 1);
+              newcounter.save(null, {
+                success: function(newcounter) {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                },
+                error: function(newcounter, error) {
+                  console.log('Failed to create');
+                }
+              });
+            
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
