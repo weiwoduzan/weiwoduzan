@@ -325,17 +325,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[个人博客]]></title>
-    <url>%2F2017%2F11%2F02%2FMo%2F</url>
-    <content type="text"><![CDATA[我的第一篇个人博客 欢迎来到我的个人小屋，以后会不定时更新博客]]></content>
-      <categories>
-        <category>杂谈</category>
-      </categories>
-      <tags>
-        <tag>死肥宅</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[Node.js安装]]></title>
     <url>%2F2017%2F11%2F02%2FNodejs%E5%AE%89%E8%A3%85%2F</url>
     <content type="text"><![CDATA[Node.js简介简单的说 Node.js 就是运行在服务端的 JavaScript。Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境。Node.js 使用了一个事件驱动、非阻塞式 I/O 的模型，使其轻量又高效。Node.js 的包管理器 npm，是全球最大的开源库生态系统。 下载Node.js打开官网下载链接:https://nodejs.org/en/download/ 开始安装1、下载完成后，双击“node-v6.9.2-x64.msi”，开始安装Node.js2、点击Next按钮3、勾选复选框，点击【Next】按钮4、修改好目录后，点击【Next】按钮5、安装完后点击【Finish】按钮完成安装6、至此Node.js已经安装完成，可以先进行下简单的测试安装是否成功了，后面还要进行环境配置在键盘按下【win+R】键，输入cmd，然后回车，打开cmd窗口]]></content>
@@ -344,6 +333,17 @@
       </categories>
       <tags>
         <tag>hexo、node.js</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[个人博客]]></title>
+    <url>%2F2017%2F11%2F02%2FMo%2F</url>
+    <content type="text"><![CDATA[我的第一篇个人博客 欢迎来到我的个人小屋，以后会不定时更新博客]]></content>
+      <categories>
+        <category>杂谈</category>
+      </categories>
+      <tags>
+        <tag>死肥宅</tag>
       </tags>
   </entry>
   <entry>
