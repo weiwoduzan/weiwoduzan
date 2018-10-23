@@ -259,17 +259,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[将标准sql语句导入到数据库中]]></title>
-    <url>%2F2017%2F11%2F18%2F%E5%B0%86%E6%A0%87%E5%87%86%E7%9A%84sql%E8%84%9A%E6%9C%AC%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE%E5%BA%93%2F</url>
-    <content type="text"><![CDATA[将转换为标准的sql文件导入到数据库中 /** * 将标准sql脚本导入本地数据库，导入前需清空数据库 * */ public class SqlImp { static Logger logger = Logger.getLogger(SqlImp.class); public static String exec(String db,String driver,String url,String user,String password) { String str = &quot;&quot;; try { String jdbcUrl = url; Class.forName(driver); Connection conn = DriverManager.getConnection(jdbcUrl, user, password); ScriptRunner runner = new ScriptRunner(conn); Writer result = new StringWriter(); PrintWriter printWriter = new PrintWriter(result); // runner.setLogWriter(printWriter); runner.setErrorLogWriter(printWriter); runner.setAutoCommit(true); runner.setStopOnError(false); // 构建流集合 Vector&lt;InputStream&gt; vector = new Vector&lt;InputStream&gt;(); InputStream standard = new FileInputStream(PathKit.getWebRootPath() + &quot;/WEB-INF/dbsql/&quot;+db+&quot;.sql&quot;); // InputStream testdata = new // FileInputStream(PathKit.getWebRootPath() + &quot;/doc/testdata.sql&quot;); vector.addElement(standard); // vector.addElement(testdata); Enumeration&lt;InputStream&gt; enu = vector.elements(); // 合并流 SequenceInputStream sis = new SequenceInputStream(enu); InputStreamReader isr = new InputStreamReader(sis, &quot;utf-8&quot;); Reader reader = new BufferedReader(isr); runner.runScript(reader); str = result.toString(); }catch (IOException e) { e.printStackTrace(); }catch (ClassNotFoundException e) { logger.info(e.getMessage()); str=&quot;数据库驱动错误&quot;; }catch (SQLException e) { logger.info(e.getMessage()); str=&quot;数据库连接错误&quot;; } return str; } public static String stringToHexString(String strPart) { String hexString = &quot;&quot;; for (int i = 0; i &lt; strPart.length(); i++) { int ch = (int) strPart.charAt(i); String strHex = Integer.toHexString(ch); hexString = hexString + strHex; } return hexString; } /** * 执行sql文件 * * @return */ public static String exec() { String str = &quot;&quot;; PropertiesConfiguration myconfig; try { myconfig = new PropertiesConfiguration(&quot;myconfig.properties&quot;); String db = myconfig.getString(&quot;db&quot;); String jdbcUrl = myconfig.getString(db + &quot;Url&quot;); exec(db, jdbcUrl, myconfig.getString(db + &quot;Driver&quot;), myconfig.getString(db + &quot;User&quot;), myconfig.getString(db + &quot;Password&quot;)); } catch (ConfigurationException e) { e.printStackTrace(); } return str; } public static void main(String[] args) { MyConfig mc = new MyConfig(); mc.initConsole(); String str = exec(); System.out.println(str); } }]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>sql</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[将java调用百度地址匹配接口获取经纬度坐标]]></title>
     <url>%2F2017%2F11%2F18%2F%E8%B0%83%E7%94%A8%E7%99%BE%E5%BA%A6%E5%9C%B0%E5%9D%80%E5%8C%B9%E9%85%8D%E6%8E%A5%E5%8F%A3%E5%92%8C%E8%8E%B7%E5%8F%96%E7%BB%8F%E7%BA%AC%E5%BA%A6%E5%9D%90%E6%A0%87%2F</url>
     <content type="text"><![CDATA[做项目中经常要调用 百度地图，遇到要根据坐标得到地址名称，或根据名称匹配得到经纬度坐标，所以提取出来写了两个通用方法。需要依赖 json.jar 包。 代码如下： /** * 地址匹配 * @author * */ public class AddressParse { /** * 正向地址匹配接口 * 根据xy获取所在省市县 * @param xy * @return */ public static Map geodecode(String xy){ String sUrl=&quot;http://api.map.baidu.com/geocoder/v2/?ak=8926feb9ef0a93c41c13b6103bf4dfa6&amp;location=&quot;+xy + &quot;&amp;output=json&amp;pois=0&quot;; String address=&quot;&quot;; StringBuffer str = new StringBuffer(); Map resultMap=new HashMap(); try { java.net.URL url = new java.net.URL(sUrl); BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream(),&quot;utf-8&quot;)); String line; while ((line = in.readLine()) != null) { str.append(line); } in.close(); if (str.equals(&quot;&quot;) || str == null) { System.err.println(&quot;百度服务无返回&quot;); return null; } System.out.println(str.toString()); JSONObject jsonobj = null; try { jsonobj = JSONObject.fromObject(str.toString()); JSONObject result = jsonobj.getJSONObject(&quot;result&quot;);// 获取对象 JSONObject addressComponent = result .getJSONObject(&quot;addressComponent&quot;); String province = addressComponent .getString(&quot;province&quot;); resultMap.put(&quot;province&quot;,province); String city = addressComponent.getString(&quot;city&quot;); resultMap.put(&quot;city&quot;,city); String district = addressComponent .getString(&quot;district&quot;); resultMap.put(&quot;district&quot;,district); } catch (Exception e) { e.printStackTrace(); System.out.println(&quot;此坐标获取不到省份：&quot;+xy); } } catch (Exception e) { e.printStackTrace(); } return resultMap; } /** * 逆向匹配接口 * 根据地址名称，匹配得到经纬度坐标 * @param addr * @return */ public static String geocode(String addr){ String xyStr=&quot;&quot;; addr=URLEncoder.encode(addr); StringBuffer str = new StringBuffer(); String lng=&quot;&quot;; String lat=&quot;&quot;; try { //System.out.println(&quot;http://api.map.baidu.com/geocoder?address=&quot;+addr+&quot;&amp;output=json&quot;); String sUrl=&quot;http://api.map.baidu.com/geocoder/v2/?address=&quot;+addr+&quot;&amp;&amp;output=json&amp;ak=SgntTWnUw65ysdPSghbs27noTxOuK88O&quot;; java.net.URL url = new java.net.URL(sUrl); //java.net.URL url = new java.net.URL(&quot;http://api.map.baidu.com/?qt=gc&amp;wd=&quot;+addr+&quot;&amp;cn=%E5%85%A8%E5%9B%BD&amp;ie=utf-8&amp;oue=0&amp;res=api&amp;callback=BMap._rd._cbk96117&quot;); BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream())); String line; while ((line = in.readLine()) != null) { str.append(line); } in.close(); JSONObject dataJson=null; dataJson =JSONObject.fromObject(str.toString()); JSONObject result=dataJson.getJSONObject(&quot;result&quot;); JSONObject location=result.getJSONObject(&quot;location&quot;); lng =location.getDouble(&quot;lng&quot;)+&quot;&quot;; lat =location.getDouble(&quot;lat&quot;)+&quot;&quot;; xyStr= lng+&quot; &quot;+lat; } catch (Exception e) { lng=&quot;&quot;; lat=&quot;&quot;; } return xyStr; } public static void main(String [] args){ String xy = AddressParse.geocode(&quot;成都市成华区建设路颐和家园7栋2801&quot;); System.out.println(xy); Map address = AddressParse.geodecode(&quot;40.033534,116.313289&quot;); System.out.println(address); } }]]></content>
@@ -278,6 +267,17 @@
       </categories>
       <tags>
         <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[将标准sql语句导入到数据库中]]></title>
+    <url>%2F2017%2F11%2F18%2F%E5%B0%86%E6%A0%87%E5%87%86%E7%9A%84sql%E8%84%9A%E6%9C%AC%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE%E5%BA%93%2F</url>
+    <content type="text"><![CDATA[将转换为标准的sql文件导入到数据库中 /** * 将标准sql脚本导入本地数据库，导入前需清空数据库 * */ public class SqlImp { static Logger logger = Logger.getLogger(SqlImp.class); public static String exec(String db,String driver,String url,String user,String password) { String str = &quot;&quot;; try { String jdbcUrl = url; Class.forName(driver); Connection conn = DriverManager.getConnection(jdbcUrl, user, password); ScriptRunner runner = new ScriptRunner(conn); Writer result = new StringWriter(); PrintWriter printWriter = new PrintWriter(result); // runner.setLogWriter(printWriter); runner.setErrorLogWriter(printWriter); runner.setAutoCommit(true); runner.setStopOnError(false); // 构建流集合 Vector&lt;InputStream&gt; vector = new Vector&lt;InputStream&gt;(); InputStream standard = new FileInputStream(PathKit.getWebRootPath() + &quot;/WEB-INF/dbsql/&quot;+db+&quot;.sql&quot;); // InputStream testdata = new // FileInputStream(PathKit.getWebRootPath() + &quot;/doc/testdata.sql&quot;); vector.addElement(standard); // vector.addElement(testdata); Enumeration&lt;InputStream&gt; enu = vector.elements(); // 合并流 SequenceInputStream sis = new SequenceInputStream(enu); InputStreamReader isr = new InputStreamReader(sis, &quot;utf-8&quot;); Reader reader = new BufferedReader(isr); runner.runScript(reader); str = result.toString(); }catch (IOException e) { e.printStackTrace(); }catch (ClassNotFoundException e) { logger.info(e.getMessage()); str=&quot;数据库驱动错误&quot;; }catch (SQLException e) { logger.info(e.getMessage()); str=&quot;数据库连接错误&quot;; } return str; } public static String stringToHexString(String strPart) { String hexString = &quot;&quot;; for (int i = 0; i &lt; strPart.length(); i++) { int ch = (int) strPart.charAt(i); String strHex = Integer.toHexString(ch); hexString = hexString + strHex; } return hexString; } /** * 执行sql文件 * * @return */ public static String exec() { String str = &quot;&quot;; PropertiesConfiguration myconfig; try { myconfig = new PropertiesConfiguration(&quot;myconfig.properties&quot;); String db = myconfig.getString(&quot;db&quot;); String jdbcUrl = myconfig.getString(db + &quot;Url&quot;); exec(db, jdbcUrl, myconfig.getString(db + &quot;Driver&quot;), myconfig.getString(db + &quot;User&quot;), myconfig.getString(db + &quot;Password&quot;)); } catch (ConfigurationException e) { e.printStackTrace(); } return str; } public static void main(String[] args) { MyConfig mc = new MyConfig(); mc.initConsole(); String str = exec(); System.out.println(str); } }]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>sql</tag>
       </tags>
   </entry>
   <entry>
@@ -336,17 +336,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[个人博客]]></title>
-    <url>%2F2017%2F11%2F02%2FMo%2F</url>
-    <content type="text"><![CDATA[我的第一篇个人博客 欢迎来到我的个人小屋，以后会不定时更新博客]]></content>
-      <categories>
-        <category>杂谈</category>
-      </categories>
-      <tags>
-        <tag>死肥宅</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[Node.js安装]]></title>
     <url>%2F2017%2F11%2F02%2FNodejs%E5%AE%89%E8%A3%85%2F</url>
     <content type="text"><![CDATA[Node.js简介简单的说 Node.js 就是运行在服务端的 JavaScript。Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境。Node.js 使用了一个事件驱动、非阻塞式 I/O 的模型，使其轻量又高效。Node.js 的包管理器 npm，是全球最大的开源库生态系统。 下载Node.js打开官网下载链接:https://nodejs.org/en/download/ 开始安装1、下载完成后，双击“node-v6.9.2-x64.msi”，开始安装Node.js2、点击Next按钮3、勾选复选框，点击【Next】按钮4、修改好目录后，点击【Next】按钮5、安装完后点击【Finish】按钮完成安装6、至此Node.js已经安装完成，可以先进行下简单的测试安装是否成功了，后面还要进行环境配置在键盘按下【win+R】键，输入cmd，然后回车，打开cmd窗口]]></content>
@@ -355,6 +344,17 @@
       </categories>
       <tags>
         <tag>hexo、node.js</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[个人博客]]></title>
+    <url>%2F2017%2F11%2F02%2FMo%2F</url>
+    <content type="text"><![CDATA[我的第一篇个人博客 欢迎来到我的个人小屋，以后会不定时更新博客]]></content>
+      <categories>
+        <category>杂谈</category>
+      </categories>
+      <tags>
+        <tag>死肥宅</tag>
       </tags>
   </entry>
   <entry>
