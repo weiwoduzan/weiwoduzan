@@ -259,17 +259,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[将标准sql语句导入到数据库中]]></title>
-    <url>%2F2017%2F11%2F18%2F%E5%B0%86%E6%A0%87%E5%87%86%E7%9A%84sql%E8%84%9A%E6%9C%AC%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE%E5%BA%93%2F</url>
-    <content type="text"><![CDATA[将转换为标准的sql文件导入到数据库中 /** * 将标准sql脚本导入本地数据库，导入前需清空数据库 * */ public class SqlImp { static Logger logger = Logger.getLogger(SqlImp.class); public static String exec(String db,String driver,String url,String user,String password) { String str = &quot;&quot;; try { String jdbcUrl = url; Class.forName(driver); Connection conn = DriverManager.getConnection(jdbcUrl, user, password); ScriptRunner runner = new ScriptRunner(conn); Writer result = new StringWriter(); PrintWriter printWriter = new PrintWriter(result); // runner.setLogWriter(printWriter); runner.setErrorLogWriter(printWriter); runner.setAutoCommit(true); runner.setStopOnError(false); // 构建流集合 Vector&lt;InputStream&gt; vector = new Vector&lt;InputStream&gt;(); InputStream standard = new FileInputStream(PathKit.getWebRootPath() + &quot;/WEB-INF/dbsql/&quot;+db+&quot;.sql&quot;); // InputStream testdata = new // FileInputStream(PathKit.getWebRootPath() + &quot;/doc/testdata.sql&quot;); vector.addElement(standard); // vector.addElement(testdata); Enumeration&lt;InputStream&gt; enu = vector.elements(); // 合并流 SequenceInputStream sis = new SequenceInputStream(enu); InputStreamReader isr = new InputStreamReader(sis, &quot;utf-8&quot;); Reader reader = new BufferedReader(isr); runner.runScript(reader); str = result.toString(); }catch (IOException e) { e.printStackTrace(); }catch (ClassNotFoundException e) { logger.info(e.getMessage()); str=&quot;数据库驱动错误&quot;; }catch (SQLException e) { logger.info(e.getMessage()); str=&quot;数据库连接错误&quot;; } return str; } public static String stringToHexString(String strPart) { String hexString = &quot;&quot;; for (int i = 0; i &lt; strPart.length(); i++) { int ch = (int) strPart.charAt(i); String strHex = Integer.toHexString(ch); hexString = hexString + strHex; } return hexString; } /** * 执行sql文件 * * @return */ public static String exec() { String str = &quot;&quot;; PropertiesConfiguration myconfig; try { myconfig = new PropertiesConfiguration(&quot;myconfig.properties&quot;); String db = myconfig.getString(&quot;db&quot;); String jdbcUrl = myconfig.getString(db + &quot;Url&quot;); exec(db, jdbcUrl, myconfig.getString(db + &quot;Driver&quot;), myconfig.getString(db + &quot;User&quot;), myconfig.getString(db + &quot;Password&quot;)); } catch (ConfigurationException e) { e.printStackTrace(); } return str; } public static void main(String[] args) { MyConfig mc = new MyConfig(); mc.initConsole(); String str = exec(); System.out.println(str); } }]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>sql</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[将java调用百度地址匹配接口获取经纬度坐标]]></title>
     <url>%2F2017%2F11%2F18%2F%E8%B0%83%E7%94%A8%E7%99%BE%E5%BA%A6%E5%9C%B0%E5%9D%80%E5%8C%B9%E9%85%8D%E6%8E%A5%E5%8F%A3%E5%92%8C%E8%8E%B7%E5%8F%96%E7%BB%8F%E7%BA%AC%E5%BA%A6%E5%9D%90%E6%A0%87%2F</url>
     <content type="text"><![CDATA[做项目中经常要调用 百度地图，遇到要根据坐标得到地址名称，或根据名称匹配得到经纬度坐标，所以提取出来写了两个通用方法。需要依赖 json.jar 包。 代码如下： /** * 地址匹配 * @author * */ public class AddressParse { /** * 正向地址匹配接口 * 根据xy获取所在省市县 * @param xy * @return */ public static Map geodecode(String xy){ String sUrl=&quot;http://api.map.baidu.com/geocoder/v2/?ak=8926feb9ef0a93c41c13b6103bf4dfa6&amp;location=&quot;+xy + &quot;&amp;output=json&amp;pois=0&quot;; String address=&quot;&quot;; StringBuffer str = new StringBuffer(); Map resultMap=new HashMap(); try { java.net.URL url = new java.net.URL(sUrl); BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream(),&quot;utf-8&quot;)); String line; while ((line = in.readLine()) != null) { str.append(line); } in.close(); if (str.equals(&quot;&quot;) || str == null) { System.err.println(&quot;百度服务无返回&quot;); return null; } System.out.println(str.toString()); JSONObject jsonobj = null; try { jsonobj = JSONObject.fromObject(str.toString()); JSONObject result = jsonobj.getJSONObject(&quot;result&quot;);// 获取对象 JSONObject addressComponent = result .getJSONObject(&quot;addressComponent&quot;); String province = addressComponent .getString(&quot;province&quot;); resultMap.put(&quot;province&quot;,province); String city = addressComponent.getString(&quot;city&quot;); resultMap.put(&quot;city&quot;,city); String district = addressComponent .getString(&quot;district&quot;); resultMap.put(&quot;district&quot;,district); } catch (Exception e) { e.printStackTrace(); System.out.println(&quot;此坐标获取不到省份：&quot;+xy); } } catch (Exception e) { e.printStackTrace(); } return resultMap; } /** * 逆向匹配接口 * 根据地址名称，匹配得到经纬度坐标 * @param addr * @return */ public static String geocode(String addr){ String xyStr=&quot;&quot;; addr=URLEncoder.encode(addr); StringBuffer str = new StringBuffer(); String lng=&quot;&quot;; String lat=&quot;&quot;; try { //System.out.println(&quot;http://api.map.baidu.com/geocoder?address=&quot;+addr+&quot;&amp;output=json&quot;); String sUrl=&quot;http://api.map.baidu.com/geocoder/v2/?address=&quot;+addr+&quot;&amp;&amp;output=json&amp;ak=SgntTWnUw65ysdPSghbs27noTxOuK88O&quot;; java.net.URL url = new java.net.URL(sUrl); //java.net.URL url = new java.net.URL(&quot;http://api.map.baidu.com/?qt=gc&amp;wd=&quot;+addr+&quot;&amp;cn=%E5%85%A8%E5%9B%BD&amp;ie=utf-8&amp;oue=0&amp;res=api&amp;callback=BMap._rd._cbk96117&quot;); BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream())); String line; while ((line = in.readLine()) != null) { str.append(line); } in.close(); JSONObject dataJson=null; dataJson =JSONObject.fromObject(str.toString()); JSONObject result=dataJson.getJSONObject(&quot;result&quot;); JSONObject location=result.getJSONObject(&quot;location&quot;); lng =location.getDouble(&quot;lng&quot;)+&quot;&quot;; lat =location.getDouble(&quot;lat&quot;)+&quot;&quot;; xyStr= lng+&quot; &quot;+lat; } catch (Exception e) { lng=&quot;&quot;; lat=&quot;&quot;; } return xyStr; } public static void main(String [] args){ String xy = AddressParse.geocode(&quot;成都市成华区建设路颐和家园7栋2801&quot;); System.out.println(xy); Map address = AddressParse.geodecode(&quot;40.033534,116.313289&quot;); System.out.println(address); } }]]></content>
@@ -278,6 +267,17 @@
       </categories>
       <tags>
         <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[将标准sql语句导入到数据库中]]></title>
+    <url>%2F2017%2F11%2F18%2F%E5%B0%86%E6%A0%87%E5%87%86%E7%9A%84sql%E8%84%9A%E6%9C%AC%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE%E5%BA%93%2F</url>
+    <content type="text"><![CDATA[将转换为标准的sql文件导入到数据库中 /** * 将标准sql脚本导入本地数据库，导入前需清空数据库 * */ public class SqlImp { static Logger logger = Logger.getLogger(SqlImp.class); public static String exec(String db,String driver,String url,String user,String password) { String str = &quot;&quot;; try { String jdbcUrl = url; Class.forName(driver); Connection conn = DriverManager.getConnection(jdbcUrl, user, password); ScriptRunner runner = new ScriptRunner(conn); Writer result = new StringWriter(); PrintWriter printWriter = new PrintWriter(result); // runner.setLogWriter(printWriter); runner.setErrorLogWriter(printWriter); runner.setAutoCommit(true); runner.setStopOnError(false); // 构建流集合 Vector&lt;InputStream&gt; vector = new Vector&lt;InputStream&gt;(); InputStream standard = new FileInputStream(PathKit.getWebRootPath() + &quot;/WEB-INF/dbsql/&quot;+db+&quot;.sql&quot;); // InputStream testdata = new // FileInputStream(PathKit.getWebRootPath() + &quot;/doc/testdata.sql&quot;); vector.addElement(standard); // vector.addElement(testdata); Enumeration&lt;InputStream&gt; enu = vector.elements(); // 合并流 SequenceInputStream sis = new SequenceInputStream(enu); InputStreamReader isr = new InputStreamReader(sis, &quot;utf-8&quot;); Reader reader = new BufferedReader(isr); runner.runScript(reader); str = result.toString(); }catch (IOException e) { e.printStackTrace(); }catch (ClassNotFoundException e) { logger.info(e.getMessage()); str=&quot;数据库驱动错误&quot;; }catch (SQLException e) { logger.info(e.getMessage()); str=&quot;数据库连接错误&quot;; } return str; } public static String stringToHexString(String strPart) { String hexString = &quot;&quot;; for (int i = 0; i &lt; strPart.length(); i++) { int ch = (int) strPart.charAt(i); String strHex = Integer.toHexString(ch); hexString = hexString + strHex; } return hexString; } /** * 执行sql文件 * * @return */ public static String exec() { String str = &quot;&quot;; PropertiesConfiguration myconfig; try { myconfig = new PropertiesConfiguration(&quot;myconfig.properties&quot;); String db = myconfig.getString(&quot;db&quot;); String jdbcUrl = myconfig.getString(db + &quot;Url&quot;); exec(db, jdbcUrl, myconfig.getString(db + &quot;Driver&quot;), myconfig.getString(db + &quot;User&quot;), myconfig.getString(db + &quot;Password&quot;)); } catch (ConfigurationException e) { e.printStackTrace(); } return str; } public static void main(String[] args) { MyConfig mc = new MyConfig(); mc.initConsole(); String str = exec(); System.out.println(str); } }]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>sql</tag>
       </tags>
   </entry>
   <entry>
@@ -336,17 +336,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[个人博客]]></title>
-    <url>%2F2017%2F11%2F02%2FMo%2F</url>
-    <content type="text"><![CDATA[我的第一篇个人博客 欢迎来到我的个人小屋，以后会不定时更新博客]]></content>
-      <categories>
-        <category>杂谈</category>
-      </categories>
-      <tags>
-        <tag>死肥宅</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[Node.js安装]]></title>
     <url>%2F2017%2F11%2F02%2FNodejs%E5%AE%89%E8%A3%85%2F</url>
     <content type="text"><![CDATA[Node.js简介简单的说 Node.js 就是运行在服务端的 JavaScript。Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境。Node.js 使用了一个事件驱动、非阻塞式 I/O 的模型，使其轻量又高效。Node.js 的包管理器 npm，是全球最大的开源库生态系统。 下载Node.js打开官网下载链接:https://nodejs.org/en/download/ 开始安装1、下载完成后，双击“node-v6.9.2-x64.msi”，开始安装Node.js2、点击Next按钮3、勾选复选框，点击【Next】按钮4、修改好目录后，点击【Next】按钮5、安装完后点击【Finish】按钮完成安装6、至此Node.js已经安装完成，可以先进行下简单的测试安装是否成功了，后面还要进行环境配置在键盘按下【win+R】键，输入cmd，然后回车，打开cmd窗口]]></content>
@@ -358,6 +347,22 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[个人博客]]></title>
+    <url>%2F2017%2F11%2F02%2FMo%2F</url>
+    <content type="text"><![CDATA[我的第一篇个人博客 欢迎来到我的个人小屋，以后会不定时更新博客]]></content>
+      <categories>
+        <category>杂谈</category>
+      </categories>
+      <tags>
+        <tag>死肥宅</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Hello World]]></title>
+    <url>%2F2017%2F11%2F02%2Fhello-world%2F</url>
+    <content type="text"><![CDATA[创建一个文件$ hexo new “My New Post” 运行本地服务$ hexo server 生成静态文件$ hexo generate 部署到服务器$ hexo deploy]]></content>
+  </entry>
+  <entry>
     <title><![CDATA[使用hexo+码云搭建个人博客]]></title>
     <url>%2F2017%2F11%2F02%2Fhexo%E5%AE%89%E8%A3%85%2F</url>
     <content type="text"><![CDATA[使用工具介绍1、码云 Pages：码云 Pages 是一个免费的静态网页托管服务，您可以使用码云 Pages 托管博客、项目官网等静态网页。这样就不用购买服务器和域名了，如果您使用过 Github Pages 那么您会很快上手使用码云的Pages服务。这里使用码云上的Pages 而不是用Github Pages，主要原因就是在国内没有VPN的话。。。你懂得！还有就是支持国产！链接：https://git.oschina.net/2、Hexo：Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。使用者只需要专注于写博客而不需要关注网站是如何生成的。而且还有丰富的博客主题可以选择！链接：https://hexo.io/zh-cn/（ps：这是国外网站，翻墙吧少年，需要自由门 翻墙软件可以在博客中联系我哦） 搭建环境Node.js安装 参考：http://www.runoob.com/nodejs/nodejs-install-setup.html（ps：如果没有VPN的用户最好切换一下npm的源，不然后续的步骤可能会让你想砸电脑，安装完后，在命令窗口执行下面代码） npm config set registry http://registry.cnpmjs.org #切换npm为淘宝镜像 Git安装 参考http://www.runoob.com/git/git-install-setup.html Hexo安装。（ ps：安装完Node.js和Git之后不需要配置些什么，只需要安装成功就是了，如果想明白原理的话可以深入的学习。） 如果您的电脑中已经安装上述必备程序，那么恭喜您！接下来只需要使用 npm 即可完成 Hexo 的安装。打开命令窗口输入下面代码： npm install -g hexo-cli 安装成功后输入hexo 如果得到下面这个结果，恭喜你！安装成功！ Hexo的常用命令说明： 参考：https://hexo.io/zh-cn/docs/commands.html 本地运行Hexo安装 Hexo 完成后，请依次执行下列命令，Hexo 将会在指定文件夹中新建所需要的文件。将 替换成项目存放的文件夹目录， hexo init &lt;folder&gt; cd &lt;folder&gt; npm install hexo generate 新建完成后，指定文件夹的目录如下： 进行到这步后就可以先在本地运行下，看看效果了。执行下面命令： cd &lt;folder&gt; #切换到项目目录下 npm install #install before start blogging hexo server #运行本地服务 浏览器输入http://localhost:4000就可以看到效果。如下： 修改Hexo的主题当然，上面运行的只是Hexo官方默认的主题配置效果，想要个性一点？，下面我们就将他改造成自己想要的个性主题。 Hexo的主题都是一些前端民间高手写的模版，可以在官方收录的主题中去挑选：https://hexo.io/themes/ 看上一个主题后点击下图位置，进入下载主题文件。如下图： 主题下载完成后，将主题文件解压到Hexo项目的thems文件夹下面（ps:我这里的项目目录是在桌面的Hexo文件夹里面。） 接下来就是修改Hexo的配置文件_config.yml，将里面theme 对应的值改为之前下载的主题的文件夹名字，本文里面下载的主题文件夹名字为hexo-theme-smackdown-master。 注意：这里“：”后面必须要有一个空格，而且这个空格要在英文输入法下，不然会报一些稀奇古怪的错。 按照之前步骤本地重新运行后，如下图： 关于Hexo中_config.yml 文件的其他配置，大家可以参考官方的文档，这里就不多赘述了： 文档链接 https://hexo.io/zh-cn/docs/configuration.html 下载的每个主题中，有一个配置文件，名字也叫_config.yml，这里大家千万不要和之前Hexo根目录下的_config.yml搞混淆了，这里面配置的主要是些与主题相关的东西，比如一些文章阅读量，多说插件，cnzz站长工具等等的配置信息。一般里面也都有注释，这里就不赘述了，不懂得可以在我的博客问我。 一些主题在GitHub上面也都有主题安装的一些文档，写的都很详细。推荐一个主题的文档，结合官方的文档看完之后，基本上也就明白了。 推荐一个主题的文档https://github.com/yscoder/hexo-theme-indigo/wiki 编写博客文章如果你使用过MarkDown 来写博客文章的话，接下来就简单多了，没使用过也没关系，推荐大家一个编辑工具马克飞象 链接：https://maxiang.io/，在编辑器里面写好文章后，复制或另存为.md文件, 与普通的.md文件不同 要在文件开头添加下面代码 title: #文章标题 date: #文章日期 tags: #文章标签 categories: #文章分类 --- 在.md文件的开头添加上面代码，是为了让Hexo框架在生成网页的时候，设置相应的参数。例如下图所示： 将写好的.md文件放入Hexo项目的source 目录下的_posts 文件夹中，可以看到里面有个hello-world.md 文件，这就是默认的文章。 重新在本地启动项目，访问就可以看到之前添加的文章。 生成静态Html文件现在只能在本地启动项目然后通过本地地址访问博客网站，下面我们就可以利用Hexo生成静态Html，很简单，只需要在命令窗口执行下面代码： cd &lt;folder&gt; #切换到项目目录下 hexo generate #生成静态文件到项目根目录的public文件夹中 发布静态Html文件到码云 Pages上 注册一个码云帐号，并创建一个项目。如下图： 创建完项目后得到项目的Https的地址后面要用。地址获取如下图 这里借用一个插件来帮助我们完成代码上传的工作，安装 hexo-deployer-git。安装代码如下 npm install hexo-deployer-git --save#把public里面生成的文件推上到码云上。 配置项目根目录_config.yml 文件，修改deploy 的值，如下图： 修改完后在命令窗口执行下面命令： cd #切换到项目目录下 hexo deploy #一键部署功能 之后会弹出一个对话框，输入码云的帐号密码。 部署成功之后，登录码云，查看之前创建的项目中出现了本地项目中public 文件夹中的文件，这时候代表之前的部署是成功的。 然后如下图，启动码云的pages功能： 访问链接 这时候就看到之前和本地启动一样的效果了。博客部署完成，在这之后，只需要每次用马克飞象写好文章后，放入Hexo项目的source 目录下的_posts 文件夹中，在按照之前步骤更新博客就OK了。还可以随时切换博客的主题哦！]]></content>
@@ -367,10 +372,5 @@
       <tags>
         <tag>hexo</tag>
       </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Hello World]]></title>
-    <url>%2F2017%2F11%2F02%2Fhello-world%2F</url>
-    <content type="text"><![CDATA[创建一个文件$ hexo new “My New Post” 运行本地服务$ hexo server 生成静态文件$ hexo generate 部署到服务器$ hexo deploy]]></content>
   </entry>
 </search>
