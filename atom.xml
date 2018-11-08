@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.juedigulang.com/"/>
-  <updated>2018-11-05T08:59:37.073Z</updated>
+  <updated>2018-11-08T16:04:40.744Z</updated>
   <id>http://www.juedigulang.com/</id>
   
   <author>
@@ -15,6 +15,50 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>并行流和串行流</title>
+    <link href="http://www.juedigulang.com/2018/11/09/%E5%B9%B6%E8%A1%8C%E6%B5%81%E5%92%8C%E4%B8%B2%E8%A1%8C%E6%B5%81/"/>
+    <id>http://www.juedigulang.com/2018/11/09/并行流和串行流/</id>
+    <published>2018-11-08T16:00:14.332Z</published>
+    <updated>2018-11-08T16:04:40.744Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="并行流"><a href="#并行流" class="headerlink" title="并行流"></a>并行流</h3><p>并行流就是把一个内容分成多个数据块，并用不同的线程分别处理每个数据块的流</p><h3 id="java8中进行的优化"><a href="#java8中进行的优化" class="headerlink" title="java8中进行的优化"></a>java8中进行的优化</h3><p>Java8中将并行进行了优化，我们可以很容易的对数据进行并行操作。Stream API 可以声明性地通过parallel()与sequential()在并行流与顺序流之间进行切换</p><h3 id="了解Fork-Join框架"><a href="#了解Fork-Join框架" class="headerlink" title="了解Fork/Join框架"></a>了解Fork/Join框架</h3><p>Fork/Join框架：就是在必要的情况下，将一个大任务，进行拆分（fork）成若干个小任务（拆分到不可在可拆时），再将一个个的小任务运算结果进行join汇总。<br><img src="https://i.imgur.com/hJyr6op.png" alt=""></p><h3 id="Fork-Join框架与传统线程池的区别"><a href="#Fork-Join框架与传统线程池的区别" class="headerlink" title="Fork/Join框架与传统线程池的区别"></a>Fork/Join框架与传统线程池的区别</h3><h4 id="Fork-Join采用“工作窃取”模式（work-stealing）"><a href="#Fork-Join采用“工作窃取”模式（work-stealing）" class="headerlink" title="Fork/Join采用“工作窃取”模式（work-stealing）"></a>Fork/Join采用“工作窃取”模式（work-stealing）</h4><p>当执行新的任务时它可以将其拆分分成更小的任务执行，并将小任务加到线程队列中，然后再从一个随机线程的队列中偷一个并把它放在自己的队列中</p><h4 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h4><p>相对于一般的线程池实现，fork/join框架的优势体现在对其中包含的任务的处理方式上。在一般的线程池中，如果一个线程正在执行的任务由于某些原因无法继续运行，那么该线程会处于等待状态。而在fork/join框架实现中，如果某个子问题由于等待另外一个子问题的完成而无法继续完成。那么处理该子问题的线程会主动寻找其他尚未运行的子问题来执行。这种方式减少了线程的等待时间，提高了性能。</p><h4 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h4><pre><code>import javafx.application.Application;import javafx.stage.Stage;import java.time.Duration;import java.time.Instant;import java.util.concurrent.ForkJoinPool;import java.util.concurrent.ForkJoinTask;import java.util.concurrent.RecursiveTask;public class ForkJoinCalculate extends RecursiveTask&lt;Long&gt;     {private static final long serialVersionUID = -8329979697027097721L;private long start;private long end;private static final long THRESHOLD = 10000;public ForkJoinCalculate(long start, long end) {    this.start = start;    this.end = end;}@Overrideprotected Long compute() {    long length = end - start;    if(length &lt;= THRESHOLD){        long sum = 0;        for (long i = start; i &lt;= end ; i++) {            sum += i;        }        return sum;    }else{        long middle = (start + end) / 2;        ForkJoinCalculate left = new ForkJoinCalculate(start,middle );        left.fork();//拆分子任务，同时压入线程队列        ForkJoinCalculate right = new ForkJoinCalculate(middle+1,end);        right.fork();        return left.join() + right.join();    }}public static void main(String[] args) {    Instant start = Instant.now();    ForkJoinPool pool = new ForkJoinPool();    ForkJoinTask&lt;Long&gt; task = new ForkJoinCalculate(0,10000000000L);    Long sum = pool.invoke(task);    System.out.println(sum);    Instant end = Instant.now();    System.out.println(&quot;耗费时间为&quot;+Duration.between(start,end).toMillis());//6366}}</code></pre><h4 id="普通方式"><a href="#普通方式" class="headerlink" title="普通方式"></a>普通方式</h4><pre><code>@Testpublic static void test2(){    Instant start = Instant.now();    long sum = 0L;    for (long i = 0; i &lt;10000000000L ; i++) {        sum += i;    }    System.out.println(sum);    Instant end = Instant.now();    System.out.println(&quot;耗费时间为&quot;+Duration.between(start,end).toMillis());//5579}</code></pre><h4 id="java8的方式"><a href="#java8的方式" class="headerlink" title="java8的方式"></a>java8的方式</h4><pre><code>//java8public static void test3(){    Instant start = Instant.now();    LongStream.rangeClosed(0,10000000000L).parallel().reduce(0,Long::sum);    Instant end = Instant.now();    System.out.println(&quot;耗费时间为&quot;+Duration.between(start,end).toMillis());//4369}</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      并行流和串行流
+    
+    </summary>
+    
+      <category term="jdk8新特性" scheme="http://www.juedigulang.com/categories/jdk8%E6%96%B0%E7%89%B9%E6%80%A7/"/>
+    
+    
+      <category term="java8" scheme="http://www.juedigulang.com/tags/java8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>StreamAPI终止操作</title>
+    <link href="http://www.juedigulang.com/2018/11/08/StreamAPI%E7%BB%88%E6%AD%A2%E6%93%8D%E4%BD%9C/"/>
+    <id>http://www.juedigulang.com/2018/11/08/StreamAPI终止操作/</id>
+    <published>2018-11-08T15:40:25.493Z</published>
+    <updated>2018-11-08T15:40:25.851Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="何为终止操作"><a href="#何为终止操作" class="headerlink" title="何为终止操作"></a>何为终止操作</h3><p>终端操作会从流的流水线生成结果。其结果可以是任何不是流的值。例如：List、Integer，甚至是void</p><h3 id="查找与匹配"><a href="#查找与匹配" class="headerlink" title="查找与匹配"></a>查找与匹配</h3><h4 id="1-allMatch–检查是否匹配所有元素"><a href="#1-allMatch–检查是否匹配所有元素" class="headerlink" title="1.allMatch–检查是否匹配所有元素"></a>1.allMatch–检查是否匹配所有元素</h4><pre><code>@Testpublic void test9(){    //allMatch--检查是否匹配所有元素    boolean b = employees.stream()            .allMatch((e) -&gt; e.getStatus().equals(Employee.Status.FREE));    System.out.println(b);//false}</code></pre><h4 id="2-anyMatch–检查是否至少匹配一个元素"><a href="#2-anyMatch–检查是否至少匹配一个元素" class="headerlink" title="2.anyMatch–检查是否至少匹配一个元素"></a>2.anyMatch–检查是否至少匹配一个元素</h4><pre><code>@Testpublic void test9(){    //anyMatch--检查是否至少匹配一个元素    boolean b1 = employees.stream()            .anyMatch((e) -&gt; e.getStatus().equals(Employee.Status.BUSY));    System.out.println(b1);//true}</code></pre><h4 id="3-noneMatch–检查是否没有匹配所有元素"><a href="#3-noneMatch–检查是否没有匹配所有元素" class="headerlink" title="3.noneMatch–检查是否没有匹配所有元素"></a>3.noneMatch–检查是否没有匹配所有元素</h4><pre><code>@Testpublic void test9(){    //noneMatch--检查是否没有匹配所有元素    boolean b2 = employees.stream()            .noneMatch((e) -&gt; e.getStatus().equals(Employee.Status.BUSY));    System.out.println(b2);//false}</code></pre><h4 id="4-findFirst–返回第一个元素"><a href="#4-findFirst–返回第一个元素" class="headerlink" title="4.findFirst–返回第一个元素"></a>4.findFirst–返回第一个元素</h4><pre><code>@Testpublic void test9(){    //findFirst--返回第一个元素    Optional&lt;Employee&gt; op = employees.stream()            .sorted((e1, e2) -&gt; -Double.compare(e1.getSalary(), e2.getSalary()))            .findFirst();    System.out.println(op.get());}</code></pre><h4 id="5-findAny–返回当前流中任意元素"><a href="#5-findAny–返回当前流中任意元素" class="headerlink" title="5.findAny–返回当前流中任意元素"></a>5.findAny–返回当前流中任意元素</h4><pre><code>@Testpublic void test9(){    //findAny--返回当前流中任意元素   Optional&lt;Employee&gt; op2 = employees.parallelStream()            .filter((e) -&gt; e.getStatus().equals(Employee.Status.FREE))            .findAny();    System.out.println(op2.get());}</code></pre><h4 id="6-count–返回流中元素的总个数"><a href="#6-count–返回流中元素的总个数" class="headerlink" title="6.count–返回流中元素的总个数"></a>6.count–返回流中元素的总个数</h4><pre><code>@Testpublic void test9(){    //count--返回流中元素的总个数    long count = employees.stream().count();    System.out.println(count);}</code></pre><h4 id="7-max–返回流中最大值"><a href="#7-max–返回流中最大值" class="headerlink" title="7.max–返回流中最大值"></a>7.max–返回流中最大值</h4><pre><code>@Testpublic void test9(){    //max--返回流中最大值    Optional&lt;Employee&gt; op3 = employees.stream()            .max((e1, e2) -&gt; Double.compare(e1.getSalary(), e2.getSalary()));    System.out.println(op3.get());}</code></pre><h4 id="8-min–返回流中最小值"><a href="#8-min–返回流中最小值" class="headerlink" title="8.min–返回流中最小值"></a>8.min–返回流中最小值</h4><pre><code>@Testpublic void test9(){   //min--返回流中最小值    Optional&lt;Double&gt; op4 = employees.stream()            .map(Employee::getSalary)            .min(Double::compareTo);    System.out.println(op4.get());}</code></pre><h3 id="规约"><a href="#规约" class="headerlink" title="规约"></a>规约</h3><h4 id="reduce-T-identity-BinaryOperator-reduce-BinaryOPerator-–可以将流中元素反复结合起来，得到一个值"><a href="#reduce-T-identity-BinaryOperator-reduce-BinaryOPerator-–可以将流中元素反复结合起来，得到一个值" class="headerlink" title="reduce(T identity,BinaryOperator)/reduce(BinaryOPerator)–可以将流中元素反复结合起来，得到一个值"></a>reduce(T identity,BinaryOperator)/reduce(BinaryOPerator)–可以将流中元素反复结合起来，得到一个值</h4><pre><code>@org.junit.Testpublic void test3(){    List&lt;Integer&gt; list = Arrays.asList(1,2,3,4,5,6,7,8,9,10);    Integer reduce = list.stream()            .reduce(0, (x, y) -&gt; x + y);    System.out.println(reduce);    System.out.println(&quot;-------------------------------&quot;);    //计算所有工资    Optional&lt;Double&gt; reduce1 = employees.stream()            .map(Employee::getSalary)            .reduce(Double::sum);    System.out.println(reduce1.get());    System.out.println(&quot;-------------------------------&quot;);    Optional&lt;Integer&gt; reduce2 = employees.stream().map(Employee::getAge).reduce(Integer::max);    System.out.println(reduce2.get());}</code></pre><h4 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h4><p>map和reduce的连接通常称为map-reduce模式，因Goolge用它来进行网络搜索而出名</p><h3 id="收集"><a href="#收集" class="headerlink" title="收集"></a>收集</h3><p>collect：将流转换为其他形式，接受一个Collector接口的实现，用于给Stream中元素做汇总的方法</p><p>####Collector接口<br> Collector接口中的方法的实现决定了如何对流执行收集操作（如收集到List，Set，Map）。但是Collectors实用类提供了很多静态方法，可以方便地创建常见收集器实例。具体如下：</p><h5 id="1-toList：返回类型List-把流中元素收集到List中"><a href="#1-toList：返回类型List-把流中元素收集到List中" class="headerlink" title="1.toList：返回类型List,把流中元素收集到List中"></a>1.toList：返回类型List<t>,把流中元素收集到List中</t></h5><pre><code>@Testpublic void test9(){   //toList：返回类型List&lt;T&gt;,把流中元素收集到List中    List&lt;String&gt; collect = employees.stream()            .map(Employee::getName)            .collect(Collectors.toList());    System.out.println(collect);}</code></pre><h5 id="2-toSet：返回类型Set-把流中元素收集到Set中"><a href="#2-toSet：返回类型Set-把流中元素收集到Set中" class="headerlink" title="2.toSet：返回类型Set,把流中元素收集到Set中"></a>2.toSet：返回类型Set<t>,把流中元素收集到Set中</t></h5><pre><code>@Testpublic void test9(){   //toSet：返回类型Set&lt;T&gt;,把流中元素收集到Set中    Set&lt;String&gt; collect1 = employees.stream()            .map(Employee::getName)            .collect(Collectors.toSet());    System.out.println(collect1);}</code></pre><h5 id="3-toCollection-返回类型Collection-把流中元素收集到创建的集合、"><a href="#3-toCollection-返回类型Collection-把流中元素收集到创建的集合、" class="headerlink" title="3.toCollection: 返回类型Collection,把流中元素收集到创建的集合、"></a>3.toCollection: 返回类型Collection<t>,把流中元素收集到创建的集合、</t></h5><pre><code>@Testpublic void test9(){   //toCollection: 返回类型Collection&lt;T&gt;,把流中元素收集到创建的集合    ArrayList&lt;Integer&gt; collect2 = employees.stream()            .map(Employee::getAge)            .collect(Collectors.toCollection(ArrayList::new));    System.out.println(collect2);}</code></pre><h5 id="4-counting-返回类型Long-计算流中总元素"><a href="#4-counting-返回类型Long-计算流中总元素" class="headerlink" title="4.counting:返回类型Long,计算流中总元素"></a>4.counting:返回类型Long,计算流中总元素</h5><pre><code>@Testpublic void test9(){   //counting:返回类型Long,计算流中总元素    Long collect3 = employees.stream()            //.map(Employee::getAge)            .collect(Collectors.counting());    System.out.println(collect3);}</code></pre><h5 id="5-averagingDouble-计算流中平均值"><a href="#5-averagingDouble-计算流中平均值" class="headerlink" title="5.averagingDouble:计算流中平均值"></a>5.averagingDouble:计算流中平均值</h5><pre><code>@Testpublic void test9(){   //averagingDouble:计算流中平均值    Double aDouble = employees.stream()            .collect(Collectors.averagingDouble(Employee::getSalary));    System.out.println(aDouble);}</code></pre><h5 id="6-summingDouble-计算流中总和"><a href="#6-summingDouble-计算流中总和" class="headerlink" title="6.summingDouble:计算流中总和"></a>6.summingDouble:计算流中总和</h5><pre><code>@Testpublic void test9(){    //summingDouble:计算流中总和    Integer collect4 = employees.stream()            .collect(Collectors.summingInt(Employee::getAge));    System.out.println(collect4);}</code></pre><h5 id="7-maxBy-返回类型Optional-根据比较器选择最大值"><a href="#7-maxBy-返回类型Optional-根据比较器选择最大值" class="headerlink" title="7.maxBy:返回类型Optional:根据比较器选择最大值"></a>7.maxBy:返回类型Optional<t>:根据比较器选择最大值</t></h5><pre><code>@Testpublic void test9(){    //maxBy:返回类型Optional&lt;T&gt;:根据比较器选择最大值    Optional&lt;Employee&gt; op = employees.stream()            .collect(Collectors.maxBy((e1, e2) -&gt; Double.compare(e1.getSalary(), e2.getSalary())));    System.out.println(op.get());}</code></pre><h5 id="8-minBy-返回类型Optional-根据比较器选择最小值"><a href="#8-minBy-返回类型Optional-根据比较器选择最小值" class="headerlink" title="8.minBy:返回类型Optional:根据比较器选择最小值"></a>8.minBy:返回类型Optional<t>:根据比较器选择最小值</t></h5><pre><code>@Testpublic void test9(){     //minBy:返回类型Optional&lt;T&gt;:根据比较器选择最小值    Optional&lt;Integer&gt; op2 = employees.stream()            .map(Employee::getAge)            .collect(Collectors.minBy(Integer::compare));    System.out.println(op2.get());}</code></pre><h5 id="8-groupingBy-范会类型Map"><a href="#8-groupingBy-范会类型Map" class="headerlink" title="8.groupingBy:范会类型Map"></a>8.groupingBy:范会类型Map<k,list<t>&gt;根据属型值对流分组</k,list<t></h5><pre><code>@Testpublic void test9(){    //groupingBy:范会类型Map&lt;k,List&lt;t&gt;&gt;根据属型值对流分组    Map&lt;Employee.Status, List&lt;Employee&gt;&gt; collect5 = employees.stream()            .collect(Collectors.groupingBy(Employee::getStatus));    System.out.println(collect5);    //{BUSY=[Employee{name=&apos;李四&apos;, age=58, salary=5555.55, status=BUSY}, Employee{name=&apos;田七&apos;, age=23, salary=8888.88, status=BUSY}], FREE=[Employee{name=&apos;张三&apos;, age=18, salary=9999.99, status=FREE}, Employee{name=&apos;赵六&apos;, age=36, salary=6666.66, status=FREE}], VOCATION=[Employee{name=&apos;王五&apos;, age=26, salary=3333.33, status=VOCATION}]}}</code></pre><h5 id="9-多级分组"><a href="#9-多级分组" class="headerlink" title="9.多级分组"></a>9.多级分组</h5><pre><code>@Testpublic void test9(){    //多级分组    Map&lt;Employee.Status, Map&lt;String, List&lt;Employee&gt;&gt;&gt; collect6 = employees.stream()            .collect(Collectors.groupingBy(Employee::getStatus, Collectors.groupingBy((Employee e) -&gt; {                if (e.getAge() &lt;= 35) {                    return &quot;青年&quot;;                } else if (e.getAge() &lt;= 50) {                    return &quot;中年&quot;;                } else {                    return &quot;老年&quot;;                }            })));    System.out.println(collect6);    //{BUSY={青年=[Employee{name=&apos;田七&apos;, age=23, salary=8888.88, status=BUSY}], 老年=[Employee{name=&apos;李四&apos;, age=58, salary=5555.55, status=BUSY}]}, FREE={青年=[Employee{name=&apos;张三&apos;, age=18, salary=9999.99, status=FREE}], 中年=[Employee{name=&apos;赵六&apos;, age=36, salary=6666.66, status=FREE}]}, VOCATION={青年=[Employee{name=&apos;王五&apos;, age=26, salary=3333.33, status=VOCATION}]}}}</code></pre><h5 id="10-partitioningBy-返回类型Map"><a href="#10-partitioningBy-返回类型Map" class="headerlink" title="10.//partitioningBy:返回类型Map"></a>10.//partitioningBy:返回类型Map<boolean,list<t>&gt;,根据true或者false进行分组</boolean,list<t></h5><pre><code>@Testpublic void test9(){     //partitioningBy:返回类型Map&lt;Boolean,List&lt;T&gt;&gt;,根据true或者false进行分组    Map&lt;Boolean, List&lt;Employee&gt;&gt; collect7 = employees.stream()            .collect(Collectors.partitioningBy((e) -&gt; e.getSalary() &gt; 8000));    System.out.println(collect7);}</code></pre><h5 id="11-sumarizingDouble-返回类型DoubleSummaryStatistics-收集流中Double属性的统计值"><a href="#11-sumarizingDouble-返回类型DoubleSummaryStatistics-收集流中Double属性的统计值" class="headerlink" title="11.sumarizingDouble:返回类型DoubleSummaryStatistics,收集流中Double属性的统计值"></a>11.sumarizingDouble:返回类型DoubleSummaryStatistics,收集流中Double属性的统计值</h5><pre><code>@Testpublic void test9(){     //sumarizingDouble:返回类    DoubleSummaryStatistics,收集流中Double属性的统计值    DoubleSummaryStatistics statistics = employees.stream()            .collect(Collectors.summarizingDouble(Employee::getSalary));    System.out.println(statistics.getCount());    System.out.println(statistics.getSum());}</code></pre><h5 id="12-joining-返回类型String-连接流中每个字符串"><a href="#12-joining-返回类型String-连接流中每个字符串" class="headerlink" title="12.joining:返回类型String,连接流中每个字符串"></a>12.joining:返回类型String,连接流中每个字符串</h5><pre><code>@Testpublic void test9(){    //joining:返回类型String,连接流中每个字符串    String s = employees.stream()            .map(Employee::getName)            .collect(Collectors.joining(&quot;,&quot;, &quot;---&quot;, &quot;---&quot;));    System.out.println(s);}</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      StreamAPI终止操作
+    
+    </summary>
+    
+      <category term="jdk8新特性" scheme="http://www.juedigulang.com/categories/jdk8%E6%96%B0%E7%89%B9%E6%80%A7/"/>
+    
+    
+      <category term="java8" scheme="http://www.juedigulang.com/tags/java8/"/>
+    
+  </entry>
   
   <entry>
     <title>StreamAPI--中间操作</title>
@@ -409,50 +453,6 @@
     
     
       <category term="js、table" scheme="http://www.juedigulang.com/tags/js%E3%80%81table/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>搜索框使用插件出搜索提示</title>
-    <link href="http://www.juedigulang.com/2018/01/21/%E5%B0%B1%E6%98%AF%E3%80%81/"/>
-    <id>http://www.juedigulang.com/2018/01/21/就是、/</id>
-    <published>2018-01-21T06:51:02.903Z</published>
-    <updated>2018-01-21T06:51:02.905Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="首先需要在jsp页面上导入两个js"><a href="#首先需要在jsp页面上导入两个js" class="headerlink" title="首先需要在jsp页面上导入两个js"></a>首先需要在jsp页面上导入两个js</h3><a id="more"></a><p><img src="https://i.imgur.com/rTmVBTq.png" alt=""></p><h3 id="查询条件jsp处代码如下："><a href="#查询条件jsp处代码如下：" class="headerlink" title="查询条件jsp处代码如下："></a>查询条件jsp处代码如下：</h3><p><img src="https://i.imgur.com/ju4Hpna.png" alt=""></p><h3 id="js对应的方法如下："><a href="#js对应的方法如下：" class="headerlink" title="js对应的方法如下："></a>js对应的方法如下：</h3><p><img src="https://i.imgur.com/39rtWMs.png" alt=""></p><h3 id="那个array，是后台查出来的数据，添加到数组中"><a href="#那个array，是后台查出来的数据，添加到数组中" class="headerlink" title="那个array，是后台查出来的数据，添加到数组中"></a>那个array，是后台查出来的数据，添加到数组中</h3><p><img src="https://i.imgur.com/s7gtERm.png" alt=""></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;首先需要在jsp页面上导入两个js&quot;&gt;&lt;a href=&quot;#首先需要在jsp页面上导入两个js&quot; class=&quot;headerlink&quot; title=&quot;首先需要在jsp页面上导入两个js&quot;&gt;&lt;/a&gt;首先需要在jsp页面上导入两个js&lt;/h3&gt;
-    
-    </summary>
-    
-      <category term="js" scheme="http://www.juedigulang.com/categories/js/"/>
-    
-    
-      <category term="js" scheme="http://www.juedigulang.com/tags/js/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>搜索框使用插件出搜索提示</title>
-    <link href="http://www.juedigulang.com/2018/01/21/js%E6%8F%90%E7%A4%BA%E6%A1%86/"/>
-    <id>http://www.juedigulang.com/2018/01/21/js提示框/</id>
-    <published>2018-01-21T06:50:05.205Z</published>
-    <updated>2018-01-21T06:50:05.331Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="首先需要在jsp页面上导入两个js"><a href="#首先需要在jsp页面上导入两个js" class="headerlink" title="首先需要在jsp页面上导入两个js"></a>首先需要在jsp页面上导入两个js</h3><a id="more"></a><p><img src="https://i.imgur.com/rTmVBTq.png" alt=""></p><h3 id="查询条件jsp处代码如下："><a href="#查询条件jsp处代码如下：" class="headerlink" title="查询条件jsp处代码如下："></a>查询条件jsp处代码如下：</h3><p><img src="https://i.imgur.com/ju4Hpna.png" alt=""></p><h3 id="js对应的方法如下："><a href="#js对应的方法如下：" class="headerlink" title="js对应的方法如下："></a>js对应的方法如下：</h3><p><img src="https://i.imgur.com/39rtWMs.png" alt=""></p><h3 id="那个array，是后台查出来的数据，添加到数组中"><a href="#那个array，是后台查出来的数据，添加到数组中" class="headerlink" title="那个array，是后台查出来的数据，添加到数组中"></a>那个array，是后台查出来的数据，添加到数组中</h3><p><img src="https://i.imgur.com/s7gtERm.png" alt=""></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;首先需要在jsp页面上导入两个js&quot;&gt;&lt;a href=&quot;#首先需要在jsp页面上导入两个js&quot; class=&quot;headerlink&quot; title=&quot;首先需要在jsp页面上导入两个js&quot;&gt;&lt;/a&gt;首先需要在jsp页面上导入两个js&lt;/h3&gt;
-    
-    </summary>
-    
-      <category term="js" scheme="http://www.juedigulang.com/categories/js/"/>
-    
-    
-      <category term="js" scheme="http://www.juedigulang.com/tags/js/"/>
     
   </entry>
   

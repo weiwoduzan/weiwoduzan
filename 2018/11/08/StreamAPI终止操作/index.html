@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.6" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.6">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.6" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.0.6',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="StreamAPI终止操作">
+<meta name="keywords" content="java8">
+<meta property="og:type" content="article">
+<meta property="og:title" content="StreamAPI终止操作">
+<meta property="og:url" content="http://www.juedigulang.com/2018/11/08/StreamAPI终止操作/index.html">
+<meta property="og:site_name" content="强子Mo的个人博客">
+<meta property="og:description" content="StreamAPI终止操作">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-11-08T15:40:25.851Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="StreamAPI终止操作">
+<meta name="twitter:description" content="StreamAPI终止操作">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="强子Mo的个人博客" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="http://www.juedigulang.com/2018/11/08/StreamAPI终止操作/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>StreamAPI终止操作 | 强子Mo的个人博客</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+	<a href="https://github.com/weiwoduzan/weiwoduzan.github.io"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png" alt="Fork me on GitHub"></a>
+	
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">强子Mo的个人博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+</li>
+
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.juedigulang.com/2018/11/08/StreamAPI终止操作/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="强子Mo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/33.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="强子Mo的个人博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">StreamAPI终止操作</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-08T23:40:25+08:00">2018-11-08</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/jdk8新特性/" itemprop="url" rel="index"><span itemprop="name">jdk8新特性</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/08/StreamAPI终止操作/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2018/11/08/StreamAPI终止操作/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/11/08/StreamAPI终止操作/" class="leancloud_visitors" data-flag-title="StreamAPI终止操作">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+              <div class="post-description">StreamAPI终止操作</div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="何为终止操作"><a href="#何为终止操作" class="headerlink" title="何为终止操作"></a>何为终止操作</h3><p>终端操作会从流的流水线生成结果。其结果可以是任何不是流的值。例如：List、Integer，甚至是void</p>
+<h3 id="查找与匹配"><a href="#查找与匹配" class="headerlink" title="查找与匹配"></a>查找与匹配</h3><h4 id="1-allMatch–检查是否匹配所有元素"><a href="#1-allMatch–检查是否匹配所有元素" class="headerlink" title="1.allMatch–检查是否匹配所有元素"></a>1.allMatch–检查是否匹配所有元素</h4><pre><code>@Test
+public void test9(){
+    //allMatch--检查是否匹配所有元素
+    boolean b = employees.stream()
+            .allMatch((e) -&gt; e.getStatus().equals(Employee.Status.FREE));
+    System.out.println(b);//false
+}
+</code></pre><h4 id="2-anyMatch–检查是否至少匹配一个元素"><a href="#2-anyMatch–检查是否至少匹配一个元素" class="headerlink" title="2.anyMatch–检查是否至少匹配一个元素"></a>2.anyMatch–检查是否至少匹配一个元素</h4><pre><code>@Test
+public void test9(){
+    //anyMatch--检查是否至少匹配一个元素
+    boolean b1 = employees.stream()
+            .anyMatch((e) -&gt; e.getStatus().equals(Employee.Status.BUSY));
+    System.out.println(b1);//true
+}
+</code></pre><h4 id="3-noneMatch–检查是否没有匹配所有元素"><a href="#3-noneMatch–检查是否没有匹配所有元素" class="headerlink" title="3.noneMatch–检查是否没有匹配所有元素"></a>3.noneMatch–检查是否没有匹配所有元素</h4><pre><code>@Test
+public void test9(){
+    //noneMatch--检查是否没有匹配所有元素
+    boolean b2 = employees.stream()
+            .noneMatch((e) -&gt; e.getStatus().equals(Employee.Status.BUSY));
+    System.out.println(b2);//false
+}
+</code></pre><h4 id="4-findFirst–返回第一个元素"><a href="#4-findFirst–返回第一个元素" class="headerlink" title="4.findFirst–返回第一个元素"></a>4.findFirst–返回第一个元素</h4><pre><code>@Test
+public void test9(){
+    //findFirst--返回第一个元素
+    Optional&lt;Employee&gt; op = employees.stream()
+            .sorted((e1, e2) -&gt; -Double.compare(e1.getSalary(), e2.getSalary()))
+            .findFirst();
+    System.out.println(op.get());}
+</code></pre><h4 id="5-findAny–返回当前流中任意元素"><a href="#5-findAny–返回当前流中任意元素" class="headerlink" title="5.findAny–返回当前流中任意元素"></a>5.findAny–返回当前流中任意元素</h4><pre><code>@Test
+public void test9(){
+    //findAny--返回当前流中任意元素
+   Optional&lt;Employee&gt; op2 = employees.parallelStream()
+            .filter((e) -&gt; e.getStatus().equals(Employee.Status.FREE))
+            .findAny();
+    System.out.println(op2.get());
+}
+</code></pre><h4 id="6-count–返回流中元素的总个数"><a href="#6-count–返回流中元素的总个数" class="headerlink" title="6.count–返回流中元素的总个数"></a>6.count–返回流中元素的总个数</h4><pre><code>@Test
+public void test9(){
+    //count--返回流中元素的总个数
+    long count = employees.stream().count();
+    System.out.println(count);
+}
+</code></pre><h4 id="7-max–返回流中最大值"><a href="#7-max–返回流中最大值" class="headerlink" title="7.max–返回流中最大值"></a>7.max–返回流中最大值</h4><pre><code>@Test
+public void test9(){
+    //max--返回流中最大值
+    Optional&lt;Employee&gt; op3 = employees.stream()
+            .max((e1, e2) -&gt; Double.compare(e1.getSalary(), e2.getSalary()));
+    System.out.println(op3.get());
+}
+</code></pre><h4 id="8-min–返回流中最小值"><a href="#8-min–返回流中最小值" class="headerlink" title="8.min–返回流中最小值"></a>8.min–返回流中最小值</h4><pre><code>@Test
+public void test9(){
+   //min--返回流中最小值
+    Optional&lt;Double&gt; op4 = employees.stream()
+            .map(Employee::getSalary)
+            .min(Double::compareTo);
+    System.out.println(op4.get());
+}
+</code></pre><h3 id="规约"><a href="#规约" class="headerlink" title="规约"></a>规约</h3><h4 id="reduce-T-identity-BinaryOperator-reduce-BinaryOPerator-–可以将流中元素反复结合起来，得到一个值"><a href="#reduce-T-identity-BinaryOperator-reduce-BinaryOPerator-–可以将流中元素反复结合起来，得到一个值" class="headerlink" title="reduce(T identity,BinaryOperator)/reduce(BinaryOPerator)–可以将流中元素反复结合起来，得到一个值"></a>reduce(T identity,BinaryOperator)/reduce(BinaryOPerator)–可以将流中元素反复结合起来，得到一个值</h4><pre><code>@org.junit.Test
+public void test3(){
+    List&lt;Integer&gt; list = Arrays.asList(1,2,3,4,5,6,7,8,9,10);
+
+    Integer reduce = list.stream()
+            .reduce(0, (x, y) -&gt; x + y);
+
+    System.out.println(reduce);
+
+    System.out.println(&quot;-------------------------------&quot;);
+    //计算所有工资
+    Optional&lt;Double&gt; reduce1 = employees.stream()
+            .map(Employee::getSalary)
+            .reduce(Double::sum);
+    System.out.println(reduce1.get());
+
+    System.out.println(&quot;-------------------------------&quot;);
+
+    Optional&lt;Integer&gt; reduce2 = employees.stream().map(Employee::getAge).reduce(Integer::max);
+    System.out.println(reduce2.get());
+}
+</code></pre><h4 id="备注"><a href="#备注" class="headerlink" title="备注"></a>备注</h4><p>map和reduce的连接通常称为map-reduce模式，因Goolge用它来进行网络搜索而出名</p>
+<h3 id="收集"><a href="#收集" class="headerlink" title="收集"></a>收集</h3><p>collect：将流转换为其他形式，接受一个Collector接口的实现，用于给Stream中元素做汇总的方法</p>
+<p>####Collector接口<br> Collector接口中的方法的实现决定了如何对流执行收集操作（如收集到List，Set，Map）。但是Collectors实用类提供了很多静态方法，可以方便地创建常见收集器实例。具体如下：</p>
+<h5 id="1-toList：返回类型List-把流中元素收集到List中"><a href="#1-toList：返回类型List-把流中元素收集到List中" class="headerlink" title="1.toList：返回类型List,把流中元素收集到List中"></a>1.toList：返回类型List<t>,把流中元素收集到List中</t></h5><pre><code>@Test
+public void test9(){
+   //toList：返回类型List&lt;T&gt;,把流中元素收集到List中
+    List&lt;String&gt; collect = employees.stream()
+            .map(Employee::getName)
+            .collect(Collectors.toList());
+    System.out.println(collect);
+}
+</code></pre><h5 id="2-toSet：返回类型Set-把流中元素收集到Set中"><a href="#2-toSet：返回类型Set-把流中元素收集到Set中" class="headerlink" title="2.toSet：返回类型Set,把流中元素收集到Set中"></a>2.toSet：返回类型Set<t>,把流中元素收集到Set中</t></h5><pre><code>@Test
+public void test9(){
+   //toSet：返回类型Set&lt;T&gt;,把流中元素收集到Set中
+    Set&lt;String&gt; collect1 = employees.stream()
+            .map(Employee::getName)
+            .collect(Collectors.toSet());
+    System.out.println(collect1);
+}
+</code></pre><h5 id="3-toCollection-返回类型Collection-把流中元素收集到创建的集合、"><a href="#3-toCollection-返回类型Collection-把流中元素收集到创建的集合、" class="headerlink" title="3.toCollection: 返回类型Collection,把流中元素收集到创建的集合、"></a>3.toCollection: 返回类型Collection<t>,把流中元素收集到创建的集合、</t></h5><pre><code>@Test
+public void test9(){
+   //toCollection: 返回类型Collection&lt;T&gt;,把流中元素收集到创建的集合
+    ArrayList&lt;Integer&gt; collect2 = employees.stream()
+            .map(Employee::getAge)
+            .collect(Collectors.toCollection(ArrayList::new));
+    System.out.println(collect2);
+}
+</code></pre><h5 id="4-counting-返回类型Long-计算流中总元素"><a href="#4-counting-返回类型Long-计算流中总元素" class="headerlink" title="4.counting:返回类型Long,计算流中总元素"></a>4.counting:返回类型Long,计算流中总元素</h5><pre><code>@Test
+public void test9(){
+   //counting:返回类型Long,计算流中总元素
+    Long collect3 = employees.stream()
+            //.map(Employee::getAge)
+            .collect(Collectors.counting());
+    System.out.println(collect3);
+}
+</code></pre><h5 id="5-averagingDouble-计算流中平均值"><a href="#5-averagingDouble-计算流中平均值" class="headerlink" title="5.averagingDouble:计算流中平均值"></a>5.averagingDouble:计算流中平均值</h5><pre><code>@Test
+public void test9(){
+   //averagingDouble:计算流中平均值
+    Double aDouble = employees.stream()
+            .collect(Collectors.averagingDouble(Employee::getSalary));
+    System.out.println(aDouble);
+}
+</code></pre><h5 id="6-summingDouble-计算流中总和"><a href="#6-summingDouble-计算流中总和" class="headerlink" title="6.summingDouble:计算流中总和"></a>6.summingDouble:计算流中总和</h5><pre><code>@Test
+public void test9(){
+    //summingDouble:计算流中总和
+    Integer collect4 = employees.stream()
+            .collect(Collectors.summingInt(Employee::getAge));
+    System.out.println(collect4);
+}
+</code></pre><h5 id="7-maxBy-返回类型Optional-根据比较器选择最大值"><a href="#7-maxBy-返回类型Optional-根据比较器选择最大值" class="headerlink" title="7.maxBy:返回类型Optional:根据比较器选择最大值"></a>7.maxBy:返回类型Optional<t>:根据比较器选择最大值</t></h5><pre><code>@Test
+public void test9(){
+    //maxBy:返回类型Optional&lt;T&gt;:根据比较器选择最大值
+    Optional&lt;Employee&gt; op = employees.stream()
+            .collect(Collectors.maxBy((e1, e2) -&gt; Double.compare(e1.getSalary(), e2.getSalary())));
+    System.out.println(op.get());
+}
+</code></pre><h5 id="8-minBy-返回类型Optional-根据比较器选择最小值"><a href="#8-minBy-返回类型Optional-根据比较器选择最小值" class="headerlink" title="8.minBy:返回类型Optional:根据比较器选择最小值"></a>8.minBy:返回类型Optional<t>:根据比较器选择最小值</t></h5><pre><code>@Test
+public void test9(){
+     //minBy:返回类型Optional&lt;T&gt;:根据比较器选择最小值
+    Optional&lt;Integer&gt; op2 = employees.stream()
+            .map(Employee::getAge)
+            .collect(Collectors.minBy(Integer::compare));
+    System.out.println(op2.get());
+}
+</code></pre><h5 id="8-groupingBy-范会类型Map"><a href="#8-groupingBy-范会类型Map" class="headerlink" title="8.groupingBy:范会类型Map"></a>8.groupingBy:范会类型Map<k,list<t>&gt;根据属型值对流分组</k,list<t></h5><pre><code>@Test
+public void test9(){
+    //groupingBy:范会类型Map&lt;k,List&lt;t&gt;&gt;根据属型值对流分组
+    Map&lt;Employee.Status, List&lt;Employee&gt;&gt; collect5 = employees.stream()
+            .collect(Collectors.groupingBy(Employee::getStatus));
+    System.out.println(collect5);
+
+    //{BUSY=[Employee{name=&apos;李四&apos;, age=58, salary=5555.55, status=BUSY}, Employee{name=&apos;田七&apos;, age=23, salary=8888.88, status=BUSY}], FREE=[Employee{name=&apos;张三&apos;, age=18, salary=9999.99, status=FREE}, Employee{name=&apos;赵六&apos;, age=36, salary=6666.66, status=FREE}], VOCATION=[Employee{name=&apos;王五&apos;, age=26, salary=3333.33, status=VOCATION}]}
+}
+</code></pre><h5 id="9-多级分组"><a href="#9-多级分组" class="headerlink" title="9.多级分组"></a>9.多级分组</h5><pre><code>@Test
+public void test9(){
+    //多级分组
+    Map&lt;Employee.Status, Map&lt;String, List&lt;Employee&gt;&gt;&gt; collect6 = employees.stream()
+            .collect(Collectors.groupingBy(Employee::getStatus, Collectors.groupingBy((Employee e) -&gt; {
+                if (e.getAge() &lt;= 35) {
+                    return &quot;青年&quot;;
+                } else if (e.getAge() &lt;= 50) {
+                    return &quot;中年&quot;;
+                } else {
+                    return &quot;老年&quot;;
+                }
+            })));
+    System.out.println(collect6);
+
+    //{BUSY={青年=[Employee{name=&apos;田七&apos;, age=23, salary=8888.88, status=BUSY}], 老年=[Employee{name=&apos;李四&apos;, age=58, salary=5555.55, status=BUSY}]}, FREE={青年=[Employee{name=&apos;张三&apos;, age=18, salary=9999.99, status=FREE}], 中年=[Employee{name=&apos;赵六&apos;, age=36, salary=6666.66, status=FREE}]}, VOCATION={青年=[Employee{name=&apos;王五&apos;, age=26, salary=3333.33, status=VOCATION}]}}
+}
+</code></pre><h5 id="10-partitioningBy-返回类型Map"><a href="#10-partitioningBy-返回类型Map" class="headerlink" title="10.//partitioningBy:返回类型Map"></a>10.//partitioningBy:返回类型Map<boolean,list<t>&gt;,根据true或者false进行分组</boolean,list<t></h5><pre><code>@Test
+public void test9(){
+     //partitioningBy:返回类型Map&lt;Boolean,List&lt;T&gt;&gt;,根据true或者false进行分组
+    Map&lt;Boolean, List&lt;Employee&gt;&gt; collect7 = employees.stream()
+            .collect(Collectors.partitioningBy((e) -&gt; e.getSalary() &gt; 8000));
+    System.out.println(collect7);
+}
+</code></pre><h5 id="11-sumarizingDouble-返回类型DoubleSummaryStatistics-收集流中Double属性的统计值"><a href="#11-sumarizingDouble-返回类型DoubleSummaryStatistics-收集流中Double属性的统计值" class="headerlink" title="11.sumarizingDouble:返回类型DoubleSummaryStatistics,收集流中Double属性的统计值"></a>11.sumarizingDouble:返回类型DoubleSummaryStatistics,收集流中Double属性的统计值</h5><pre><code>@Test
+public void test9(){
+     //sumarizingDouble:返回类
+    DoubleSummaryStatistics,收集流中Double属性的统计值
+    DoubleSummaryStatistics statistics = employees.stream()
+            .collect(Collectors.summarizingDouble(Employee::getSalary));
+    System.out.println(statistics.getCount());
+    System.out.println(statistics.getSum());
+}
+</code></pre><h5 id="12-joining-返回类型String-连接流中每个字符串"><a href="#12-joining-返回类型String-连接流中每个字符串" class="headerlink" title="12.joining:返回类型String,连接流中每个字符串"></a>12.joining:返回类型String,连接流中每个字符串</h5><pre><code>@Test
+public void test9(){
+    //joining:返回类型String,连接流中每个字符串
+    String s = employees.stream()
+            .map(Employee::getName)
+            .collect(Collectors.joining(&quot;,&quot;, &quot;---&quot;, &quot;---&quot;));
+    System.out.println(s);
+}
+</code></pre>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+
+	
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java8/" rel="tag"><i class="fa fa-tag"></i> java8</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/05/StreamAPI中间操作/" rel="next" title="StreamAPI--中间操作">
+                <i class="fa fa-chevron-left"></i> StreamAPI--中间操作
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/09/并行流和串行流/" rel="prev" title="并行流和串行流">
+                并行流和串行流 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/33.jpg"
+                alt="强子Mo" />
+            
+              <p class="site-author-name" itemprop="name">强子Mo</p>
+              <p class="site-description motion-element" itemprop="description">精彩不是顺着风直达，而逆风却刻服了害怕</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">41</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">18</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/weiwoduzan/weiwoduzan.github.io" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://weibo.com/u/2953388753" target="_blank" title="Weibo"><i class="fa fa-fw fa-globe"></i>Weibo</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#何为终止操作"><span class="nav-number">1.</span> <span class="nav-text">何为终止操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查找与匹配"><span class="nav-number">2.</span> <span class="nav-text">查找与匹配</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-allMatch–检查是否匹配所有元素"><span class="nav-number">2.1.</span> <span class="nav-text">1.allMatch–检查是否匹配所有元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-anyMatch–检查是否至少匹配一个元素"><span class="nav-number">2.2.</span> <span class="nav-text">2.anyMatch–检查是否至少匹配一个元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-noneMatch–检查是否没有匹配所有元素"><span class="nav-number">2.3.</span> <span class="nav-text">3.noneMatch–检查是否没有匹配所有元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-findFirst–返回第一个元素"><span class="nav-number">2.4.</span> <span class="nav-text">4.findFirst–返回第一个元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-findAny–返回当前流中任意元素"><span class="nav-number">2.5.</span> <span class="nav-text">5.findAny–返回当前流中任意元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-count–返回流中元素的总个数"><span class="nav-number">2.6.</span> <span class="nav-text">6.count–返回流中元素的总个数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-max–返回流中最大值"><span class="nav-number">2.7.</span> <span class="nav-text">7.max–返回流中最大值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-min–返回流中最小值"><span class="nav-number">2.8.</span> <span class="nav-text">8.min–返回流中最小值</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#规约"><span class="nav-number">3.</span> <span class="nav-text">规约</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#reduce-T-identity-BinaryOperator-reduce-BinaryOPerator-–可以将流中元素反复结合起来，得到一个值"><span class="nav-number">3.1.</span> <span class="nav-text">reduce(T identity,BinaryOperator)/reduce(BinaryOPerator)–可以将流中元素反复结合起来，得到一个值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#备注"><span class="nav-number">3.2.</span> <span class="nav-text">备注</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#收集"><span class="nav-number">4.</span> <span class="nav-text">收集</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-toList：返回类型List-把流中元素收集到List中"><span class="nav-number">4.0.1.</span> <span class="nav-text">1.toList：返回类型List,把流中元素收集到List中</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-toSet：返回类型Set-把流中元素收集到Set中"><span class="nav-number">4.0.2.</span> <span class="nav-text">2.toSet：返回类型Set,把流中元素收集到Set中</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-toCollection-返回类型Collection-把流中元素收集到创建的集合、"><span class="nav-number">4.0.3.</span> <span class="nav-text">3.toCollection: 返回类型Collection,把流中元素收集到创建的集合、</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-counting-返回类型Long-计算流中总元素"><span class="nav-number">4.0.4.</span> <span class="nav-text">4.counting:返回类型Long,计算流中总元素</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-averagingDouble-计算流中平均值"><span class="nav-number">4.0.5.</span> <span class="nav-text">5.averagingDouble:计算流中平均值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-summingDouble-计算流中总和"><span class="nav-number">4.0.6.</span> <span class="nav-text">6.summingDouble:计算流中总和</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-maxBy-返回类型Optional-根据比较器选择最大值"><span class="nav-number">4.0.7.</span> <span class="nav-text">7.maxBy:返回类型Optional:根据比较器选择最大值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#8-minBy-返回类型Optional-根据比较器选择最小值"><span class="nav-number">4.0.8.</span> <span class="nav-text">8.minBy:返回类型Optional:根据比较器选择最小值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#8-groupingBy-范会类型Map"><span class="nav-number">4.0.9.</span> <span class="nav-text">8.groupingBy:范会类型Map>根据属型值对流分组</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#9-多级分组"><span class="nav-number">4.0.10.</span> <span class="nav-text">9.多级分组</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#10-partitioningBy-返回类型Map"><span class="nav-number">4.0.11.</span> <span class="nav-text">10.//partitioningBy:返回类型Map>,根据true或者false进行分组</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#11-sumarizingDouble-返回类型DoubleSummaryStatistics-收集流中Double属性的统计值"><span class="nav-number">4.0.12.</span> <span class="nav-text">11.sumarizingDouble:返回类型DoubleSummaryStatistics,收集流中Double属性的统计值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#12-joining-返回类型String-连接流中每个字符串"><span class="nav-number">4.0.13.</span> <span class="nav-text">12.joining:返回类型String,连接流中每个字符串</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">强子Mo</span>
+
+  
+
+  
+</div>
+
+
+
+ 
+  <div class="powered-by">
+  <span id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+</span>
+</div>
+<!-- start http://count.knowsky.com -->
+<script src="http://count.knowsky.com/count1/count.asp?id=362953&sx=1&ys=47" language="JavaScript" charset="gb2312"></script>
+<!-- Powered by http://www.knowsky.com -->
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+  <div style="">
+    <script src="//s95.cnzz.com/z_stat.php?id=1267336678&web_id=1267336678" language="JavaScript"></script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.6"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.0.6"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.6"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: '6Cl1oPEl3c4iSTfuYhWSG65n-gzGzoHsz',
+        appKey: 'JrWDh6iQeKQs1BVxD2u54pVA',
+        placeholder: 'Just go go',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("6Cl1oPEl3c4iSTfuYhWSG65n-gzGzoHsz", "JrWDh6iQeKQs1BVxD2u54pVA");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            
+            counter.save(null, {
+              success: function(counter) {
+                
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            
+              var newcounter = new Counter();
+              /* Set ACL */
+              var acl = new AV.ACL();
+              acl.setPublicReadAccess(true);
+              acl.setPublicWriteAccess(true);
+              newcounter.setACL(acl);
+              /* End Set ACL */
+              newcounter.set("title", title);
+              newcounter.set("url", url);
+              newcounter.set("time", 1);
+              newcounter.save(null, {
+                success: function(newcounter) {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                },
+                error: function(newcounter, error) {
+                  console.log('Failed to create');
+                }
+              });
+            
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
