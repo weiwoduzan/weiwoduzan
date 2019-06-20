@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[mysql中casewhen用法]]></title>
+    <url>%2F2019%2F06%2F20%2Fmysql%E4%B8%ADcasewhen%E7%94%A8%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[Mysql中CASE WHEN用法1、mysql中case when 有两种用法#####1）简单函数 1CASE [col_name] WHEN [value1] THEN [result1]…ELSE [default] END #####2）搜索函数 1CASE WHEN [expr] THEN [result1]…ELSE [default] END 2、这两种语法的区别1）简单函数—-枚举这个字段的所有值*1234567891011121314SELECT NAME '英雄', CASE NAME WHEN '德莱文' THEN '斧子' WHEN '德玛西亚-盖伦' THEN '大宝剑' WHEN '暗夜猎手-VN' THEN '弩' ELSE '无' END '装备'FROM user_info; 2）搜索函数—-搜索函数可以写判断，并且搜索函数只会返回第一个符合条件的值，其他case被忽略1234567891011121314151617# when 表达式中可以使用 and 连接条件SELECT NAME '英雄', age '年龄', CASE WHEN age &lt; 18 THEN '少年' WHEN age &lt; 30 THEN '青年' WHEN age &gt;= 30 AND age &lt; 50 THEN '中年' ELSE '老年' END '状态'FROM user_info; 聚合函数sum配合case when的简单函数实现行转列 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253SELECT st.stu_id '学号', st.stu_name '姓名', sum( CASE co.course_name WHEN '大学语文' THEN sc.scores ELSE END ) '大学语文', sum( CASE co.course_name WHEN '新视野英语' THEN sc.scores ELSE END ) '新视野英语', sum( CASE co.course_name WHEN '离散数学' THEN sc.scores ELSE END ) '离散数学', sum( CASE co.course_name WHEN '概率论与数理统计' THEN sc.scores ELSE END ) '概率论与数理统计', sum( CASE co.course_name WHEN '线性代数' THEN sc.scores ELSE END ) '线性代数', sum( CASE co.course_name WHEN '高等数学' THEN sc.scores ELSE END ) '高等数学'FROM edu_student stLEFT JOIN edu_score sc ON st.stu_id = sc.stu_idLEFT JOIN edu_courses co ON co.course_no = sc.course_noGROUP BY st.stu_idORDER BY NULL; 3、case when在mysql中的位置1）在查询条件中1234567891011121314SELECT NAME '英雄', CASE NAME WHEN '德莱文' THEN '斧子' WHEN '德玛西亚-盖伦' THEN '大宝剑' WHEN '暗夜猎手-VN' THEN '弩' ELSE '无' END '装备'FROM user_info; 2）在排序语句后面12345678SELECT d.workState from devicebase d ORDER BY CASE d.workstate WHEN '3' THEN 0 WHEN '2' THEN 1 WHEN 'x' THEN 2 WHEN 'y' THEN 3 WHEN '1' THEN 4 ELSE 5 END, d.workstate; 3）在where条件后面1234567891011121314151617181920212223242526272829303132SELECT DISTINCT I.APPLY_ID id, I.SERVICE_ID serviceId, R.SERVICE_NAME serviceName, R.REAL_ADDRESS realAddress, X.IS_PERMANENT isPermanent, D.END_TIME endTimeFROM IRSP_EXCHANGE_APPLY XLEFT JOIN IRSP_EXCHANGE_APPLY_DETAIL I ON X.ID = I.APPLY_IDLEFT JOIN IRSP_SERVICE_RELEASE R ON I.SERVICE_ID = R.IDLEFT JOIN IRSP_RESOURCES_INFO Y ON Y.ID = R.RESOURCE_IDLEFT JOIN IRSP_EXCHANGE_APPLY_EXTEND D ON X.ID = D.APPLY_IDWHERE 1 = 1AND X.APPLY_ORGAN_ID IN ( SELECT ORG_ID FROM t_dmp_sys_org org WHERE org.PATH LIKE '%2c932ee657ac27d80157ac4421de0001%' OR org.ORG_ID = '2c932ee657ac27d80157ac4421de0001')AND X.FLOW_STATUS = '2' -- and ( r.`STATUS` = '1' and d.END_TIME &lt; DATE_FORMAT(NOW(),'%Y-%m-%d') )AND ( CASE WHEN (r.`STATUS` = '1' AND r.SERVICE_STATUS = '1') THEN d.END_TIME &lt; DATE_FORMAT(NOW(),'%Y-%m-%d') WHEN r.`STATUS` = '1' THEN r.SERVICE_STATUS = '0'w WHEN r.`STATUS`='0' THEN r.SERVICE_STATUS='1' END) ORDER BY X.CREATE_TIME DESC]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[linux中验证码乱码的问题]]></title>
     <url>%2F2019%2F06%2F13%2F%E4%B9%B1%E7%A0%81%E5%87%BA%E7%8E%B0%E7%9A%84%E5%8E%9F%E5%9B%A0%2F</url>
     <content type="text"><![CDATA[乱码出现的原因windows中的文字样式比较多，然后Linux中和jdk中是没有的，所以才会在windows中可以，linux中出现了乱码。 解决方案1、找到windows中文件的路径：C:\Windows\Fonts字体都存在这里2、找到Linux服务器的路径：/usr/share/fonts/3、将windows的字体库文件夹拷贝到Linux服务器的字体库的位置4、找到Linux中jdk安装的位置，找到/jre/lib/fonts路径中，把字体库拷贝进去5、将目录切换到/usr/share/fonts中，执行fc-cache,/jre/lib/fonts中也一样6、执行fc-list查看字体，看下字体库中的数据是否是上传的字体库7、重新启动tomcat服务即可]]></content>
@@ -12,14 +23,14 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[input输入框的限制]]></title>
-    <url>%2F2019%2F06%2F10%2Finput%E8%BE%93%E5%85%A5%E6%A1%86%E7%9A%84%E9%99%90%E5%88%B6%2F</url>
-    <content type="text"><![CDATA[文本框只能输入数字代码(小数点也不能输入)&lt;input onkeyup=&quot;this.value=this.value.replace(/\D/g,&apos;&apos;)&quot; onafterpaste=&quot;this.value=this.value.replace(/\D/g,&apos;&apos;)&quot;&gt; 只能输入数字,能输小数点.&lt;input onkeyup=&quot;if(isNaN(value))execCommand(&apos;undo&apos;)&quot; onafterpaste=&quot;if(isNaN(value))execCommand(&apos;undo&apos;)&quot;&gt; &lt;input name=&quot;txt1&quot; onchange=&quot;if(/\D/.test(this.value)){alert(&apos;只能输入数字&apos;);this.value=&apos;&apos;;}&quot;&gt; 数字和小数点方法二&lt;input type=&quot;text&quot; t_value=&quot;&quot; o_value=&quot;&quot; onkeypress=&quot;if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value&quot; onkeyup=&quot;if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value&quot; onblur=&quot;if(!this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))this.value=this.o_value;else{if(this.value.match(/^\.\d+$/))this.value=0+this.value;if(this.value.match(/^\.$/))this.value=0;this.o_value=this.value}&quot;&gt; 只能输入字母和汉字&lt;input onkeyup=&quot;value=value.replace(/[\d]/g,&apos;&apos;) &quot; onbeforepaste=&quot;clipboardData.setData(&apos;text&apos;,clipboardData.getData(&apos;text&apos;).replace(/[\d]/g,&apos;&apos;))&quot; maxlength=&quot;10&quot; name=&quot;Numbers&quot;&gt; 只能输入英文字母和数字,不能输入中文&lt;input onkeyup=&quot;value=value.replace(/[^\w\.\/]/ig,&apos;&apos;)&quot;&gt; 只能输入数字和英文&lt;input onkeyup=&quot;value=value.replace(/[^\d|chun]/g,&apos;&apos;)&quot;&gt; 小数点后只能有最多两位(数字,中文都可输入),不能输入字母和运算符号:&lt;input onkeypress=&quot;if((event.keyCode&lt;48 || event.keyCode&gt;57) &amp;amp;&amp;amp; event.keyCode!=46 || /\.\d\d$/.test(value))event.returnValue=false&quot;&gt; 小数点后只能有最多两位(数字,字母,中文都可输入),可以输入运算符号:&lt;input onkeyup=&quot;this.value=this.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,&apos;$1$2.$3&apos;)&quot;&gt; 输入中文:&lt;input type=&quot;text&quot; onkeyup=&quot;this.value=this.value.replace(/[^\u4e00-\u9fa5]/g,&apos;&apos;)&quot;&gt; 输入数字:&lt;input type=&quot;text&quot; onkeyup=&quot;this.value=this.value.replace(/\D/g,&apos;&apos;)&quot;&gt; 输入英文:&lt;input type=&quot;text&quot; onkeyup=&quot;this.value=this.value.replace(/[^a-zA-Z]/g,&apos;&apos;)&quot;&gt; 三个合在一起&lt;input onkeyup=&quot;value=value.replace(/[^\w\u4E00-\u9FA5]/g, &apos;&apos;)&quot;&gt; 只输入数字和字母&lt;input class=&quot;input&quot; maxlength=&quot;12&quot; size=&quot;15&quot; name=&quot;username&quot; id=&quot;username&quot; onkeyup=&quot;value=value.replace(/[\W]/g,&apos;&apos;)&quot;&gt; 除了英文的标点符号以为 其他的人都可以中文，英文字母，数字，中文标点&lt;input type=&quot;text&quot; onkeyup=&quot;this.value=this.value.replace(/^[^!@#$%^&amp;amp;*()-=+]/g,&apos;&apos;)&quot;&gt;]]></content>
+    <title><![CDATA[list的去重方式]]></title>
+    <url>%2F2019%2F06%2F10%2Flist%E7%9A%84%E5%8E%BB%E9%87%8D%E6%96%B9%E5%BC%8F%2F</url>
+    <content type="text"><![CDATA[List的去重方式String去重 //set集合去重，不改变原有的顺序 public static void pastLeep1(List&lt;String&gt; list){ System.out.println(&quot;list = [&quot; + list.toString() + &quot;]&quot;); List&lt;String&gt; listNew=new ArrayList&lt;&gt;(); Set set=new HashSet(); for (String str:list) { if(set.add(str)){ listNew.add(str); } } System.out.println(&quot;listNew = [&quot; + listNew.toString() + &quot;]&quot;); } //遍历后判断赋给另一个list集合 public static void pastLeep2(List&lt;String&gt; list){ System.out.println(&quot;list = [&quot; + list.toString() + &quot;]&quot;); List&lt;String&gt; listNew=new ArrayList&lt;&gt;(); for (String str:list) { if(!listNew.contains(str)){ listNew.add(str); } } System.out.println(&quot;listNew = [&quot; + listNew.toString() + &quot;]&quot;); } //set去重 public static void pastLeep3(List&lt;String&gt; list){ System.out.println(&quot;list = [&quot; + list + &quot;]&quot;); Set set = new HashSet(); List&lt;String&gt; listNew=new ArrayList&lt;&gt;(); set.addAll(list); listNew.addAll(set); System.out.println(&quot;listNew = [&quot; + listNew + &quot;]&quot;); } //set去重（缩减为一行） public static void pastLeep4(List&lt;String&gt; list){ System.out.println(&quot;list = [&quot; + list + &quot;]&quot;); List&lt;String&gt; listNew=new ArrayList&lt;&gt;(new HashSet(list)); System.out.println(&quot;listNew = [&quot; + listNew + &quot;]&quot;); } //去重并按自然顺序排序 public static void pastLeep5(List&lt;String&gt; list){ System.out.println(&quot;list = [&quot; + list + &quot;]&quot;); List&lt;String&gt; listNew=new ArrayList&lt;&gt;(new TreeSet&lt;String&gt;(list)); System.out.println(&quot;listNew = [&quot; + listNew + &quot;]&quot;); } 对象去重方法package com.hcycom.iams.ncolog; import java.util.*; import static java.util.Comparator.comparingLong; import static java.util.stream.Collectors.collectingAndThen; import static java.util.stream.Collectors.toCollection; public class Test { public static void main(String[] args) { Data data1 = new Data(1,&quot;aaaa&quot;); Data data2 = new Data(2,&quot;dddd&quot;); Data data3 = new Data(1,&quot;vvvv&quot;); Data data4 = new Data(4,&quot;rrrr&quot;); Data data5 = new Data(1,&quot;ssss&quot;); List&lt;Data&gt; list = Arrays.asList(data1,data2,data3,data4,data5); List&lt;Data&gt; l = test2(list); System.out.println(Arrays.toString(l.toArray())); } //对象去重 public static List&lt;Data&gt; test2(List&lt;Data&gt; list){ List&lt;Data&gt; unique = list.stream().collect( collectingAndThen( toCollection(() -&gt; new TreeSet&lt;&gt;(comparingLong(Data::getId))), ArrayList::new) ); return unique; } } // 实体对象 class Data{ private int id; private String name; public Data(int id, String name) { this.id = id; this.name = name; } public int getId() { return id; } public void setId(int id) { this.id = id; } public String getName() { return name; } public void setName(String name) { this.name = name; } @Override public String toString() { return &quot;Data{&quot; + &quot;id=&quot; + id + &quot;, name=&apos;&quot; + name + &apos;\&apos;&apos; + &apos;}&apos;; } } jdk1.8中去重方式1、list.stream().distinct()2、双层循环 Set set = new HashSet&lt;&gt;(list);]]></content>
       <categories>
         <category>java</category>
       </categories>
       <tags>
-        <tag>mysql</tag>
+        <tag>blob</tag>
       </tags>
   </entry>
   <entry>
@@ -45,14 +56,14 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[list的去重方式]]></title>
-    <url>%2F2019%2F06%2F10%2Flist%E7%9A%84%E5%8E%BB%E9%87%8D%E6%96%B9%E5%BC%8F%2F</url>
-    <content type="text"><![CDATA[List的去重方式String去重 //set集合去重，不改变原有的顺序 public static void pastLeep1(List&lt;String&gt; list){ System.out.println(&quot;list = [&quot; + list.toString() + &quot;]&quot;); List&lt;String&gt; listNew=new ArrayList&lt;&gt;(); Set set=new HashSet(); for (String str:list) { if(set.add(str)){ listNew.add(str); } } System.out.println(&quot;listNew = [&quot; + listNew.toString() + &quot;]&quot;); } //遍历后判断赋给另一个list集合 public static void pastLeep2(List&lt;String&gt; list){ System.out.println(&quot;list = [&quot; + list.toString() + &quot;]&quot;); List&lt;String&gt; listNew=new ArrayList&lt;&gt;(); for (String str:list) { if(!listNew.contains(str)){ listNew.add(str); } } System.out.println(&quot;listNew = [&quot; + listNew.toString() + &quot;]&quot;); } //set去重 public static void pastLeep3(List&lt;String&gt; list){ System.out.println(&quot;list = [&quot; + list + &quot;]&quot;); Set set = new HashSet(); List&lt;String&gt; listNew=new ArrayList&lt;&gt;(); set.addAll(list); listNew.addAll(set); System.out.println(&quot;listNew = [&quot; + listNew + &quot;]&quot;); } //set去重（缩减为一行） public static void pastLeep4(List&lt;String&gt; list){ System.out.println(&quot;list = [&quot; + list + &quot;]&quot;); List&lt;String&gt; listNew=new ArrayList&lt;&gt;(new HashSet(list)); System.out.println(&quot;listNew = [&quot; + listNew + &quot;]&quot;); } //去重并按自然顺序排序 public static void pastLeep5(List&lt;String&gt; list){ System.out.println(&quot;list = [&quot; + list + &quot;]&quot;); List&lt;String&gt; listNew=new ArrayList&lt;&gt;(new TreeSet&lt;String&gt;(list)); System.out.println(&quot;listNew = [&quot; + listNew + &quot;]&quot;); } 对象去重方法package com.hcycom.iams.ncolog; import java.util.*; import static java.util.Comparator.comparingLong; import static java.util.stream.Collectors.collectingAndThen; import static java.util.stream.Collectors.toCollection; public class Test { public static void main(String[] args) { Data data1 = new Data(1,&quot;aaaa&quot;); Data data2 = new Data(2,&quot;dddd&quot;); Data data3 = new Data(1,&quot;vvvv&quot;); Data data4 = new Data(4,&quot;rrrr&quot;); Data data5 = new Data(1,&quot;ssss&quot;); List&lt;Data&gt; list = Arrays.asList(data1,data2,data3,data4,data5); List&lt;Data&gt; l = test2(list); System.out.println(Arrays.toString(l.toArray())); } //对象去重 public static List&lt;Data&gt; test2(List&lt;Data&gt; list){ List&lt;Data&gt; unique = list.stream().collect( collectingAndThen( toCollection(() -&gt; new TreeSet&lt;&gt;(comparingLong(Data::getId))), ArrayList::new) ); return unique; } } // 实体对象 class Data{ private int id; private String name; public Data(int id, String name) { this.id = id; this.name = name; } public int getId() { return id; } public void setId(int id) { this.id = id; } public String getName() { return name; } public void setName(String name) { this.name = name; } @Override public String toString() { return &quot;Data{&quot; + &quot;id=&quot; + id + &quot;, name=&apos;&quot; + name + &apos;\&apos;&apos; + &apos;}&apos;; } } jdk1.8中去重方式1、list.stream().distinct()2、双层循环 Set set = new HashSet&lt;&gt;(list);]]></content>
+    <title><![CDATA[input输入框的限制]]></title>
+    <url>%2F2019%2F06%2F10%2Finput%E8%BE%93%E5%85%A5%E6%A1%86%E7%9A%84%E9%99%90%E5%88%B6%2F</url>
+    <content type="text"><![CDATA[文本框只能输入数字代码(小数点也不能输入)&lt;input onkeyup=&quot;this.value=this.value.replace(/\D/g,&apos;&apos;)&quot; onafterpaste=&quot;this.value=this.value.replace(/\D/g,&apos;&apos;)&quot;&gt; 只能输入数字,能输小数点.&lt;input onkeyup=&quot;if(isNaN(value))execCommand(&apos;undo&apos;)&quot; onafterpaste=&quot;if(isNaN(value))execCommand(&apos;undo&apos;)&quot;&gt; &lt;input name=&quot;txt1&quot; onchange=&quot;if(/\D/.test(this.value)){alert(&apos;只能输入数字&apos;);this.value=&apos;&apos;;}&quot;&gt; 数字和小数点方法二&lt;input type=&quot;text&quot; t_value=&quot;&quot; o_value=&quot;&quot; onkeypress=&quot;if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value&quot; onkeyup=&quot;if(!this.value.match(/^[\+\-]?\d*?\.?\d*?$/))this.value=this.t_value;else this.t_value=this.value;if(this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?)?$/))this.o_value=this.value&quot; onblur=&quot;if(!this.value.match(/^(?:[\+\-]?\d+(?:\.\d+)?|\.\d*?)?$/))this.value=this.o_value;else{if(this.value.match(/^\.\d+$/))this.value=0+this.value;if(this.value.match(/^\.$/))this.value=0;this.o_value=this.value}&quot;&gt; 只能输入字母和汉字&lt;input onkeyup=&quot;value=value.replace(/[\d]/g,&apos;&apos;) &quot; onbeforepaste=&quot;clipboardData.setData(&apos;text&apos;,clipboardData.getData(&apos;text&apos;).replace(/[\d]/g,&apos;&apos;))&quot; maxlength=&quot;10&quot; name=&quot;Numbers&quot;&gt; 只能输入英文字母和数字,不能输入中文&lt;input onkeyup=&quot;value=value.replace(/[^\w\.\/]/ig,&apos;&apos;)&quot;&gt; 只能输入数字和英文&lt;input onkeyup=&quot;value=value.replace(/[^\d|chun]/g,&apos;&apos;)&quot;&gt; 小数点后只能有最多两位(数字,中文都可输入),不能输入字母和运算符号:&lt;input onkeypress=&quot;if((event.keyCode&lt;48 || event.keyCode&gt;57) &amp;amp;&amp;amp; event.keyCode!=46 || /\.\d\d$/.test(value))event.returnValue=false&quot;&gt; 小数点后只能有最多两位(数字,字母,中文都可输入),可以输入运算符号:&lt;input onkeyup=&quot;this.value=this.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,&apos;$1$2.$3&apos;)&quot;&gt; 输入中文:&lt;input type=&quot;text&quot; onkeyup=&quot;this.value=this.value.replace(/[^\u4e00-\u9fa5]/g,&apos;&apos;)&quot;&gt; 输入数字:&lt;input type=&quot;text&quot; onkeyup=&quot;this.value=this.value.replace(/\D/g,&apos;&apos;)&quot;&gt; 输入英文:&lt;input type=&quot;text&quot; onkeyup=&quot;this.value=this.value.replace(/[^a-zA-Z]/g,&apos;&apos;)&quot;&gt; 三个合在一起&lt;input onkeyup=&quot;value=value.replace(/[^\w\u4E00-\u9FA5]/g, &apos;&apos;)&quot;&gt; 只输入数字和字母&lt;input class=&quot;input&quot; maxlength=&quot;12&quot; size=&quot;15&quot; name=&quot;username&quot; id=&quot;username&quot; onkeyup=&quot;value=value.replace(/[\W]/g,&apos;&apos;)&quot;&gt; 除了英文的标点符号以为 其他的人都可以中文，英文字母，数字，中文标点&lt;input type=&quot;text&quot; onkeyup=&quot;this.value=this.value.replace(/^[^!@#$%^&amp;amp;*()-=+]/g,&apos;&apos;)&quot;&gt;]]></content>
       <categories>
         <category>java</category>
       </categories>
       <tags>
-        <tag>blob</tag>
+        <tag>mysql</tag>
       </tags>
   </entry>
   <entry>
@@ -490,17 +501,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[个人博客]]></title>
-    <url>%2F2017%2F11%2F02%2FMo%2F</url>
-    <content type="text"><![CDATA[我的第一篇个人博客 欢迎来到我的个人小屋，以后会不定时更新博客]]></content>
-      <categories>
-        <category>杂谈</category>
-      </categories>
-      <tags>
-        <tag>死肥宅</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[Node.js安装]]></title>
     <url>%2F2017%2F11%2F02%2FNodejs%E5%AE%89%E8%A3%85%2F</url>
     <content type="text"><![CDATA[Node.js简介简单的说 Node.js 就是运行在服务端的 JavaScript。Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境。Node.js 使用了一个事件驱动、非阻塞式 I/O 的模型，使其轻量又高效。Node.js 的包管理器 npm，是全球最大的开源库生态系统。 下载Node.js打开官网下载链接:https://nodejs.org/en/download/ 开始安装1、下载完成后，双击“node-v6.9.2-x64.msi”，开始安装Node.js2、点击Next按钮3、勾选复选框，点击【Next】按钮4、修改好目录后，点击【Next】按钮5、安装完后点击【Finish】按钮完成安装6、至此Node.js已经安装完成，可以先进行下简单的测试安装是否成功了，后面还要进行环境配置在键盘按下【win+R】键，输入cmd，然后回车，打开cmd窗口]]></content>
@@ -512,9 +512,15 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Hello World]]></title>
-    <url>%2F2017%2F11%2F02%2Fhello-world%2F</url>
-    <content type="text"><![CDATA[创建一个文件$ hexo new “My New Post” 运行本地服务$ hexo server 生成静态文件$ hexo generate 部署到服务器$ hexo deploy]]></content>
+    <title><![CDATA[个人博客]]></title>
+    <url>%2F2017%2F11%2F02%2FMo%2F</url>
+    <content type="text"><![CDATA[我的第一篇个人博客 欢迎来到我的个人小屋，以后会不定时更新博客]]></content>
+      <categories>
+        <category>杂谈</category>
+      </categories>
+      <tags>
+        <tag>死肥宅</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[使用hexo+码云搭建个人博客]]></title>
@@ -526,5 +532,10 @@
       <tags>
         <tag>hexo</tag>
       </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Hello World]]></title>
+    <url>%2F2017%2F11%2F02%2Fhello-world%2F</url>
+    <content type="text"><![CDATA[创建一个文件$ hexo new “My New Post” 运行本地服务$ hexo server 生成静态文件$ hexo generate 部署到服务器$ hexo deploy]]></content>
   </entry>
 </search>

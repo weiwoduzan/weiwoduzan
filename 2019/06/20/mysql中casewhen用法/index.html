@@ -106,18 +106,18 @@
 
 
 
-  <meta name="description" content="此分页是使用前端代码实现的">
-<meta name="keywords" content="js">
+  <meta name="description" content="mysql中casewhen用法">
+<meta name="keywords" content="mysql">
 <meta property="og:type" content="article">
-<meta property="og:title" content="纯js分页">
-<meta property="og:url" content="http://www.juedigulang.com/2018/03/18/纯js前端分页/index.html">
+<meta property="og:title" content="mysql中casewhen用法">
+<meta property="og:url" content="http://www.juedigulang.com/2019/06/20/mysql中casewhen用法/index.html">
 <meta property="og:site_name" content="强子Mo的个人博客">
-<meta property="og:description" content="此分页是使用前端代码实现的">
+<meta property="og:description" content="mysql中casewhen用法">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-18T08:05:53.837Z">
+<meta property="og:updated_time" content="2019-06-20T12:33:05.216Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="纯js分页">
-<meta name="twitter:description" content="此分页是使用前端代码实现的">
+<meta name="twitter:title" content="mysql中casewhen用法">
+<meta name="twitter:description" content="mysql中casewhen用法">
 
 
 
@@ -126,7 +126,7 @@
 
 
 
-  <link rel="canonical" href="http://www.juedigulang.com/2018/03/18/纯js前端分页/"/>
+  <link rel="canonical" href="http://www.juedigulang.com/2019/06/20/mysql中casewhen用法/"/>
 
 
 
@@ -136,7 +136,7 @@
   };
 </script>
 
-  <title>纯js分页 | 强子Mo的个人博客</title>
+  <title>mysql中casewhen用法 | 强子Mo的个人博客</title>
   
 
 
@@ -345,7 +345,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.juedigulang.com/2018/03/18/纯js前端分页/">
+    <link itemprop="mainEntityOfPage" href="http://www.juedigulang.com/2019/06/20/mysql中casewhen用法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="强子Mo">
@@ -362,7 +362,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">纯js分页</h1>
+          <h1 class="post-title" itemprop="name headline">mysql中casewhen用法</h1>
         
 
         <div class="post-meta">
@@ -374,7 +374,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-18T15:52:42+08:00">2018-03-18</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-20T20:31:11+08:00">2019-06-20</time>
             
 
             
@@ -395,7 +395,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/js/" itemprop="url" rel="index"><span itemprop="name">js</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/hexo/" itemprop="url" rel="index"><span itemprop="name">hexo</span></a></span>
 
                 
                 
@@ -410,8 +410,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/03/18/纯js前端分页/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/03/18/纯js前端分页/" itemprop="commentCount"></span>
+                <a href="/2019/06/20/mysql中casewhen用法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/06/20/mysql中casewhen用法/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -419,7 +419,7 @@
 
           
           
-             <span id="/2018/03/18/纯js前端分页/" class="leancloud_visitors" data-flag-title="纯js分页">
+             <span id="/2019/06/20/mysql中casewhen用法/" class="leancloud_visitors" data-flag-title="mysql中casewhen用法">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -436,7 +436,7 @@
           
 
           
-              <div class="post-description">此分页是使用前端代码实现的</div>
+              <div class="post-description">mysql中casewhen用法</div>
           
 
         </div>
@@ -452,112 +452,17 @@
       
 
       
-        <h3 id="纯js分页实质是数据行全部加载，通过是否显示属性完成分页功能"><a href="#纯js分页实质是数据行全部加载，通过是否显示属性完成分页功能" class="headerlink" title="纯js分页实质是数据行全部加载，通过是否显示属性完成分页功能"></a>纯js分页实质是数据行全部加载，通过是否显示属性完成分页功能</h3><blockquote>
-<p>加载所有的数据，代码如下：</p>
-</blockquote>
-<pre><code>//查询结果数据表格显示
-function addTable(district,data,queryType){
-//移除页面中默认的ul
-$(&quot;#info-shool ul&quot;).remove();
-var str = &apos;&lt;ul&gt;&apos;
-for(var i=0;i&lt;data.length;i++){
-str = str +&apos;&lt;li&gt;&apos;+&apos;&lt;div class=&quot;tipNum&quot;&gt;&apos;+data[i].count+&apos;&lt;/div&gt;&apos;+&apos;&lt;p class=&quot;fl num num1&quot;&gt;&apos;+(i+1)+&apos;&lt;/p&gt;&apos;+
-&apos;&lt;div class=&quot;fl list&quot;&gt;&apos;+&apos;&lt;p class=&quot;list-txt&quot;&gt;&apos;+data[i].street+&apos;&lt;/p&gt;&apos;+&apos;&lt;p class=&quot;min-txt&quot;&gt;&apos;+data[i].street+&apos;&lt;/p&gt;&apos;+
-&apos;&lt;/div&gt;&apos;+&apos;&lt;/li&gt;&apos;
-}
-str = str +&apos;&lt;/ul&gt;&apos;;
-$(&quot;#info-shool&quot;).append(str);
-goPage(1);//调用分页的函数，默认显示第一页
-}
-</code></pre><h3 id="分页代码如下："><a href="#分页代码如下：" class="headerlink" title="分页代码如下："></a>分页代码如下：</h3><pre><code>//分页设置数据，含rows,total
-function goPage(pno){
-var num = $(&quot;#info-shool&quot;).find(&quot;li&quot;).length;//所有li的统计(所有记录数)
-console.log(num);
-var totalPage = 0;//总页数
-var pageSize = 15;//每页显示行数
-//总共分几页
-if(num/pageSize &gt; parseInt(num/pageSize)){
-totalPage=parseInt(num/pageSize)+1;
-}else{
-totalPage=parseInt(num/pageSize);
-}
-var currentPage = pno;//当前页数
-var startRow = (currentPage - 1) * pageSize+1;//开始显示的行 31
-var endRow = currentPage * pageSize;//结束显示的行 40
-endRow = (endRow &gt; num)? num : endRow; //40
-console.log(endRow);
-//遍历显示数据实现分页
-for(var i=1;i&lt;(num+1);i++){
-var irow = $(&quot;#info-shool&quot;).find(&quot;li&quot;).eq(i-1);
-if(i&gt;=startRow &amp;&amp; i&lt;=endRow){
-$(irow).css(&quot;display&quot;,&quot;block&quot;);//根据条数来显示
-}else{
-$(irow).css(&quot;display&quot;,&quot;none&quot;);//隐藏所有的
-}
-}
-var pageEnd = document.getElementById(&quot;pageEnd&quot;);
-var tempStr=&apos;&apos;
-
-//.bind(&quot;click&quot;,{&quot;newPage&quot;:pageIndex},function(event){
-//    goPage((pageIndex-1)*pageSize+1,(pageIndex-1)*pageSize+pageSize);
-//    }).appendTo(&apos;#pages&apos;);
-//上一页
-if(currentPage&gt;1){
-tempStr += &quot;&lt;div class=&apos;one o-left&apos; onClick=\&quot;goPage(&quot;+(currentPage-1)+&quot;)\&quot;&gt;&lt;/div&gt;&quot;
-}else{
-tempStr += &quot;&lt;div class=&apos;one o-left&apos;&gt;&lt;/div&gt;&quot;;
-}
-//模仿百度的分页
-var b;//开始
-var e;//结束
-//当总页数 &lt;=10时候，说明一共不超过10页，让begin=1 end=总页数
-if(totalPage&lt;=10){
-b =1;
-e = totalPage;
-//如果总页数 &gt; 10，让begin=当前页 - 5 end=当前页+4    
-}else if(totalPage&gt;10){
-b = pno-5;
-e = pno+4;
-//头溢出：如果当前页=3，begin=3-5=-2 头溢出 如果begin&lt;1 让begin=1 end=10
-if(b&lt;1){
-b=1;
-e=10;
-//尾溢出 如果end &gt; 总页数，让end=总页数 begin=总页数-9    
-}else if(e&gt;totalPage){
-b= totalPage-9;
-e = totalPage;
-}
-}
-//显示分页页码
-for(var pageIndex= b;pageIndex&lt;e+1;pageIndex++){
-
-tempStr += &quot;&lt;li class=&apos;pageno&apos; onclick=\&quot;goPage(&quot;+pageIndex+&quot;)\&quot;&gt;&quot;+ pageIndex +&quot;&lt;/li&gt;&quot;;
-}
-//下一页
-if(currentPage&lt;totalPage){
-tempStr += &quot;&lt;div class=&apos;one o-right&apos; onClick=\&quot;goPage(&quot;+(currentPage+1)+&quot;)\&quot;&gt;&lt;/div&gt;&quot;;
-}else{
-tempStr += &quot;&lt;div class=&apos;one o-right&apos;&gt;&lt;/div&gt;&quot;;
-}
-//为了给点击事件添加选中状态
-document.getElementById(&quot;page&quot;).innerHTML = tempStr;
-$(&quot;.pageno&quot;).each(function(i,v){
-if($(v).text() ==pno){
-$(v).addClass(&quot;activeLi&quot;);
-}
-})
-}
-</code></pre><h3 id="jsp页面中代码如下："><a href="#jsp页面中代码如下：" class="headerlink" title="jsp页面中代码如下："></a>jsp页面中代码如下：</h3><pre><code>&lt;ul id=&quot;page&quot;&gt;&lt;/ul&gt;
-</code></pre><h3 id="分页的逻辑如下"><a href="#分页的逻辑如下" class="headerlink" title="分页的逻辑如下"></a>分页的逻辑如下</h3><ul>
-<li>如果totalPage &lt;= 10 ，那说明总页数一共都没有10页。begin=1  end=totalPage<ul>
-<li>如果totalPage &gt; 10，说明总页数超过10页了。begin=pageCode-5  end=pageCode+4<ul>
-<li>头部溢出      当begin &lt; 1  begin=1  end=10</li>
-<li>尾部溢出      当end&gt;totalPage的时候，end=totalPage  begin=totalPage-9</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
+        <h3 id="Mysql中CASE-WHEN用法"><a href="#Mysql中CASE-WHEN用法" class="headerlink" title="Mysql中CASE WHEN用法"></a>Mysql中CASE WHEN用法</h3><h4 id="1、mysql中case-when-有两种用法"><a href="#1、mysql中case-when-有两种用法" class="headerlink" title="1、mysql中case when 有两种用法"></a>1、mysql中case when 有两种用法</h4><p>#####1）简单函数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CASE [col_name] WHEN [value1] THEN [result1]…ELSE [<span class="keyword">default</span>] END</div></pre></td></tr></table></figure>
+<p>#####2）搜索函数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CASE WHEN [expr] THEN [result1]…ELSE [<span class="keyword">default</span>] END</div></pre></td></tr></table></figure>
+<h4 id="2、这两种语法的区别"><a href="#2、这两种语法的区别" class="headerlink" title="2、这两种语法的区别"></a>2、这两种语法的区别</h4><h5 id="1）简单函数—-枚举这个字段的所有值"><a href="#1）简单函数—-枚举这个字段的所有值" class="headerlink" title="1）简单函数—-枚举这个字段的所有值*"></a>1）简单函数—-枚举这个字段的所有值*</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">SELECT</div><div class="line">    NAME <span class="string">'英雄'</span>,</div><div class="line">    CASE NAME</div><div class="line">        WHEN <span class="string">'德莱文'</span> THEN</div><div class="line">            <span class="string">'斧子'</span></div><div class="line">        WHEN <span class="string">'德玛西亚-盖伦'</span> THEN</div><div class="line">            <span class="string">'大宝剑'</span></div><div class="line">        WHEN <span class="string">'暗夜猎手-VN'</span> THEN</div><div class="line">            <span class="string">'弩'</span></div><div class="line">        ELSE</div><div class="line">            <span class="string">'无'</span></div><div class="line">    END <span class="string">'装备'</span></div><div class="line">FROM</div><div class="line">    user_info;</div></pre></td></tr></table></figure>
+<h5 id="2）搜索函数—-搜索函数可以写判断，并且搜索函数只会返回第一个符合条件的值，其他case被忽略"><a href="#2）搜索函数—-搜索函数可以写判断，并且搜索函数只会返回第一个符合条件的值，其他case被忽略" class="headerlink" title="2）搜索函数—-搜索函数可以写判断，并且搜索函数只会返回第一个符合条件的值，其他case被忽略"></a>2）搜索函数—-搜索函数可以写判断，并且搜索函数只会返回第一个符合条件的值，其他case被忽略</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"># when 表达式中可以使用 and 连接条件</div><div class="line">SELECT</div><div class="line">    NAME <span class="string">'英雄'</span>,</div><div class="line">    age <span class="string">'年龄'</span>,</div><div class="line">    CASE</div><div class="line">        WHEN age &lt; <span class="number">18</span> THEN</div><div class="line">            <span class="string">'少年'</span></div><div class="line">        WHEN age &lt; <span class="number">30</span> THEN</div><div class="line">            <span class="string">'青年'</span></div><div class="line">        WHEN age &gt;= <span class="number">30</span></div><div class="line">        AND age &lt; <span class="number">50</span> THEN</div><div class="line">            <span class="string">'中年'</span></div><div class="line">        ELSE</div><div class="line">            <span class="string">'老年'</span></div><div class="line">    END <span class="string">'状态'</span></div><div class="line">FROM</div><div class="line">    user_info;</div></pre></td></tr></table></figure>
+<p>聚合函数sum配合case when的简单函数实现行转列</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line">SELECT</div><div class="line">    st.stu_id <span class="string">'学号'</span>,</div><div class="line">    st.stu_name <span class="string">'姓名'</span>,</div><div class="line">    sum(</div><div class="line">        CASE co.course_name</div><div class="line">        WHEN <span class="string">'大学语文'</span> THEN</div><div class="line">            sc.scores</div><div class="line">        ELSE</div><div class="line">        END</div><div class="line">    ) <span class="string">'大学语文'</span>,</div><div class="line">    sum(</div><div class="line">        CASE co.course_name</div><div class="line">        WHEN <span class="string">'新视野英语'</span> THEN</div><div class="line">            sc.scores</div><div class="line">        ELSE</div><div class="line">        END</div><div class="line">    ) <span class="string">'新视野英语'</span>,</div><div class="line">    sum(</div><div class="line">        CASE co.course_name</div><div class="line">        WHEN <span class="string">'离散数学'</span> THEN</div><div class="line">            sc.scores</div><div class="line">        ELSE</div><div class="line">        END</div><div class="line">    ) <span class="string">'离散数学'</span>,</div><div class="line">    sum(</div><div class="line">        CASE co.course_name</div><div class="line">        WHEN <span class="string">'概率论与数理统计'</span> THEN</div><div class="line">            sc.scores</div><div class="line">        ELSE</div><div class="line">        END</div><div class="line">    ) <span class="string">'概率论与数理统计'</span>,</div><div class="line">    sum(</div><div class="line">        CASE co.course_name</div><div class="line">        WHEN <span class="string">'线性代数'</span> THEN</div><div class="line">            sc.scores</div><div class="line">        ELSE</div><div class="line">        END</div><div class="line">    ) <span class="string">'线性代数'</span>,</div><div class="line">    sum(</div><div class="line">        CASE co.course_name</div><div class="line">        WHEN <span class="string">'高等数学'</span> THEN</div><div class="line">            sc.scores</div><div class="line">        ELSE</div><div class="line">        END</div><div class="line">    ) <span class="string">'高等数学'</span></div><div class="line">FROM</div><div class="line">    edu_student st</div><div class="line">LEFT JOIN edu_score sc ON st.stu_id = sc.stu_id</div><div class="line">LEFT JOIN edu_courses co ON co.course_no = sc.course_no</div><div class="line">GROUP BY</div><div class="line">    st.stu_id</div><div class="line">ORDER BY</div><div class="line">    NULL;</div></pre></td></tr></table></figure>
+<h4 id="3、case-when在mysql中的位置"><a href="#3、case-when在mysql中的位置" class="headerlink" title="3、case when在mysql中的位置"></a>3、case when在mysql中的位置</h4><h5 id="1）在查询条件中"><a href="#1）在查询条件中" class="headerlink" title="1）在查询条件中"></a>1）在查询条件中</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">SELECT</div><div class="line">    NAME <span class="string">'英雄'</span>,</div><div class="line">    CASE NAME</div><div class="line">        WHEN <span class="string">'德莱文'</span> THEN</div><div class="line">            <span class="string">'斧子'</span></div><div class="line">        WHEN <span class="string">'德玛西亚-盖伦'</span> THEN</div><div class="line">            <span class="string">'大宝剑'</span></div><div class="line">        WHEN <span class="string">'暗夜猎手-VN'</span> THEN</div><div class="line">            <span class="string">'弩'</span></div><div class="line">        ELSE</div><div class="line">            <span class="string">'无'</span></div><div class="line">    END <span class="string">'装备'</span></div><div class="line">FROM</div><div class="line">    user_info;</div></pre></td></tr></table></figure>
+<h5 id="2）在排序语句后面"><a href="#2）在排序语句后面" class="headerlink" title="2）在排序语句后面"></a>2）在排序语句后面</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">SELECT d.workState from devicebase d ORDER BY </div><div class="line">  CASE d.workstate</div><div class="line">  WHEN <span class="string">'3'</span> THEN <span class="number">0</span></div><div class="line">  WHEN <span class="string">'2'</span> THEN <span class="number">1</span></div><div class="line">  WHEN <span class="string">'x'</span> THEN <span class="number">2</span></div><div class="line">  WHEN <span class="string">'y'</span> THEN <span class="number">3</span></div><div class="line">  WHEN <span class="string">'1'</span> THEN <span class="number">4</span></div><div class="line">  ELSE <span class="number">5</span> END,  d.workstate;</div></pre></td></tr></table></figure>
+<h5 id="3）在where条件后面"><a href="#3）在where条件后面" class="headerlink" title="3）在where条件后面"></a>3）在where条件后面</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">SELECT DISTINCT</div><div class="line">	I.APPLY_ID id,</div><div class="line">	I.SERVICE_ID serviceId,</div><div class="line">	R.SERVICE_NAME serviceName,</div><div class="line">	R.REAL_ADDRESS realAddress,</div><div class="line">	X.IS_PERMANENT isPermanent,</div><div class="line">	D.END_TIME endTime</div><div class="line">FROM</div><div class="line">	IRSP_EXCHANGE_APPLY X</div><div class="line">LEFT JOIN IRSP_EXCHANGE_APPLY_DETAIL I ON X.ID = I.APPLY_ID</div><div class="line">LEFT JOIN IRSP_SERVICE_RELEASE R ON I.SERVICE_ID = R.ID</div><div class="line">LEFT JOIN IRSP_RESOURCES_INFO Y ON Y.ID = R.RESOURCE_ID</div><div class="line">LEFT JOIN IRSP_EXCHANGE_APPLY_EXTEND D ON X.ID = D.APPLY_ID</div><div class="line">WHERE</div><div class="line">	<span class="number">1</span> = <span class="number">1</span></div><div class="line">AND X.<span class="function">APPLY_ORGAN_ID <span class="title">IN</span> <span class="params">(</span></span></div><div class="line"><span class="function"><span class="params">	SELECT</span></span></div><div class="line"><span class="function"><span class="params">		ORG_ID</span></span></div><div class="line"><span class="function"><span class="params">	FROM</span></span></div><div class="line"><span class="function"><span class="params">		t_dmp_sys_org org</span></span></div><div class="line"><span class="function"><span class="params">	WHERE</span></span></div><div class="line"><span class="function"><span class="params">		org.PATH LIKE <span class="string">'%2c932ee657ac27d80157ac4421de0001%'</span></span></span></div><div class="line"><span class="function"><span class="params">	OR org.ORG_ID = <span class="string">'2c932ee657ac27d80157ac4421de0001'</span></span></span></div><div class="line"><span class="function"><span class="params">)</span></span></div><div class="line"><span class="function">AND X.FLOW_STATUS </span>= <span class="string">'2'</span> -- and ( r.`STATUS` = <span class="string">'1'</span> and d.END_TIME &lt; DATE_FORMAT(NOW(),<span class="string">'%Y-%m-%d'</span>) )</div><div class="line">AND (</div><div class="line">	CASE</div><div class="line">	WHEN (r.`STATUS` = <span class="string">'1'</span> AND r.SERVICE_STATUS = <span class="string">'1'</span>) 		THEN d.END_TIME &lt; DATE_FORMAT(NOW(),<span class="string">'%Y-%m-%d'</span>)</div><div class="line">	WHEN r.`STATUS` = <span class="string">'1'</span> THEN r.SERVICE_STATUS = <span class="string">'0'</span>w</div><div class="line">	WHEN r.`STATUS`=<span class="string">'0'</span>  THEN r.SERVICE_STATUS=<span class="string">'1'</span> END)</div><div class="line">	ORDER BY</div><div class="line">		X.CREATE_TIME DESC</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -580,7 +485,7 @@ $(v).addClass(&quot;activeLi&quot;);
       
         <div class="post-tags">
           
-            <a href="/tags/js/" rel="tag"><i class="fa fa-tag"></i> js</a>
+            <a href="/tags/mysql/" rel="tag"><i class="fa fa-tag"></i> mysql</a>
           
         </div>
       
@@ -593,8 +498,8 @@ $(v).addClass(&quot;activeLi&quot;);
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/01/21/sql插入语句拼接/" rel="next" title="插入sql语句的拼接">
-                <i class="fa fa-chevron-left"></i> 插入sql语句的拼接
+              <a href="/2019/06/13/乱码出现的原因/" rel="next" title="linux中验证码乱码的问题">
+                <i class="fa fa-chevron-left"></i> linux中验证码乱码的问题
               </a>
             
           </div>
@@ -602,10 +507,6 @@ $(v).addClass(&quot;activeLi&quot;);
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/03/18/后端分页工具类/" rel="prev" title="后端分页工具类">
-                后端分页工具类 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -825,7 +726,7 @@ $(v).addClass(&quot;activeLi&quot;);
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#纯js分页实质是数据行全部加载，通过是否显示属性完成分页功能"><span class="nav-number">1.</span> <span class="nav-text">纯js分页实质是数据行全部加载，通过是否显示属性完成分页功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分页代码如下："><span class="nav-number">2.</span> <span class="nav-text">分页代码如下：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jsp页面中代码如下："><span class="nav-number">3.</span> <span class="nav-text">jsp页面中代码如下：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分页的逻辑如下"><span class="nav-number">4.</span> <span class="nav-text">分页的逻辑如下</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Mysql中CASE-WHEN用法"><span class="nav-number">1.</span> <span class="nav-text">Mysql中CASE WHEN用法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、mysql中case-when-有两种用法"><span class="nav-number">1.1.</span> <span class="nav-text">1、mysql中case when 有两种用法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、这两种语法的区别"><span class="nav-number">1.2.</span> <span class="nav-text">2、这两种语法的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1）简单函数—-枚举这个字段的所有值"><span class="nav-number">1.2.1.</span> <span class="nav-text">1）简单函数—-枚举这个字段的所有值*</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2）搜索函数—-搜索函数可以写判断，并且搜索函数只会返回第一个符合条件的值，其他case被忽略"><span class="nav-number">1.2.2.</span> <span class="nav-text">2）搜索函数—-搜索函数可以写判断，并且搜索函数只会返回第一个符合条件的值，其他case被忽略</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、case-when在mysql中的位置"><span class="nav-number">1.3.</span> <span class="nav-text">3、case when在mysql中的位置</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1）在查询条件中"><span class="nav-number">1.3.1.</span> <span class="nav-text">1）在查询条件中</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2）在排序语句后面"><span class="nav-number">1.3.2.</span> <span class="nav-text">2）在排序语句后面</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3）在where条件后面"><span class="nav-number">1.3.3.</span> <span class="nav-text">3）在where条件后面</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
